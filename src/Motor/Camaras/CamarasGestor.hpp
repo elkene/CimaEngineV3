@@ -21,6 +21,9 @@ namespace CE
             {
                 return *mListaCamaras[id];
             }
+            [[nodiscard]]std::vector<std::shared_ptr<Camara>>& getListaCamaras() {
+                return mListaCamaras;
+            }
 
 
         private:
