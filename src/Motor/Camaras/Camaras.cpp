@@ -40,6 +40,13 @@ CamaraCuadro::CamaraCuadro(const Vector2D &pos, const Vector2D &dim)
         auto mitad=Vector2D(camWidth,camHeight).escala(0.5f);
         auto objTrans=mLockObj.lock()->getTransformada();
         auto opos=objTrans->posicion;
+//
+        GLogger::Get().agregarLog("Siguiendo objeto en (" + std::to_string(opos.x) + ", " + std::to_string(opos.y) + ")", GLogger::Niveles::LOG_DEBUG);
+        float suavizado = 1.0f; // mayor valor = seguimiento más rápido
+        mTransform->posicion.x += (opos.x - mTransform->posicion.x) * suavizado * dt;
+        mTransform->posicion.y += (opos.y - mTransform->posicion.y) * suavizado * dt;
+        mView->setCenter({mTransform->posicion.x, mTransform->posicion.y});
+//
         std::string log="Obj("+std::to_string(opos.x)+
             ","+std::to_string(opos.y)+")";
         std::string log2=nombre+": "+std::to_string(mTransform->posicion.x)+
