@@ -67,13 +67,13 @@ namespace IVJ
         texto.setFillColor(sf::Color::Blue);
         texto.setStyle(sf::Text::Bold | sf::Text::Underlined);
 
-        objetos[1]->getTransformada()->velocidad.x=150.f;
+        objetos[0]->getTransformada()->velocidad.x=150.f;
         CE::GestorCamaras::Get().agregarCamara(
             std::make_shared<CE::CamaraCuadro>(
                 CE::Vector2D{540,360},CE::Vector2D{1920,1080})
                 );
         CE::GestorCamaras::Get().setCamaraActiva(1);
-        CE::GestorCamaras::Get().getCamaraActiva().lockEnObjeto(objetos[1]);
+        CE::GestorCamaras::Get().getCamaraActiva().lockEnObjeto(objetos[0]);
     }
 
     void Juego::OnInputs(float dt, std::optional<sf::Event> &eventos)

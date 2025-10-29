@@ -27,11 +27,16 @@ namespace CE
                     ImGui::PushStyleColor(ImGuiCol_Button, 0xff00A5FF);
                     ImGui::PushStyleColor(ImGuiCol_Text, 0xff000000);
                 }
-                else
+                else if (cam->estaActivo)
                 {
                     ImGui::PushStyleColor(ImGuiCol_Button, 0xffffbf00);
                     ImGui::PushStyleColor(ImGuiCol_Text, 0xff000000);
                 }
+                else {
+                    ImGui::PushStyleColor(ImGuiCol_Button, 0xffffbf11);
+                    ImGui::PushStyleColor(ImGuiCol_Text, 0xff000000);
+                }
+
 
                 bool boton = ImGui::Button(strCam.c_str(), ImVec2(150, 30));
                 if (boton)

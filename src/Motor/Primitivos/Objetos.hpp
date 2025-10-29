@@ -6,8 +6,10 @@
 
 namespace CE
 {
-    class Objeto: public sf::Drawable, public sf::Transformable
+    class Objeto: public sf::Drawable,
+        public sf::Transformable
     {
+
     public:
         // Sobrescribimos toString para incluir el tipo
         virtual std::string toString() const {
@@ -62,14 +64,24 @@ namespace CE
 
         void setPosicion(float x, float y);
         virtual void onUpdate(float dt) {}
+        std::shared_ptr<IStats>& getStats()
+        {
+            return stats;
+        }
+        const bool estaVivo()const
+        {
+            return stats->hp>0;
+        }
 
     private:
         static int num_objetos;
 
     protected:
-        std::vector<std::shared_ptr<IComponentes>> componentes;
         std::shared_ptr<INombre> nombre;
         std::shared_ptr<ITransform> transform;
+        std::shared_ptr<IStats> stats;
+        std::vector<std::shared_ptr<IComponentes>> componentes;
+
     };
 
 }

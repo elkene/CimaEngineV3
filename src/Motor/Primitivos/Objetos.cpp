@@ -7,7 +7,7 @@ namespace CE
 
     Objeto::Objeto()
     {
-        nombre = std::make_shared<INombre>("");
+        nombre = std::make_shared<INombre>("Objeto"+ std::to_string(Objeto::num_objetos+1));
         transform = std::make_shared<ITransform>();
         Objeto::num_objetos++;
     }

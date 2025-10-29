@@ -45,4 +45,5 @@ namespace  CE
             float limitex;
             float limitey;
     };
+
 }

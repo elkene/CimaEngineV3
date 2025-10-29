@@ -21,4 +21,6 @@ add_executable(CimaEngine3v main.cpp
         ../Motor/Camaras/Camaras.hpp
         ../Motor/Camaras/CamarasGestor.hpp
         ../Motor/GUI/GListObjetos.hpp
+        ../Motor/Primitivos/CEPool.hpp
+        ../Motor/Inputs/Botones.hpp
 )

@@ -46,4 +46,16 @@ namespace CE
 
         int frame_actual;
     };
+
+    class IStats : public IComponentes
+    {
+        public:
+            ~IStats()override;
+            //8bits=255 maximo
+            std::uint8_t hp;
+            std::uint8_t hp_max;
+            std::uint8_t str;
+            std::uint8_t def;
+            std::uint8_t agi;
+    };
 }
