@@ -1,4 +1,5 @@
 #include "Motor.hpp"
+#include "GUI/GLogger.hpp"
 #include <utility>
 #include <chrono>
 #include <Motor/Render/Render.hpp>
@@ -7,120 +8,136 @@
 #include <imgui.h>
 #include <imgui_internal.h>
 #include <imgui-SFML.h>
+#include "Camaras/CamarasGestor.hpp"
+#include "Motor/GUI/GListaObjetos.hpp"
 
-#include "Camaras/CamaraGestor.hpp"
-#include "GUI/GListaObjetos.hpp"
-#include "GUI/GLogger.hpp"
+namespace CE
+{
+    Motor::Motor(const MotorConfig& config, std::unique_ptr<GameLayer> ref)
+        : motorInfo(std::move(config)), miApp(std::move(ref))
+    {}
 
-namespace CE {
-    Motor::Motor(const MotorConfig& config,
-        std::unique_ptr<GameLayer> ref)
-            :motor_info(std::move(config)),mi_app(std::move(ref)){}
-    int Motor::OnRun(void) {
+    int Motor::OnRun(void)
+    {
         OnInit();
-        auto frame_ant=std::chrono::high_resolution_clock::now();
-        float ms=0.16666f;
-        sf::Clock clock=sf::Clock();
-        while (mi_app->EstaCorriendo()) {
+
+        auto frameAnt = std::chrono::high_resolution_clock::now();
+        float ms = 0.01666f; // ~60 FPS
+        sf::Clock clock;
+
+        while (miApp->EstaCorriendo())
+        {
             OnEventFrame(ms);
-            ImGui::SFML::Update(
-                Render::Get().GetVentana(),
-                clock.restart());
+
+            ImGui::SFML::Update(Render::Get().GetVentana(), clock.restart());
+
             OnUpdateFrame(ms);
             OnRenderFrame(ms);
-            //calcular el dt
-            auto frame_act=std::chrono::high_resolution_clock::now();
-            ms=std::chrono::duration_cast<std::chrono::duration<float>>
-            (frame_act - frame_ant)
-            .count();
-            frame_ant=frame_act;
 
+            // calcular dt
+            auto frameAct = std::chrono::high_resolution_clock::now();
+            ms = std::chrono::duration_cast<std::chrono::duration<float>>(frameAct - frameAnt).count();
+            frameAnt = frameAct;
         }
+
         Render::Terminar();
         ImGui::SFML::Shutdown();
+
         return 0;
     }
 
-    void Motor::OnInit(void) {
-        Render::Get().CrearVentana(motor_info);
+
+    void Motor::OnInit(void)
+    {
+        // Crear ventana principal del motor
+        Render::Get().CrearVentana(motorInfo);
+
+        // Inicializar ImGui-SFML
         if (!ImGui::SFML::Init(Render::Get().GetVentana()))
             exit(-1);
 
-        //ImGui configuracion
-        auto& io=ImGui::GetIO();(void)io;
-        io.ConfigFlags |=ImGuiConfigFlags_DockingEnable;
-        io.ConfigFlags |=ImGuiConfigFlags_ViewportsEnable;
-        io.ConfigDockingWithShift=true;
+        // Configuración de ImGui
+        auto& io = ImGui::GetIO(); (void)io;
+        io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+        io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
+        io.ConfigDockingWithShift = true;
 
-        ///instancia del GUI
-        gui_layers.push_back(std::make_shared<GDock>());
-        gui_layers.push_back(std::make_shared<GViewport>());
-        gui_layers.push_back(std::make_shared<GListaObjetos>());
-        //mi_app->OnInit();
-        //for (auto &gui: gui_layers)
-        //    gui->OnInit(motor_info);
+        // Capas GUI del motor
+        guiLayers.push_back(std::make_shared<GDock>());
+        guiLayers.push_back(std::make_shared<GViewport>());
+        guiLayers.push_back(std::make_shared<GListaObjetos>());
 
+        // Crear cámara base y activarla
         GestorCamaras::Get().agregarCamara(
             std::make_shared<Camara>(
-                Vector2D{540,360},Vector2D{1080,720}
-                )
-                );
-        GestorCamaras::Get().setCamaraActivo(0);
+                Vector2D{540, 360},
+                Vector2D{1080, 720}
+            )
+        );
+        GestorCamaras::Get().setCamaraActiva(0);
 
-        mi_app->OnInit();
+        // Inicializar aplicación del usuario
+        miApp->OnInit();
 
-        //GLogger
-        for (auto &gui: gui_layers)
-            gui->OnInit(motor_info);
+        // Inicializar capas GUI
+        for (auto& gui : guiLayers)
+            gui->OnInit(motorInfo);
 
-        GLogger::Get().OnInit(motor_info);
+        // Inicializar logger gráfico
+        GLogger::Get().OnInit(motorInfo);
     }
-    void Motor::OnEventFrame(float dt) {
-        while (auto eventos=Render::Get().GetVentana().pollEvent()) {
-            ImGui::SFML::ProcessEvent(
-                Render::Get().GetVentana(),
-                *eventos);
-            mi_app->OnInputs(dt,eventos);
-        }
-
-    }
-    void Motor::OnUpdateFrame(float dt) {
+    
+    void Motor::OnUpdateFrame(float dt)
+    {
         GestorCamaras::Get().onUpdateCamaras(dt);
 
-        mi_app->OnUpdate(dt);
+        miApp->OnUpdate(dt);
 
-        for (auto &gui: gui_layers)
+        for (auto& gui : guiLayers)
             gui->OnUpdate(dt);
-        //GLogger
+
         GLogger::Get().OnUpdate(dt);
-
-
-
     }
-    void Motor::OnRenderFrame(float dt) {
-        Render::Get().OnClearColor(sf::Color(118,118,255));
+
+
+    void Motor::OnEventFrame(float dt)
+    {
+        while (auto eventos = Render::Get().GetVentana().pollEvent())
+        {
+            ImGui::SFML::ProcessEvent(Render::Get().GetVentana(), *eventos);
+            miApp->OnInputs(dt, eventos);
+        }
+    }
+    void Motor::OnRenderFrame(float dt)
+    {
+
+        Render::Get().OnClearColor(sf::Color(118, 118, 255));
         GestorCamaras::Get().onRenderCamara(
-            Render::Get().GetTextura());
-        mi_app->OnRender(dt);
-        for (auto &gui: gui_layers)
+       Render::Get().GetTextura()
+        );
+
+        miApp->OnRender(dt);
+
+        for (auto& gui : guiLayers)
             gui->OnRender();
-        //GLogger
         GLogger::Get().OnRender();
         Render::Get().OnDisplayTextura();
 
-
-        //PRUEBA VENTANA
-        ImGui::Begin("TEST", nullptr,0);
-            //contenido de la ventana
+        // ventana de prueba
+        ImGui::Begin("TEST", nullptr, 0);
+        ImGui::Text("Ventana de prueba del motor");
         ImGui::End();
+
         Render::Get().OnDisplayTextura();
-        //ImGui windows
-        if (ImGui::GetIO().ConfigFlags &
-            ImGuiConfigFlags_ViewportsEnable) {
+
+        // ImGui windows
+        if (ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+        {
             ImGui::UpdatePlatformWindows();
             ImGui::RenderPlatformWindowsDefault();
         }
+
         ImGui::SFML::Render(Render::Get().GetVentana());
         Render::Get().OnDisplayVentana();
     }
-}
+} // namespace CE

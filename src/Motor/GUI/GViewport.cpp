@@ -3,34 +3,57 @@
 #include <imgui_internal.h>
 #include <imgui-SFML.h>
 #include <iostream>
-namespace CE {
-    void GViewport::OnInit(const MotorConfig& des) {
-        vw=0;
-        vh=0;
-        motor_info=des;
+
+namespace CE
+{
+    void GViewport::OnInit(const MotorConfig& des)
+    {
+        vw = 0;
+        vh = 0;
+        motorInfo = des;
     }
-    void GViewport::OnUpdate(float dt){}
-    void GViewport::OnRender(void) {
+
+    void GViewport::OnUpdate(float dt)
+    {
+        // Actualización de lógica del viewport (si hace falta)
+    }
+
+    void GViewport::OnRender(void)
+    {
 #if DEBUG
-        ImGui::Begin("GViewPort",nullptr,ImGuiWindowFlags_NoCollapse);
-        ImGuiWindowFlags_NoDecoration |
-            ImGuiWindowFlags_NoTitleBar |
-                ImGuiWindowFlags_NoMove;
+        ImGui::Begin("GViewPort", nullptr, ImGuiWindowFlags_NoCollapse);
+#else
+        ImGui::Begin("GViewPort", nullptr,
+                     ImGuiWindowFlags_NoCollapse |
+                     ImGuiWindowFlags_NoDecoration |
+                     ImGuiWindowFlags_NoTitleBar |
+                     ImGuiWindowFlags_NoMove);
 #endif
-        vw=(unsigned int)ImGui::GetContentRegionAvail().x;
-        vh=(unsigned int)ImGui::GetContentRegionAvail().y;
+
+        // Obtener dimensiones disponibles
+        vw = static_cast<unsigned int>(ImGui::GetContentRegionAvail().x);
+        vh = static_cast<unsigned int>(ImGui::GetContentRegionAvail().y);
 
 #if DEBUG
-        if(vw==0 || vh==0){
-        vw=motor_info.vW - motor_info.vW*0.25f;
-        vh=motor_info.vH - motor_info.vH*0.25f;
-    }
+        // En debug, si el área disponible es 0, asignamos un tamaño mínimo
+        if (vw == 0 || vh == 0)
+        {
+            vw = motorInfo.vW - static_cast<unsigned int>(motorInfo.vW * 0.25f);
+            vh = motorInfo.vH - static_cast<unsigned int>(motorInfo.vH * 0.25f);
+        }
 #endif
-    ImGui::Image(Render::Get().GetTextura(), //textura
-        sf::Vector2f(vw,vh), //tamaño
-        sf::Color::White, //color mask
-        sf::Color::Transparent);
-        Render::Get().AutoResizeTextura(vw,vh);
+
+        // Renderizar la textura en ImGui
+        ImGui::Image(
+            Render::Get().GetTextura(),                // textura
+            sf::Vector2f(vw, vh),                      // tamaño
+            sf::Color::White,                          // color mask
+            sf::Color::Transparent                     // borde
+        );
+
+        // Ajustar automáticamente el tamaño de la textura
+        Render::Get().AutoResizeTextura(vw, vh);
+
         ImGui::End();
     }
 }

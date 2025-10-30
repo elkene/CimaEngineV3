@@ -1,7 +1,4 @@
 project(CimaEngine3v)
-add_subdirectory(Figuras)
-add_subdirectory(Sistemas)
-add_subdirectory(Escenas)
-
+project(Figuras)
 
 target_sources(CimaEngine3v PRIVATE Juego.cpp)
