@@ -181,6 +181,7 @@ namespace IVJ {
             }
         }
         escena_actual->onInputs(CE::Botones(strAccion,tipo_accion,scan));
+
     }
 
     void Juego::OnUpdate(float dt) {
