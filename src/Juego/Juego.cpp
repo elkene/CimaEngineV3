@@ -169,13 +169,15 @@ namespace IVJ {
                 strAccion=escena_actual->getBotones().at(scan);
             }
         }
-        else { //on keyRelease
-            const auto e=eventos->getIf<sf::Event::KeyReleased>();
-            tipo_accion=CE::Botones::TipoAccion::OnRelease;
+        else { // on keyRelease
+            const auto e = eventos->getIf<sf::Event::KeyReleased>();
+            tipo_accion = CE::Botones::TipoAccion::OnRelease;
             if (e) {
-                scan =e->scancode;
-                if (escena_actual->getBotones().find(scan)==escena_actual->getBotones().end())
-                    strAccion=escena_actual->getBotones().at(scan);
+                scan = e->scancode;
+                // ✅ ahora solo accede si existe la clave
+                if (escena_actual->getBotones().find(scan) != escena_actual->getBotones().end()) {
+                    strAccion = escena_actual->getBotones().at(scan);
+                }
             }
         }
         escena_actual->onInputs(CE::Botones(strAccion,tipo_accion,scan));
