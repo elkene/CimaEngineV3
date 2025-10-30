@@ -2,60 +2,48 @@
 #include <string>
 #include "../Utils/Vector2D.hpp"
 
-namespace CE
-{
-    class IComponentes
-    {
-    public:
+namespace CE {
+    class IComponentes {
+        public:
         virtual ~IComponentes() = default;
     };
-
-    class INombre : public IComponentes
-    {
-    public:
+    class INombre : public IComponentes {
+        public:
         INombre(const std::string& nom);
-        ~INombre() override = default;
-
+        ~INombre() override{};
+    public:
         std::string nombre;
     };
-
-    class ITransform : public IComponentes
-    {
+    class ITransform : public IComponentes {
     public:
-        ITransform(const Vector2D& pos, const Vector2D& vel, float ang); // solo declaración
-        ITransform() = default;
-        ~ITransform() override = default;
-
+        ITransform(const Vector2D& pos, const Vector2D& vel,float ang);
+        ITransform();
+        ~ITransform() override{};
+        public:
         Vector2D posicion;
-        Vector2D pos_previa;
+        Vector2D pos_prev;
         Vector2D velocidad;
-        float angulo;
+        float angulo =0.0f;
+        float fase=0.0f;
+        Vector2D centro;
 
-        // 🔹 extras para movimientos circulares
-        float centroX = 0.f;
-        float centroY = 0.f;
-        float radio   = 0.f;
-        bool inicializado = false;
     };
-
-    class ITimer : public IComponentes
-    {
-    public:
+    class ITimer : public IComponentes {
+        public:
         ITimer();
-        ~ITimer() override = default;
-
+        ~ITimer() override{};
+        public:
         int frame_actual;
     };
-
-    class IStats : public IComponentes
-    {
-        public:
-            ~IStats()override;
-            //8bits=255 maximo
-            std::uint8_t hp;
-            std::uint8_t hp_max;
-            std::uint8_t str;
-            std::uint8_t def;
-            std::uint8_t agi;
+    class IStats:public IComponentes {
+    public :
+        ~IStats()override{};
+        //8bits=255 maximo
+        std::uint8_t hp;
+        std::uint8_t hp_max;
+        std::uint8_t str;
+        std::uint8_t def;
+        std::uint8_t agi;
     };
+
 }

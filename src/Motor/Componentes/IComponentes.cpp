@@ -1,20 +1,14 @@
 #include "IComponentes.hpp"
 
-namespace CE
-{
+namespace CE {
     INombre::INombre(const std::string& nom)
-        : nombre(std::move(nom)) {}
+        :nombre{std::move(nom)}{}
 
-    ITransform::ITransform(const Vector2D& pos, const Vector2D& vel, float ang)
-        : posicion{pos},
-          pos_previa(pos),
-          velocidad(vel),
-          angulo{ang},
-          centroX(0.f),
-          centroY(0.f),
-          radio(0.f),
-          inicializado(false) {}
+    ITransform::ITransform()   // <<--- Constructor por defecto agregado
+        : posicion{0,0}, pos_prev{0,0}, velocidad{0,0}, angulo{0} {}
 
+    ITransform::ITransform(const CE::Vector2D& pos,const CE::Vector2D& vel,float ang)
+        :posicion{pos},pos_prev{pos},velocidad{vel},angulo{ang}{}
     ITimer::ITimer()
-        : frame_actual(0) {}
+        :frame_actual{0}{}
 }

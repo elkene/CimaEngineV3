@@ -1,22 +1,34 @@
 #pragma once
-#include <Motor/App/ALayer.hpp>
-#include "Figuras/Figura.hpp"
 #include <memory>
-#include <vector>
+#include <Motor/App/ALayer.hpp>
+#include <optional>
 
-namespace IVJ
-{
-    class Juego : public CE::GameLayer
-    {
+#include "Figuras/Circulo.hpp"
+#include "Motor/Utils/Utils.hpp"
+#include "Figuras/Figuras.hpp"
+#include "Figuras/Rectangulo.hpp"
+#include "Figuras/Triangulo.hpp"
+
+namespace CE {
+    class Escena;
+}
+
+namespace IVJ {
+    class Juego: public CE::GameLayer {
         public:
-            explicit Juego();
-            void OnInit(void);
-            void OnInputs(float,std::optional<sf::Event>& eventos);
-            void OnUpdate(float dt);
-            void OnRender(float dt);
-        private:
-            std::vector<std::shared_ptr<CE::Objeto>> objetos;
-            sf::Font font_juego;
-            sf::Text texto;
+        explicit Juego();
+        void OnInit();
+        void OnInputs(float dt,
+            std::optional<sf::Event>& eventos);
+        void OnUpdate(float dt);
+        void OnRender(float dt);
+    private:
+        CE::Escena* escena_actual;
+        std::vector<std::shared_ptr<CE::Objeto>> figuras;
+
+        std::vector<std::shared_ptr<Rectangulo>> rectangulos;
+        std::vector<std::shared_ptr<Circulo>> circulos;
+        std::vector<std::shared_ptr<Triangulo>> triangulos;
+        //std::vector<std::shared_ptr<CE::Objeto>> figuras;
     };
 }
