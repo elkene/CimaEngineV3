@@ -58,7 +58,7 @@ void EscenaMuerte::onUpdate(float dt) {
                 f->getStats()->hp -=rand() % 20;
     }
     if (objetos.getPool().empty()) {
-        CE::GestorEscenas::Get().cambiarEscena("Circulos");
+        CE::GestorEscenas::Get().cambiarEscena("Cuadros");
     }
     objetos.borrarPool();
 }
