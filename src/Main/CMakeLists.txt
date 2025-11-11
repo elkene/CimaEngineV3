@@ -1,0 +1,46 @@
+project(CimaEngine3v)
+
+add_executable(CimaEngine3v main.cpp
+        ../Motor/App/App.hpp
+        ../Motor/Primitivos/Objetos.cpp
+        ../Motor/Primitivos/Objetos.hpp
+        ../Juego/Figuras/Figura.cpp
+        ../Juego/Figuras/Figura.hpp
+        ../Juego/Figuras/FIleLoader.cpp
+        ../Juego/Figuras/FIleLoader.hpp
+        ../Motor/Utils/Vector2D.cpp
+        ../Motor/Utils/Vector2D.hpp
+        ../Juego/Componentes/JComponentes.cpp
+        ../Juego/Componentes/JComponentes.hpp
+        ../Motor/Componentes/IComponentes.cpp
+        ../Motor/Componentes/IComponentes.hpp
+        ../Juego/Sistema/Sistema.cpp
+        ../Juego/Sistema/Sistema.hpp
+        ../Motor/Utils/CEInterfaces.hpp
+        ../Motor/Utils/Nodo.hpp
+        ../Motor/Utils/Lista.hpp
+        ../Motor/GUI/GLogger.cpp
+        ../Motor/GUI/GLogger.hpp
+        ../Motor/Camaras/Camaras.cpp
+        ../Motor/Camaras/Camaras.hpp
+        ../Motor/Camaras/CamarasGestor.cpp
+        ../Motor/Camaras/CamarasGestor.hpp
+        ../Motor/GUI/GListaObjetos.cpp
+        ../Motor/GUI/GListaObjetos.hpp
+        ../Motor/Primitivos/CEPool.cpp
+        ../Motor/Primitivos/CEPool.hpp
+        ../Motor/Inputs/Botones.cpp
+        ../Motor/Inputs/Botones.hpp
+        ../Motor/Primitivos/Escena.hpp
+        ../Motor/Primitivos/GestorEscenas.cpp
+        ../Motor/Primitivos/GestorEscenas.hpp
+        ../Juego/Escenas/EscenaCuadro.cpp
+        ../Juego/Escenas/EscenaCuadro.hpp
+        ../Juego/Escenas/EscenaCirculo.cpp
+        ../Juego/Escenas/EscenaCirculo.hpp
+        ../Juego/Escenas/EscenaMuerte.cpp
+        ../Juego/Escenas/EscenaMuerte.hpp
+        ../Motor/Primitivos/GestorAssets.hpp
+        ../Juego/objetos/Entidad.hpp
+        ../Juego/objetos/Entidad.cpp
+)
