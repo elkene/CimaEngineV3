@@ -17,6 +17,7 @@ namespace IVJ {
     private:
         bool inicializar { true };
         std::shared_ptr<Entidad> jugador;
+        std::shared_ptr<Entidad> enemigo;
     };
 
 }

@@ -40,6 +40,6 @@ namespace CE
         std::string nombre;
 
     protected:
-        Pool objetos{100};
+        Pool objetos{200};
     };
 }

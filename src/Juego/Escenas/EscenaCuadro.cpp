@@ -15,6 +15,17 @@ void EscenaCuadros::onInit() {
             ASSETS "/sprites/sprites_aliens/alienPink.png",
             CE::Vector2D{70,92},CE::Vector2D{66,92});
 
+        CE::GestorAssets::Get().agregarTextura("barnacle",
+            ASSETS "/sprites/sprites_aliens/enemies.png",
+            CE::Vector2D{318,239},CE::Vector2D{51,57});
+
+        CE::GestorAssets::Get().agregarTextura("bat",
+        ASSETS "/sprites/sprites_aliens/enemies.png",
+            CE::Vector2D{71,235},CE::Vector2D{70,47});
+        CE::GestorAssets::Get().agregarTextura("slimeGreen",
+        ASSETS "/sprites/sprites_aliens/enemies.png",
+            CE::Vector2D{140,65},CE::Vector2D{49,34});
+
 
     // 🔹 Registro de controles
     registrarBotones(sf::Keyboard::Scan::W, "arriba");
@@ -30,9 +41,51 @@ void EscenaCuadros::onInit() {
     jugador=std::make_shared<Entidad>();
     jugador->getStats()->hp=100;
     jugador->setPosicion(500.f,500.f);
+    jugador->getNombre()->nombre="jugador";
     jugador->addComponente(std::make_shared<CE::ISprite>(
         CE::GestorAssets::Get().getTextura("pink"),1.f));
     objetos.agregarPool(jugador);
+
+
+    srand(static_cast<unsigned>(time(nullptr))); // Semilla aleatoria
+    // 🔹 Crear 100 enemigos con la misma lógica que el jugador
+    // Lista de texturas posibles para los enemigos
+    std::vector<std::string> texturasEnemigos = {
+        "barnacle",
+        "bat",
+        "slimeGreen"
+        // puedes agregar más nombres registrados
+    };
+
+    // Crear enemigos
+    for (int i = 0; i < 100; ++i) {
+        auto enemigo = std::make_shared<Entidad>();
+        enemigo->getStats()->hp = 50;
+
+        // Posición inicial: centro de la ventana
+        enemigo->setPosicion(540.f, 360.f);
+
+        // Velocidades aleatorias entre -200 y 200
+        auto trans = enemigo->getTransformada();
+        trans->velocidad.x = (rand() % 400 - 200);
+        trans->velocidad.y = (rand() % 400 - 200);
+
+        // Asignar nombre único
+        enemigo->getNombre()->nombre = "enemigo_" + std::to_string(i);
+
+        // 🔹 Elegir textura aleatoria del vector
+        std::string textura = texturasEnemigos[rand() % texturasEnemigos.size()];
+
+        // Añadir sprite con la textura seleccionada
+        enemigo->addComponente(std::make_shared<CE::ISprite>(
+            CE::GestorAssets::Get().getTextura(textura),
+            1.f // escala
+        ));
+
+        objetos.agregarPool(enemigo);
+    }
+
+
 /*
     // 🔹 Creación de tres figuras rectangulares
     auto fig1 = std::make_shared<Rectangulo>(
@@ -78,7 +131,7 @@ void EscenaCuadros::onUpdate(float dt) {
 }
 
 void EscenaCuadros::onInputs(const CE::Botones& accion) {
-    auto p = objetos[1]->getTransformada();
+    auto p = objetos[0]->getTransformada();
 
     if (accion.getTipo() == CE::Botones::TipoAccion::OnPress) {
         if (accion.getNombre() == "arriba")

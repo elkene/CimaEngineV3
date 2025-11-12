@@ -57,26 +57,56 @@ namespace IVJ
        trans->pos_previa = trans->posicion;
    }
 
+    void MoverJugador(std::shared_ptr<CE::Objeto> e, float dt, float altoVentana)
+   {
+       auto trans = e->getTransformada();
+       trans->posicion.y += trans->velocidad.y * dt;
+       trans->posicion.x += trans->velocidad.x * dt;
+   }
+    void MoverEnemigo(std::shared_ptr<CE::Objeto> e, float dt, float anchoVentana, float altoVentana)
+   {
+       auto trans = e->getTransformada();
 
+       // Actualizar posición
+       trans->posicion.x += trans->velocidad.x * dt;
+       trans->posicion.y += trans->velocidad.y * dt;
+
+       // Rebote horizontal
+       if (trans->posicion.x < 0.f || trans->posicion.x > anchoVentana - 50.f)
+           trans->velocidad.x = -trans->velocidad.x;
+
+       // Rebote vertical
+       if (trans->posicion.y < 0.f || trans->posicion.y > altoVentana - 50.f)
+           trans->velocidad.y = -trans->velocidad.y;
+
+       // Guardar posición anterior
+       trans->pos_previa = trans->posicion;
+   }
 
 
     void SistemaMovimientoEntes(const std::vector<std::shared_ptr<CE::Objeto>>& entes, float dt)
-    {
-        for (auto& e : entes)
-        {
-            if (e->getNombre()->nombre=="Rectangulo")
-            {
-                MoverRectangulo(e, dt, 720);
-            }
-            else if (e->getNombre()->nombre=="Triangulo")
-            {
-                MoverTriangulo(e, dt, 1920, 1080);
-            }
-            else if (e->getNombre()->nombre=="Circulo")
-            {
-                MoverCirculo(e, dt, 1920, 1080);
-            }
-        }
-    }
+   {
+       for (auto& e : entes)
+       {
+           std::cout << "Entidad: " << e->getNombre()->nombre << std::endl;
+
+           if (e->getNombre()->nombre == "Rectangulo")
+               MoverRectangulo(e, dt, 720);
+           else if (e->getNombre()->nombre == "Triangulo")
+               MoverTriangulo(e, dt, 1920, 1080);
+           else if (e->getNombre()->nombre == "Circulo")
+               MoverCirculo(e, dt, 1920, 1080);
+           else if (e->getNombre()->nombre == "jugador")
+               MoverJugador(e, dt, 720);
+           else if (e->getNombre()->nombre.find("enemigo_") != std::string::npos)
+               MoverEnemigo(e, dt, 1080, 720);
+
+
+
+       }
+   }
+
+
+
 
 }
