@@ -50,6 +50,9 @@ namespace CE {
         auto obj_trans = m_lockObj.lock()->getTransformada();
         auto opos = obj_trans->posicion;
 
+        m_transform->posicion=opos;
+        m_view->setCenter({opos.x,opos.y});
+
         std::string log = "Obj: (" + std::to_string(opos.x) + ", " + std::to_string(opos.y) + ")";
         std::string log2 = nombre + ": (" +
                            std::to_string(m_transform->posicion.x) + ", " +

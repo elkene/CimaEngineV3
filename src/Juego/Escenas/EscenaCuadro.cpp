@@ -109,7 +109,6 @@ void EscenaCuadros::onInit() {
     objetos.agregarPool(fig3);
 */
     // 🔹 Cámara
-
     CE::GestorCamaras::Get().agregarCamara(
         std::make_shared<CE::CamaraCuadro>(
             CE::Vector2D{540, 360}, CE::Vector2D{1080.f, 720.f}));
