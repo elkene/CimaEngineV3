@@ -112,13 +112,15 @@ void EscenaCuadros::onInit() {
 
     CE::GestorCamaras::Get().agregarCamara(
         std::make_shared<CE::CamaraCuadro>(
-            CE::Vector2D{540, 360}, CE::Vector2D{1920.f, 1080.f}));
+            CE::Vector2D{540, 360}, CE::Vector2D{1080.f, 720.f}));
     CE::GestorCamaras::Get().setCamaraActiva(1);
 
     // La cámara sigue al objeto 2
     CE::GestorCamaras::Get().getCamaraActiva().lockEnObjeto(objetos[1]);
 
     //Camara Jugador
+    CE::GestorCamaras::Get().setCamaraActiva(2);
+
     CE::GestorCamaras::Get().getCamaraActiva().lockEnObjeto(jugador);
 
 
