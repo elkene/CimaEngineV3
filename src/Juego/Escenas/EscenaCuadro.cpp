@@ -5,6 +5,7 @@
 #include "../../Motor/Render/Render.hpp"
 #include "../Sistema/Sistema.hpp"
 #include "Motor/Primitivos/GestorAssets.hpp"
+#include "../objetos/TileMap.hpp"
 
 namespace IVJ {
 
@@ -25,6 +26,8 @@ void EscenaCuadros::onInit() {
         CE::GestorAssets::Get().agregarTextura("slimeGreen",
         ASSETS "/sprites/sprites_aliens/enemies.png",
             CE::Vector2D{140,65},CE::Vector2D{49,34});
+
+
 
 
     // 🔹 Registro de controles
@@ -106,16 +109,25 @@ void EscenaCuadros::onInit() {
     objetos.agregarPool(fig3);
 */
     // 🔹 Cámara
+
     CE::GestorCamaras::Get().agregarCamara(
         std::make_shared<CE::CamaraCuadro>(
-            CE::Vector2D{540, 360}, CE::Vector2D{1080.f, 720.f}));
+            CE::Vector2D{540, 360}, CE::Vector2D{1920.f, 1080.f}));
     CE::GestorCamaras::Get().setCamaraActiva(1);
 
     // La cámara sigue al objeto 2
-    //CE::GestorCamaras::Get().getCamaraActiva().lockEnObjeto(objetos[1]);
+    CE::GestorCamaras::Get().getCamaraActiva().lockEnObjeto(objetos[1]);
 
     //Camara Jugador
     CE::GestorCamaras::Get().getCamaraActiva().lockEnObjeto(jugador);
+
+
+    //Cargar fondo
+    if(!bg[0].loadTileMap(ASSETS"/mapas/mapa_1_layer_1.txt"))
+        exit(EXIT_FAILURE);
+    if(!bg[1].loadTileMap(ASSETS"/mapas/mapa_1_layer_2.txt"))
+        exit(EXIT_FAILURE);
+
     inicializar = false;
 }
 
@@ -154,8 +166,12 @@ void EscenaCuadros::onInputs(const CE::Botones& accion) {
 }
 
 void EscenaCuadros::onRender() {
+    for (auto& b:bg)
+        CE::Render::Get().AddToDraw(b);
     for (auto& f : objetos.getPool())
         CE::Render::Get().AddToDraw(*f);
+
+
 }
 
 }

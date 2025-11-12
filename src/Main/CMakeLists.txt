@@ -43,4 +43,6 @@ add_executable(CimaEngine3v main.cpp
         ../Motor/Primitivos/GestorAssets.hpp
         ../Juego/objetos/Entidad.hpp
         ../Juego/objetos/Entidad.cpp
+        ../Juego/objetos/TileMap.hpp
+        ../Juego/objetos/TileMap.cpp
 )
