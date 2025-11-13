@@ -1,8 +1,9 @@
 #pragma once
 
-#include <SFML/Graphics/Drawable.hpp>
-#include <SFML/Graphics/Transformable.hpp>
 #include <SFML/Graphics.hpp>
+#include <nlohmann/json.hpp>
+#include <string>
+#include <vector>
 
 namespace IVJ
 {
@@ -10,21 +11,24 @@ namespace IVJ
     {
     public:
         explicit TileMap() = default;
-
-        bool loadTileMap(const std::string& atlasPath);
-
+        bool loadTileMap(const std::string& jsonPath);
         virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
     private:
-        int atlasW{};   // ancho del atlas
-        int atlasH{};   // alto del atlas
-        int tileW{};    // ancho de cada tile
-        int tileH{};    // alto de cada tile
-        int mapR{};     // filas del mapa
-        int mapC{};     // columnas del mapa
+        struct Layer {
+            sf::VertexArray vertices;
+            sf::Texture texture;
+            std::string name;
+            bool hidden = false;
+        };
 
-        std::string atlasP{};       // ruta del atlas
-        sf::VertexArray tilesVertex; // vértices para dibujar tiles
-        sf::Texture atlasTexture;    // textura del atlas
+        std::vector<Layer> layers;
+
+        int mapWidth{};
+        int mapHeight{};
+        int tileWidth{};
+        int tileHeight{};
+        int numLayers{};
+        std::string atlasPath{};
     };
 }

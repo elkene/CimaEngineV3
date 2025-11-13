@@ -1,0 +1,47 @@
+{
+  "version": "0.4.8",
+  "canvas": {
+    "width": 7680,
+    "height": 272,
+    "tileWidth": 592,
+    "numLayers": 12,
+    "layers": {
+      "0": { "blendMode": "normal", "alpha": 255, "hidden": false, "name": "Layer_0011_0.png",      "muted": false, "tileRefs": {}, "soloed": false },
+      "1": { "blendMode": "normal", "alpha": 255, "hidden": false, "name": "Layer_0010_1.png",      "muted": false, "tileRefs": {}, "soloed": false },
+      "2": { "blendMode": "normal", "alpha": 255, "hidden": false, "name": "Layer_0009_2.png",      "muted": false, "tileRefs": {}, "soloed": false },
+      "3": { "blendMode": "normal", "alpha": 255, "hidden": false, "name": "Layer_0008_3.png",      "muted": false, "tileRefs": {}, "soloed": false },
+      "4": { "blendMode": "normal", "alpha": 255, "hidden": false, "name": "Layer_0007_Lights.png", "muted": false, "tileRefs": {}, "soloed": false },
+      "5": { "blendMode": "normal", "alpha": 255, "hidden": false, "name": "Layer_0006_4.png",      "muted": false, "tileRefs": {}, "soloed": false },
+      "6": { "blendMode": "normal", "alpha": 255, "hidden": false, "name": "Layer_0005_5.png",      "muted": false, "tileRefs": {}, "soloed": false },
+      "7": { "blendMode": "normal", "alpha": 255, "hidden": false, "name": "Layer_0004_Lights.png", "muted": false, "tileRefs": {}, "soloed": false },
+      "8": { "blendMode": "normal", "alpha": 255, "hidden": false, "name": "Layer_0003_6.png",      "muted": false, "tileRefs": {}, "soloed": false },
+      "9": { "blendMode": "normal", "alpha": 255, "hidden": false, "name": "Layer_0002_7.png",      "muted": false, "tileRefs": {}, "soloed": false },
+      "10": { "blendMode": "normal", "alpha": 255, "hidden": false, "name": "Layer_0001_8.png",     "muted": false, "tileRefs": {}, "soloed": false },
+      "11": { "blendMode": "normal", "alpha": 255, "hidden": false, "name": "Layer_0000_9.png",     "muted": false, "tileRefs": {}, "soloed": false }
+    },
+    "tileHeight": 272
+  },
+  "animations": {},
+  "tileset": {
+    "fixedWidth": true,
+    "tileWidth": 592,
+    "numTiles": 12,
+    "tilesWide": 12,
+    "tileHeight": 272
+  },
+  "palette": {
+    "width": 12,
+    "numColors": 0,
+    "colors": {},
+    "height": 1
+  },
+  "name": "parallax_custom",
+  "settings": {
+    "ExportImagePanel_prefTranspMatteColor": "4278190080",
+    "ExportImagePanel_prefScaling": "1",
+    "ExportImagePanel_prefFormat": "0",
+    "ExportImagePanel_prefSeparateFiles": "false",
+    "ExportImagePanel_prefFileName": "layer0",
+    "ExportImagePanel_prefOverwrite": "false"
+  }
+}

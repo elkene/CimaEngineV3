@@ -1,16 +1,16 @@
 {
   "version": "0.4.8",
   "canvas": {
-    "width": 592,
-    "height": 272,
+    "width": 3712,
+    "height": 793,
     "tileWidth": 592,
-    "numLayers": 4,
+    "numLayers": 12,
     "layers": {
       "0": {
         "blendMode": "normal",
         "alpha": 255,
         "hidden": false,
-        "name": "Layer 3",
+        "name": "Layer_0000_9",
         "muted": false,
         "tileRefs": {},
         "soloed": false
@@ -19,7 +19,7 @@
         "blendMode": "normal",
         "alpha": 255,
         "hidden": false,
-        "name": "Layer 2",
+        "name": "Layer_0001_8",
         "muted": false,
         "tileRefs": {},
         "soloed": false
@@ -28,7 +28,7 @@
         "blendMode": "normal",
         "alpha": 255,
         "hidden": false,
-        "name": "Layer 1",
+        "name": "Layer_0002_7",
         "muted": false,
         "tileRefs": {},
         "soloed": false
@@ -37,7 +37,79 @@
         "blendMode": "normal",
         "alpha": 255,
         "hidden": false,
-        "name": "Layer 0",
+        "name": "Layer_0003_6",
+        "muted": false,
+        "tileRefs": {},
+        "soloed": false
+      },
+      "4": {
+        "blendMode": "normal",
+        "alpha": 255,
+        "hidden": false,
+        "name": "Layer_0004_Lights",
+        "muted": false,
+        "tileRefs": {},
+        "soloed": false
+      },
+      "5": {
+        "blendMode": "normal",
+        "alpha": 255,
+        "hidden": false,
+        "name": "Layer_0005_5",
+        "muted": false,
+        "tileRefs": {},
+        "soloed": false
+      },
+      "6": {
+        "blendMode": "normal",
+        "alpha": 255,
+        "hidden": false,
+        "name": "Layer_0006_4",
+        "muted": false,
+        "tileRefs": {},
+        "soloed": false
+      },
+      "7": {
+        "blendMode": "normal",
+        "alpha": 255,
+        "hidden": false,
+        "name": "Layer_0007_Lights",
+        "muted": false,
+        "tileRefs": {},
+        "soloed": false
+      },
+      "8": {
+        "blendMode": "normal",
+        "alpha": 255,
+        "hidden": false,
+        "name": "Layer_0008_3",
+        "muted": false,
+        "tileRefs": {},
+        "soloed": false
+      },
+      "9": {
+        "blendMode": "normal",
+        "alpha": 255,
+        "hidden": false,
+        "name": "Layer_0009_2",
+        "muted": false,
+        "tileRefs": {},
+        "soloed": false
+      },
+      "10": {
+        "blendMode": "normal",
+        "alpha": 255,
+        "hidden": false,
+        "name": "Layer_0010_1",
+        "muted": false,
+        "tileRefs": {},
+        "soloed": false
+      },
+      "11": {
+        "blendMode": "normal",
+        "alpha": 255,
+        "hidden": false,
+        "name": "Layer_0011_0",
         "muted": false,
         "tileRefs": {},
         "soloed": false
@@ -144,14 +216,14 @@
     },
     "height": 7
   },
-  "name": "parallax_demonWoods",
+  "name": "Background",
   "settings": {
     "ExportImagePanel_prefTranspMatteColor": "4278190080",
     "ExportImagePanel_prefScaling": "1",
     "ExportImagePanel_prefFormat": "0",
-    "ExportImagePanel_prefPath": "/home/elkene/CLionProjects/CimaEngineV3/assets/atlas",
-    "ExportImagePanel_prefSeparateFiles": "false",
-    "ExportImagePanel_prefFileName": "parallax-demon-woods-close-trees",
+    "ExportImagePanel_prefPath": "/home/elkene/CLionProjects/CimaEngineV3/assets/atlas/PNG",
+    "ExportImagePanel_prefSeparateFiles": "true",
+    "ExportImagePanel_prefFileName": "Background",
     "ExportImagePanel_prefOverwrite": "false"
   }
 }

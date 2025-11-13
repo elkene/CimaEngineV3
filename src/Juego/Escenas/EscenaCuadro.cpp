@@ -13,9 +13,9 @@ void EscenaCuadros::onInit() {
     if (!inicializar) return;
         CE::GestorCamaras::Get().setCamaraActiva(1);
 
-        CE::GestorAssets::Get().agregarTextura("pink",
-            ASSETS "/sprites/sprites_aliens/alienPink.png",
-            CE::Vector2D{70,92},CE::Vector2D{66,92});
+        // CE::GestorAssets::Get().agregarTextura("pink",
+        //     ASSETS "/sprites/sprites_aliens/alienPink.png",
+        //     CE::Vector2D{70,92},CE::Vector2D{66,92});
 
         // CE::GestorAssets::Get().agregarTextura("barnacle",
         //     ASSETS "/sprites/sprites_aliens/enemies.png",
@@ -60,7 +60,7 @@ void EscenaCuadros::onInit() {
     //Creamos la entidad para probar el sprite
     jugador=std::make_shared<Entidad>();
     jugador->getStats()->hp=100;
-    jugador->setPosicion(500.f,500.f);
+    jugador->setPosicion(611.f,2798.f);
     jugador->getNombre()->nombre="jugador";
     jugador->addComponente(std::make_shared<CE::ISprite>(
         CE::GestorAssets::Get().getTextura("PP"),1.f));
@@ -77,32 +77,32 @@ void EscenaCuadros::onInit() {
     };
 
     // Crear enemigos
-    for (int i = 0; i < 100; ++i) {
-        auto enemigo = std::make_shared<Entidad>();
-        enemigo->getStats()->hp = 50;
-
-        // Posición inicial: centro de la ventana
-        enemigo->setPosicion(540.f, 360.f);
-
-        // Velocidades aleatorias entre -200 y 200
-        auto trans = enemigo->getTransformada();
-        trans->velocidad.x = (rand() % 400 - 200);
-        trans->velocidad.y = (rand() % 400 - 200);
-
-        // Asignar nombre único
-        enemigo->getNombre()->nombre = "enemigo_" + std::to_string(i);
-
-        // 🔹 Elegir textura aleatoria del vector
-        std::string textura = texturasEnemigos[rand() % texturasEnemigos.size()];
-
-        // Añadir sprite con la textura seleccionada
-        enemigo->addComponente(std::make_shared<CE::ISprite>(
-            CE::GestorAssets::Get().getTextura(textura),
-            1.f // escala
-        ));
-
-        objetos.agregarPool(enemigo);
-    }
+    // for (int i = 0; i < 100; ++i) {
+    //     auto enemigo = std::make_shared<Entidad>();
+    //     enemigo->getStats()->hp = 50;
+    //
+    //     // Posición inicial: centro de la ventana
+    //     enemigo->setPosicion(540.f, 360.f);
+    //
+    //     // Velocidades aleatorias entre -200 y 200
+    //     auto trans = enemigo->getTransformada();
+    //     trans->velocidad.x = (rand() % 400 - 200);
+    //     trans->velocidad.y = (rand() % 400 - 200);
+    //
+    //     // Asignar nombre único
+    //     enemigo->getNombre()->nombre = "enemigo_" + std::to_string(i);
+    //
+    //     // 🔹 Elegir textura aleatoria del vector
+    //     std::string textura = texturasEnemigos[rand() % texturasEnemigos.size()];
+    //
+    //     // Añadir sprite con la textura seleccionada
+    //     enemigo->addComponente(std::make_shared<CE::ISprite>(
+    //         CE::GestorAssets::Get().getTextura(textura),
+    //         1.f // escala
+    //     ));
+    //
+    //     objetos.agregarPool(enemigo);
+    // }
 
 
 /*
@@ -127,11 +127,11 @@ void EscenaCuadros::onInit() {
     // 🔹 Cámara
     CE::GestorCamaras::Get().agregarCamara(
         std::make_shared<CE::CamaraCuadro>(
-            CE::Vector2D{540, 360}, CE::Vector2D{1080.f, 720.f}));
-    CE::GestorCamaras::Get().setCamaraActiva(1);
-
-    // La cámara sigue al objeto 2
-    CE::GestorCamaras::Get().getCamaraActiva().lockEnObjeto(objetos[0]);
+            CE::Vector2D{540, 360}, CE::Vector2D{1200.f, 720.f}));
+    // CE::GestorCamaras::Get().setCamaraActiva(1);
+    //
+    // // La cámara sigue al objeto 2
+    // CE::GestorCamaras::Get().getCamaraActiva().lockEnObjeto(objetos[0]);
 
     //Camara Jugador
     CE::GestorCamaras::Get().setCamaraActiva(1);
@@ -140,9 +140,11 @@ void EscenaCuadros::onInit() {
 
 
     //Cargar fondo
-    if(!bg[0].loadTileMap(ASSETS"/mapas/mapa_1_layer_1.txt"))
-        exit(EXIT_FAILURE);
-    if(!bg[1].loadTileMap(ASSETS"/mapas/mapa_1_layer_2.txt"))
+    // if(!bg[0].loadTileMap(ASSETS"/mapas/mapa_1_layer_1.txt"))
+    //     exit(EXIT_FAILURE);
+    // if(!bg[1].loadTileMap(ASSETS"/mapas/mapa_1_layer_2.txt"))
+    //     exit(EXIT_FAILURE);
+    if(!bg[0].loadTileMap(ASSETS"/mapas/docData2.json"))
         exit(EXIT_FAILURE);
 
     inicializar = false;

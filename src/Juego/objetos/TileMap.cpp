@@ -1,78 +1,105 @@
 #include "TileMap.hpp"
-#include <SFML/Graphics/PrimitiveType.hpp>
 #include <fstream>
 #include <iostream>
 
 namespace IVJ
 {
-    bool TileMap::loadTileMap(const std::string& atlasPath)
+    using json = nlohmann::json;
+
+    bool TileMap::loadTileMap(const std::string& jsonPath)
     {
-        std::ifstream archivo{atlasPath};
+        std::ifstream archivo(jsonPath);
         if (!archivo.is_open())
         {
-            std::cerr << "[TileMap] No se pudo abrir el archivo: " << atlasPath << "\n";
+            std::cerr << "[TileMap] No se pudo abrir el archivo JSON: " << jsonPath << "\n";
             return false;
         }
 
-        std::string info;
-        archivo >> info; // tag [info]
+        json j;
+        archivo >> j;
 
-        archivo >> atlasP >> atlasW >> atlasH
-                >> tileW >> tileH >> mapR >> mapC >> info;
+        // Extraer datos base
+        mapWidth   = j["canvas"]["width"].get<int>();
+        mapHeight  = j["canvas"]["height"].get<int>();
+        tileWidth  = j["tileset"]["tileWidth"].get<int>();
+        tileHeight = j["tileset"]["tileHeight"].get<int>();
+        numLayers  = j["canvas"]["numLayers"].get<int>();
 
-        tilesVertex.setPrimitiveType(sf::PrimitiveType::Triangles);
-        tilesVertex.resize(mapR * mapC * 6);
+        // Construir ruta del atlas
+        std::string atlasName = j["settings"]["ExportImagePanel_prefFileName"].get<std::string>() + ".png";
+        std::string atlasDir  = j["settings"]["ExportImagePanel_prefPath"].get<std::string>();
+        atlasPath = atlasDir + "/" + atlasName;
 
-        if (!atlasTexture.loadFromFile(ASSETS + atlasP))
+        // Cargar textura del atlas
+        sf::Texture atlasTexture;
+        if (!atlasTexture.loadFromFile(atlasPath))
         {
-            std::cerr << "[TileMap] No se pudo cargar la imagen: " << atlasP << "\n";
+            std::cerr << "[TileMap] No se pudo cargar el atlas: " << atlasPath << "\n";
             return false;
         }
 
-        int id = 0;
-        int i = 0;
-        int j = 0;
-        int maxCol = atlasW / tileW;
+        atlasTexture.setRepeated(true);
+        atlasTexture.setSmooth(true);
 
-        while (archivo >> id)
+        // Escala del fondo (opción 1)
+        const float scaleFactor = 4.0f; // ajusta este valor a tu gusto
+
+        // Crear una capa por cada layer
+        for (int i = 0; i < numLayers; ++i)
         {
-            if (id != -1) // no ignorar tile
+            std::string idx = std::to_string(i);
+            auto layerData = j["canvas"]["layers"][idx];
+            bool hidden = layerData["hidden"].get<bool>();
+            std::string layerName = layerData["name"].get<std::string>();
+
+            Layer layer;
+            layer.name = layerName;
+            layer.hidden = hidden;
+            layer.texture = atlasTexture;
+            layer.vertices.setPrimitiveType(sf::PrimitiveType::Triangles);
+            layer.vertices.resize(6); // fondo plano
+
+            if (!hidden)
             {
-                // referencia al triángulo a dibujar
-                sf::Vertex* tri = &tilesVertex[(i + j * mapC) * 6];
+                sf::Vertex* tri = &layer.vertices[0];
 
-                // posición del tile en el atlas
-                int tU = id % maxCol;
-                int tV = id / maxCol;
+                // Posiciones escaladas
+                float scaledWidth  = mapWidth * scaleFactor;
+                float scaledHeight = mapHeight * scaleFactor;
 
-                // vértices del rectángulo (2 triángulos)
-                tri[0].position = sf::Vector2f(i * tileW, j * tileH);
-                tri[1].position = sf::Vector2f((i + 1) * tileW, j * tileH);
-                tri[2].position = sf::Vector2f(i * tileW, (j + 1) * tileH);
-                tri[3].position = sf::Vector2f(i * tileW, (j + 1) * tileH);
-                tri[4].position = sf::Vector2f((i + 1) * tileW, j * tileH);
-                tri[5].position = sf::Vector2f((i + 1) * tileW, (j + 1) * tileH);
+                tri[0].position = {0, 0};
+                tri[1].position = {scaledWidth, 0};
+                tri[2].position = {0, scaledHeight};
+                tri[3].position = {0, scaledHeight};
+                tri[4].position = {scaledWidth, 0};
+                tri[5].position = {scaledWidth, scaledHeight};
 
-                // coordenadas de textura
-                tri[0].texCoords = sf::Vector2f(tU * tileW, tV * tileH);
-                tri[1].texCoords = sf::Vector2f((tU + 1) * tileW, tV * tileH);
-                tri[2].texCoords = sf::Vector2f(tU * tileW, (tV + 1) * tileH);
-                tri[3].texCoords = sf::Vector2f(tU * tileW, (tV + 1) * tileH);
-                tri[4].texCoords = sf::Vector2f((tU + 1) * tileW, tV * tileH);
-                tri[5].texCoords = sf::Vector2f((tU + 1) * tileW, (tV + 1) * tileH);
+                // Coordenadas de textura (no se escalan)
+                tri[0].texCoords = {0, 0};
+                tri[1].texCoords = {static_cast<float>(mapWidth), 0};
+                tri[2].texCoords = {0, static_cast<float>(mapHeight)};
+                tri[3].texCoords = {0, static_cast<float>(mapHeight)};
+                tri[4].texCoords = {static_cast<float>(mapWidth), 0};
+                tri[5].texCoords = {static_cast<float>(mapWidth), static_cast<float>(mapHeight)};
             }
 
-            if ((i + 1) % mapC == 0) ++j;
-            i = (i + 1) % mapC;
+            layers.push_back(std::move(layer));
         }
 
+        std::cout << "[TileMap] Mapa cargado desde JSON: " << jsonPath
+                  << " con " << layers.size() << " capas.\n";
         return true;
     }
 
     void TileMap::draw(sf::RenderTarget& target, sf::RenderStates states) const
     {
         states.transform *= getTransform();
-        states.texture = &atlasTexture;
-        target.draw(tilesVertex, states);
+
+        for (const auto& layer : layers)
+        {
+            if (layer.hidden) continue;
+            states.texture = &layer.texture;
+            target.draw(layer.vertices, states);
+        }
     }
 }
