@@ -60,7 +60,7 @@ void EscenaCuadros::onInit() {
     //Creamos la entidad para probar el sprite
     jugador=std::make_shared<Entidad>();
     jugador->getStats()->hp=100;
-    jugador->setPosicion(611.f,2798.f);
+    jugador->setPosicion(611.f,2804.f);
     jugador->getNombre()->nombre="jugador";
     jugador->addComponente(std::make_shared<CE::ISprite>(
         CE::GestorAssets::Get().getTextura("PP"),1.f));
@@ -154,6 +154,7 @@ void EscenaCuadros::onFinal() { }
 
 void EscenaCuadros::onUpdate(float dt) {
     SistemaMovimientoEntes(objetos.getPool(), dt);
+    CE::GestorCamaras::Get().getCamaraActiva().lockEnObjeto(jugador);
 
     for (auto& f : objetos.getPool())
         f->onUpdate(dt);

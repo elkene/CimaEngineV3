@@ -34,13 +34,12 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cfb52caa-2372-4836-a4c1-87c1e5a59626" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/atlas/docData.json" beforeDir="false" afterPath="$PROJECT_DIR$/assets/mapas/docData.json" afterDir="false" />
+    <list default="true" id="cfb52caa-2372-4836-a4c1-87c1e5a59626" name="Changes" comment="Lab7Mejorado">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/CimaEngine3v" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/CimaEngine3v" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/imgui.ini" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/imgui.ini" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Juego/Escenas/EscenaCuadro.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Juego/Escenas/EscenaCuadro.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Juego/objetos/TileMap.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Juego/objetos/TileMap.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Juego/objetos/TileMap.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Juego/objetos/TileMap.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Motor/Motor.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Motor/Motor.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -143,13 +142,13 @@
       </method>
     </configuration>
     <list>
+      <item itemvalue="CMake Application.CimaEngine3v" />
       <item itemvalue="CMake Application.ImGui-SFML" />
       <item itemvalue="CMake Application.sfml-audio" />
       <item itemvalue="CMake Application.sfml-graphics" />
       <item itemvalue="CMake Application.sfml-network" />
       <item itemvalue="CMake Application.sfml-system" />
       <item itemvalue="CMake Application.sfml-window" />
-      <item itemvalue="CMake Application.CimaEngine3v" />
     </list>
   </component>
   <component name="TaskManager">
@@ -160,8 +159,17 @@
       <option name="presentableId" value="Default" />
       <updated>1763054576227</updated>
       <workItem from="1763054577305" duration="2912000" />
-      <workItem from="1763066777986" duration="2943000" />
+      <workItem from="1763066777986" duration="4128000" />
     </task>
+    <task id="LOCAL-00001" summary="Lab7Mejorado">
+      <option name="closed" value="true" />
+      <created>1763069776691</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1763069776691</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -171,5 +179,9 @@
     <isAutomaticCheckingOnLaunch value="false" />
     <isAutomaticFoundErrors value="true" />
     <isAutomaticReloadCMake value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Lab7Mejorado" />
+    <option name="LAST_COMMIT_MESSAGE" value="Lab7Mejorado" />
   </component>
 </project>
