@@ -12,20 +12,37 @@ namespace IVJ {
 void EscenaCuadros::onInit() {
     if (!inicializar) return;
         CE::GestorCamaras::Get().setCamaraActiva(1);
+
         CE::GestorAssets::Get().agregarTextura("pink",
             ASSETS "/sprites/sprites_aliens/alienPink.png",
             CE::Vector2D{70,92},CE::Vector2D{66,92});
 
-        CE::GestorAssets::Get().agregarTextura("barnacle",
-            ASSETS "/sprites/sprites_aliens/enemies.png",
-            CE::Vector2D{318,239},CE::Vector2D{51,57});
+        // CE::GestorAssets::Get().agregarTextura("barnacle",
+        //     ASSETS "/sprites/sprites_aliens/enemies.png",
+        //     CE::Vector2D{318,239},CE::Vector2D{51,57});
+        //
+        // CE::GestorAssets::Get().agregarTextura("bat",
+        // ASSETS "/sprites/sprites_aliens/enemies.png",
+        //     CE::Vector2D{71,235},CE::Vector2D{70,47});
+        //
+        // CE::GestorAssets::Get().agregarTextura("slimeGreen",
+        // ASSETS "/sprites/sprites_aliens/enemies.png",
+        //     CE::Vector2D{140,65},CE::Vector2D{49,34});
+        CE::GestorAssets::Get().agregarTextura("Sombras",
+              ASSETS "/sprites/SombrasRastreras/Las Sombras Rastreras1.png",
+                  CE::Vector2D{0,0},CE::Vector2D{0,0});
 
-        CE::GestorAssets::Get().agregarTextura("bat",
-        ASSETS "/sprites/sprites_aliens/enemies.png",
-            CE::Vector2D{71,235},CE::Vector2D{70,47});
-        CE::GestorAssets::Get().agregarTextura("slimeGreen",
-        ASSETS "/sprites/sprites_aliens/enemies.png",
-            CE::Vector2D{140,65},CE::Vector2D{49,34});
+        CE::GestorAssets::Get().agregarTextura("Vigilante",
+           ASSETS "/sprites/El Vigilante/El Vigilante1.png",
+               CE::Vector2D{0,0},CE::Vector2D{0,0});
+
+        CE::GestorAssets::Get().agregarTextura("PP",
+          ASSETS "/sprites/ElRenacido/ElRenacido1.png",
+              CE::Vector2D{0,0},CE::Vector2D{0,0});
+
+
+
+
 
 
 
@@ -46,7 +63,7 @@ void EscenaCuadros::onInit() {
     jugador->setPosicion(500.f,500.f);
     jugador->getNombre()->nombre="jugador";
     jugador->addComponente(std::make_shared<CE::ISprite>(
-        CE::GestorAssets::Get().getTextura("pink"),1.f));
+        CE::GestorAssets::Get().getTextura("PP"),1.f));
     objetos.agregarPool(jugador);
 
 
@@ -54,9 +71,8 @@ void EscenaCuadros::onInit() {
     // 🔹 Crear 100 enemigos con la misma lógica que el jugador
     // Lista de texturas posibles para los enemigos
     std::vector<std::string> texturasEnemigos = {
-        "barnacle",
-        "bat",
-        "slimeGreen"
+        "Sombras",
+        "Vigilante"
         // puedes agregar más nombres registrados
     };
 
@@ -115,10 +131,10 @@ void EscenaCuadros::onInit() {
     CE::GestorCamaras::Get().setCamaraActiva(1);
 
     // La cámara sigue al objeto 2
-    CE::GestorCamaras::Get().getCamaraActiva().lockEnObjeto(objetos[1]);
+    CE::GestorCamaras::Get().getCamaraActiva().lockEnObjeto(objetos[0]);
 
     //Camara Jugador
-    CE::GestorCamaras::Get().setCamaraActiva(2);
+    CE::GestorCamaras::Get().setCamaraActiva(1);
 
     CE::GestorCamaras::Get().getCamaraActiva().lockEnObjeto(jugador);
 
@@ -148,13 +164,13 @@ void EscenaCuadros::onInputs(const CE::Botones& accion) {
 
     if (accion.getTipo() == CE::Botones::TipoAccion::OnPress) {
         if (accion.getNombre() == "arriba")
-            p->velocidad.y = -800;
+            p->velocidad.y = -400;
         else if (accion.getNombre() == "derecha")
-            p->velocidad.x = 800;
+            p->velocidad.x = 400;
         else if (accion.getNombre() == "abajo")
-            p->velocidad.y = 800;
+            p->velocidad.y = 400;
         else if (accion.getNombre() == "izquierda")
-            p->velocidad.x = -800;
+            p->velocidad.x = -400;
         else if (accion.getNombre() == "circulos")
             CE::GestorEscenas::Get().cambiarEscena("Circulos");
     }
