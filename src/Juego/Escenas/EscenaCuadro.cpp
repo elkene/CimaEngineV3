@@ -60,7 +60,7 @@ void EscenaCuadros::onInit() {
     //Creamos la entidad para probar el sprite
     jugador=std::make_shared<Entidad>();
     jugador->getStats()->hp=100;
-    jugador->setPosicion(611.f,2804.f);
+    jugador->setPosicion(-3551.1f,825.7);
     jugador->getNombre()->nombre="jugador";
     jugador->addComponente(std::make_shared<CE::ISprite>(
         CE::GestorAssets::Get().getTextura("PP"),1.f));
@@ -127,7 +127,7 @@ void EscenaCuadros::onInit() {
     // 🔹 Cámara
     CE::GestorCamaras::Get().agregarCamara(
         std::make_shared<CE::CamaraCuadro>(
-            CE::Vector2D{540, 360}, CE::Vector2D{1200.f, 720.f}));
+            CE::Vector2D{540, 360}, CE::Vector2D{570.f, 360.f}));
     // CE::GestorCamaras::Get().setCamaraActiva(1);
     //
     // // La cámara sigue al objeto 2
@@ -146,6 +146,7 @@ void EscenaCuadros::onInit() {
     //     exit(EXIT_FAILURE);
     if(!bg[0].loadTileMap(ASSETS"/mapas/docData2.json"))
         exit(EXIT_FAILURE);
+    bg[0].setModoInfinitoHorizontal(true, sf::Vector2f(100000, 100000));
 
     inicializar = false;
 }
@@ -155,7 +156,10 @@ void EscenaCuadros::onFinal() { }
 void EscenaCuadros::onUpdate(float dt) {
     SistemaMovimientoEntes(objetos.getPool(), dt);
     CE::GestorCamaras::Get().getCamaraActiva().lockEnObjeto(jugador);
-
+    // 🔹 ACTUALIZAR POSICIÓN DE CÁMARA PARA FONDO INFINITO HORIZONTAL
+    auto camara = CE::GestorCamaras::Get().getCamaraActiva();
+    auto centroCamara = camara.getView();
+    //bg[0].setPosicionCamara(sf::Vector2f(centroCamara.x, centroCamara.y));
     for (auto& f : objetos.getPool())
         f->onUpdate(dt);
 
@@ -167,13 +171,13 @@ void EscenaCuadros::onInputs(const CE::Botones& accion) {
 
     if (accion.getTipo() == CE::Botones::TipoAccion::OnPress) {
         if (accion.getNombre() == "arriba")
-            p->velocidad.y = -400;
+            p->velocidad.y = -100;
         else if (accion.getNombre() == "derecha")
-            p->velocidad.x = 400;
+            p->velocidad.x = 100;
         else if (accion.getNombre() == "abajo")
-            p->velocidad.y = 400;
+            p->velocidad.y = 100;
         else if (accion.getNombre() == "izquierda")
-            p->velocidad.x = -400;
+            p->velocidad.x = -100;
         else if (accion.getNombre() == "circulos")
             CE::GestorEscenas::Get().cambiarEscena("Circulos");
     }

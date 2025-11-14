@@ -111,7 +111,7 @@ namespace CE
     void Motor::OnRenderFrame(float dt)
     {
         //Cambiar el color del fondo del motor
-        Render::Get().OnClearColor(sf::Color(IM_COL32_BLACK_TRANS));
+        Render::Get().OnClearColor(sf::Color(12,17,34,255));
         GestorCamaras::Get().onRenderCamara(
        Render::Get().GetTextura()
         );

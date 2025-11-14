@@ -1,7 +1,7 @@
 {
   "version": "0.4.8",
   "canvas": {
-    "width": 3712,
+    "width": 928,
     "height": 793,
     "tileWidth": 592,
     "numLayers": 12,
@@ -10,7 +10,7 @@
         "blendMode": "normal",
         "alpha": 255,
         "hidden": false,
-        "name": "Layer_0000_9",
+        "name": "Layer11",
         "muted": false,
         "tileRefs": {},
         "soloed": false
@@ -19,7 +19,7 @@
         "blendMode": "normal",
         "alpha": 255,
         "hidden": false,
-        "name": "Layer_0001_8",
+        "name": "Layer10",
         "muted": false,
         "tileRefs": {},
         "soloed": false
@@ -28,7 +28,7 @@
         "blendMode": "normal",
         "alpha": 255,
         "hidden": false,
-        "name": "Layer_0002_7",
+        "name": "Layer9",
         "muted": false,
         "tileRefs": {},
         "soloed": false
@@ -37,7 +37,7 @@
         "blendMode": "normal",
         "alpha": 255,
         "hidden": false,
-        "name": "Layer_0003_6",
+        "name": "Layer8",
         "muted": false,
         "tileRefs": {},
         "soloed": false
@@ -46,7 +46,7 @@
         "blendMode": "normal",
         "alpha": 255,
         "hidden": false,
-        "name": "Layer_0004_Lights",
+        "name": "Layer7",
         "muted": false,
         "tileRefs": {},
         "soloed": false
@@ -55,7 +55,7 @@
         "blendMode": "normal",
         "alpha": 255,
         "hidden": false,
-        "name": "Layer_0005_5",
+        "name": "Layer6",
         "muted": false,
         "tileRefs": {},
         "soloed": false
@@ -64,7 +64,7 @@
         "blendMode": "normal",
         "alpha": 255,
         "hidden": false,
-        "name": "Layer_0006_4",
+        "name": "Layer5",
         "muted": false,
         "tileRefs": {},
         "soloed": false
@@ -73,7 +73,7 @@
         "blendMode": "normal",
         "alpha": 255,
         "hidden": false,
-        "name": "Layer_0007_Lights",
+        "name": "Layer4",
         "muted": false,
         "tileRefs": {},
         "soloed": false
@@ -82,7 +82,7 @@
         "blendMode": "normal",
         "alpha": 255,
         "hidden": false,
-        "name": "Layer_0008_3",
+        "name": "Layer3",
         "muted": false,
         "tileRefs": {},
         "soloed": false
@@ -91,7 +91,7 @@
         "blendMode": "normal",
         "alpha": 255,
         "hidden": false,
-        "name": "Layer_0009_2",
+        "name": "Layer2",
         "muted": false,
         "tileRefs": {},
         "soloed": false
@@ -100,7 +100,7 @@
         "blendMode": "normal",
         "alpha": 255,
         "hidden": false,
-        "name": "Layer_0010_1",
+        "name": "Layer1",
         "muted": false,
         "tileRefs": {},
         "soloed": false
@@ -109,7 +109,7 @@
         "blendMode": "normal",
         "alpha": 255,
         "hidden": false,
-        "name": "Layer_0011_0",
+        "name": "Layer0",
         "muted": false,
         "tileRefs": {},
         "soloed": false
@@ -223,7 +223,7 @@
     "ExportImagePanel_prefFormat": "0",
     "ExportImagePanel_prefPath": "/home/elkene/CLionProjects/CimaEngineV3/assets/atlas/PNG",
     "ExportImagePanel_prefSeparateFiles": "true",
-    "ExportImagePanel_prefFileName": "Background",
+    "ExportImagePanel_prefFileName": "Layer",
     "ExportImagePanel_prefOverwrite": "false"
   }
 }

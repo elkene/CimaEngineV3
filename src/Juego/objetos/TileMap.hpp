@@ -4,6 +4,7 @@
 #include <nlohmann/json.hpp>
 #include <string>
 #include <vector>
+#include <map>
 
 namespace IVJ
 {
@@ -14,12 +15,27 @@ namespace IVJ
         bool loadTileMap(const std::string& jsonPath);
         virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
+        // Nuevo método para configurar el modo infinito horizontal
+        void setModoInfinitoHorizontal(bool infinito, const sf::Vector2f& areaVisible = sf::Vector2f(1920, 1080));
+
+        // Método para actualizar la posición de la cámara
+        void setPosicionCamara(const sf::Vector2f& posicionCamara);
+
     private:
+        struct TileRef {
+            int index;
+            int x;
+            int y;
+        };
+
         struct Layer {
             sf::VertexArray vertices;
             sf::Texture texture;
             std::string name;
             bool hidden = false;
+            std::map<int, TileRef> tileRefs;
+            bool hasTiles = false;
+
         };
 
         std::vector<Layer> layers;
@@ -29,6 +45,17 @@ namespace IVJ
         int tileWidth{};
         int tileHeight{};
         int numLayers{};
-        std::string atlasPath{};
+        int tilesWide{};
+        std::string atlasDir{};
+        bool separateFiles{};
+        std::string fileNamePrefix{};
+
+        // Variables para modo infinito horizontal
+        bool modoInfinitoHorizontal{true};
+        sf::Vector2f areaVisible{1920, 1080};
+        sf::Vector2f posicionCamara{0, 0};
+
+        // Método para actualizar los vértices en modo infinito horizontal
+        void actualizarVerticesInfinitosHorizontales();
     };
 }

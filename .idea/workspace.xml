@@ -36,9 +36,26 @@
   <component name="ChangeListManager">
     <list default="true" id="cfb52caa-2372-4836-a4c1-87c1e5a59626" name="Changes" comment="Lab7Mejorado">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/atlas/PNG/Layer_0000_9.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/atlas/PNG/Layer_0001_8.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/atlas/PNG/Layer_0002_7.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/atlas/PNG/Layer_0003_6.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/atlas/PNG/Layer_0004_Lights.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/atlas/PNG/Layer_0005_5.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/atlas/PNG/Layer_0006_4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/atlas/PNG/Layer_0007_Lights.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/atlas/PNG/Layer_0008_3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/atlas/PNG/Layer_0009_2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/atlas/PNG/Layer_0010_1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/atlas/PNG/Layer_0011_0.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/mapas/docData2.json" beforeDir="false" afterPath="$PROJECT_DIR$/assets/mapas/docData2.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/sprites/ElRenacido/ElRenacido1.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/sprites/ElRenacido/ElRenacido1.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/Debug/CimaEngine3v" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/CimaEngine3v" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/Debug/imgui.ini" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/imgui.ini" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Juego/Escenas/EscenaCuadro.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Juego/Escenas/EscenaCuadro.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Juego/Sistema/Sistema.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Juego/Sistema/Sistema.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Juego/objetos/TileMap.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Juego/objetos/TileMap.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Juego/objetos/TileMap.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Juego/objetos/TileMap.hpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Motor/Motor.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Motor/Motor.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -160,7 +177,8 @@
       <updated>1763054576227</updated>
       <workItem from="1763054577305" duration="2912000" />
       <workItem from="1763066777986" duration="4128000" />
-      <workItem from="1763075265759" duration="12000" />
+      <workItem from="1763075265759" duration="69000" />
+      <workItem from="1763090228355" duration="9115000" />
     </task>
     <task id="LOCAL-00001" summary="Lab7Mejorado">
       <option name="closed" value="true" />
@@ -178,7 +196,15 @@
       <option name="project" value="LOCAL" />
       <updated>1763075277623</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Lab7Mejorado">
+      <option name="closed" value="true" />
+      <created>1763075283978</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1763075283978</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
