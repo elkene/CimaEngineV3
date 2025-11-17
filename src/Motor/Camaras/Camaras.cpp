@@ -1,6 +1,7 @@
 #include "Camaras.hpp"
 
 #include "Motor/GUI/GLogger.hpp"
+#include "Motor/Utils/Lerp.hpp"
 
 namespace CE {
     int Camara::num_camaras;
@@ -108,5 +109,66 @@ namespace CE {
             m_transform->posicion.x = 1920 - mitadX;
 
     }
+    CamaraLerpCubica::CamaraLerpCubica(const Vector2D& pos,
+                                      const Vector2D& dim,
+                                      float suavidad_)
+       : Camara(pos, dim), suavidad(suavidad_), t(0.0f)
+    {
+        nombre = "Camara Lerp Cúbica #" + std::to_string(Camara::num_camaras);
+    }
+
+
+    void CamaraLerpCubica::onUpdate(float dt)
+    {
+        Camara::onUpdate(dt);
+
+        auto obj = m_lockObj.lock();
+        if (!obj)
+            return;
+
+        auto opos = obj->getTransformada()->posicion;
+
+        // 1. Puntos inicial y final de la curva
+        p0 = m_transform->posicion;   // posición actual de la cámara
+        p3 = opos;                    // objetivo
+
+        // 2. Dirección normalizada entre p0 y p3
+        Vector2D dir = p3 - p0;
+        float dist = dir.magnitud();
+
+        if (dist > 0.001f)  // evita división por cero
+            dir.normalizacion();
+        else
+            dir = Vector2D(0, 0);
+
+        // 3. Puntos de control (curva Bezier cúbica)
+        p1 = p0 + dir.escala(150.0f);
+        p2 = p3 - dir.escala(150.0f);
+
+        // IMPORTANTE: dir.escala() modifica el vector,
+        // por eso lo aplico directamente donde se usa y no antes.
+
+        // 4. Avance del parámetro t
+        t += dt * suavidad;
+        if (t > 1.0f)
+            t = 1.0f;
+
+        // 5. Interpolación cúbica usando tu función lerp3()
+        Vector2D nueva_pos = lerp3(p0, p1, p2, p3, t);
+
+        // 6. Actualizar cámara
+        m_transform->posicion = nueva_pos;
+
+        m_view->setCenter(sf::Vector2f(
+            nueva_pos.x,
+            nueva_pos.y
+        ));
+
+        // 7. Reinicia la curva cuando completa
+        if (t >= 1.0f)
+            t = 0.0f;
+    }
+
+
 
 }

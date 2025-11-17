@@ -45,4 +45,8 @@ add_executable(CimaEngine3v main.cpp
         ../Juego/objetos/Entidad.cpp
         ../Juego/objetos/TileMap.hpp
         ../Juego/objetos/TileMap.cpp
+        ../Motor/Utils/Lerp.hpp
+        ../Motor/Utils/Lerp.cpp
+        ../Juego/Escenas/EscenaLerp.hpp
+        ../Juego/Escenas/EscenaLerp.cpp
 )

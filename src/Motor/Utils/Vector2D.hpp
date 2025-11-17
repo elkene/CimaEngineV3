@@ -26,9 +26,10 @@ namespace CE
             Vector2D operator-(const Vector2D& v)const;
             void operator+=(const Vector2D& v);
 
-            friend std::ostream& operator<<(std::ostream& os, const Vector2D& vect);
+
         public:
             float x;
             float y;
     };
+
 }

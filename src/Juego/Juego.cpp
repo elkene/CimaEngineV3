@@ -5,6 +5,8 @@
 #include "Motor/Primitivos/GestorEscenas.hpp"
 #include <iostream>
 
+#include "Escenas/EscenaLerp.hpp"
+
 namespace IVJ {
 
     Juego::Juego()
@@ -17,12 +19,14 @@ namespace IVJ {
         std::cout << "Inicializando Juego\n";
 
         // 🔹 Registrar las escenas
+        CE::GestorEscenas::Get().registrarEscena("Lerp", std::make_shared<EscenaLerp>());
         CE::GestorEscenas::Get().registrarEscena("Cuadros", std::make_shared<EscenaCuadros>());
         CE::GestorEscenas::Get().registrarEscena("Circulos", std::make_shared<EscenaCirculos>());
         CE::GestorEscenas::Get().registrarEscena("Muerte", std::make_shared<EscenaMuerte>());
 
+
         // 🔹 Escena inicial
-        CE::GestorEscenas::Get().cambiarEscena("Cuadros");
+        CE::GestorEscenas::Get().cambiarEscena("Lerp");
         escenaActual = &CE::GestorEscenas::Get().getEscenaActual();
     }
 

@@ -34,29 +34,15 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cfb52caa-2372-4836-a4c1-87c1e5a59626" name="Changes" comment="Lab7Mejorado">
+    <list default="true" id="cfb52caa-2372-4836-a4c1-87c1e5a59626" name="Changes" comment="Lab7usandoJson">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/atlas/PNG/Layer_0000_9.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/atlas/PNG/Layer_0001_8.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/atlas/PNG/Layer_0002_7.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/atlas/PNG/Layer_0003_6.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/atlas/PNG/Layer_0004_Lights.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/atlas/PNG/Layer_0005_5.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/atlas/PNG/Layer_0006_4.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/atlas/PNG/Layer_0007_Lights.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/atlas/PNG/Layer_0008_3.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/atlas/PNG/Layer_0009_2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/atlas/PNG/Layer_0010_1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/atlas/PNG/Layer_0011_0.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/mapas/docData2.json" beforeDir="false" afterPath="$PROJECT_DIR$/assets/mapas/docData2.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/sprites/ElRenacido/ElRenacido1.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/sprites/ElRenacido/ElRenacido1.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/Debug/CimaEngine3v" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/CimaEngine3v" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Debug/imgui.ini" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/imgui.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Juego/Escenas/EscenaCuadro.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Juego/Escenas/EscenaCuadro.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Juego/Sistema/Sistema.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Juego/Sistema/Sistema.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Juego/objetos/TileMap.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Juego/objetos/TileMap.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Juego/objetos/TileMap.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Juego/objetos/TileMap.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Motor/Motor.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Motor/Motor.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Juego/Juego.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Juego/Juego.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Motor/Camaras/Camaras.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Motor/Camaras/Camaras.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Motor/Camaras/Camaras.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Motor/Camaras/Camaras.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Motor/Camaras/CamarasGestor.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Motor/Camaras/CamarasGestor.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Motor/Utils/Vector2D.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Motor/Utils/Vector2D.hpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,6 +54,11 @@
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="Lab7" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
@@ -108,7 +99,7 @@
     &quot;RunOnceActivity.west.config.association.type.startup.service&quot;: &quot;true&quot;,
     &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
     &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;Lab7&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Lab7Json&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -129,6 +120,11 @@
       </method>
     </configuration>
     <configuration name="ImGui-SFML" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="CimaEngine3v" TARGET_NAME="ImGui-SFML" CONFIG_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -178,7 +174,9 @@
       <workItem from="1763054577305" duration="2912000" />
       <workItem from="1763066777986" duration="4128000" />
       <workItem from="1763075265759" duration="69000" />
-      <workItem from="1763090228355" duration="9115000" />
+      <workItem from="1763090228355" duration="9374000" />
+      <workItem from="1763362064161" duration="3996000" />
+      <workItem from="1763404898890" duration="1912000" />
     </task>
     <task id="LOCAL-00001" summary="Lab7Mejorado">
       <option name="closed" value="true" />
@@ -204,7 +202,15 @@
       <option name="project" value="LOCAL" />
       <updated>1763075283978</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Lab7usandoJson">
+      <option name="closed" value="true" />
+      <created>1763099539294</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1763099539294</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -217,6 +223,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Lab7Mejorado" />
-    <option name="LAST_COMMIT_MESSAGE" value="Lab7Mejorado" />
+    <MESSAGE value="Lab7usandoJson" />
+    <option name="LAST_COMMIT_MESSAGE" value="Lab7usandoJson" />
   </component>
 </project>

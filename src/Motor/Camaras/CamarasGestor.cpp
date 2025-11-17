@@ -12,6 +12,7 @@ namespace CE
     void GestorCamaras::agregarCamara(const std::shared_ptr<Camara>& nueva)
     {
         m_listaCamaras.push_back(nueva);
+
     }
 
     void GestorCamaras::setCamaraActiva(int id)

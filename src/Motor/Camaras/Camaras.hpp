@@ -55,5 +55,18 @@ namespace CE {
         float dimensionx;
         float dimensiony;
     };
+
+    class CamaraLerpCubica : public Camara
+    {
+    public:
+        CamaraLerpCubica(const Vector2D& pos, const Vector2D& dim, float suavidad);
+
+        virtual void onUpdate(float dt) override;
+
+    private:
+        float suavidad;
+        float t;
+        Vector2D p0, p1, p2, p3;
+    };
 }
 
