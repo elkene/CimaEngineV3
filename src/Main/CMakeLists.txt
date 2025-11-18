@@ -49,4 +49,7 @@ add_executable(CimaEngine3v main.cpp
         ../Motor/Utils/Lerp.cpp
         ../Juego/Escenas/EscenaLerp.hpp
         ../Juego/Escenas/EscenaLerp.cpp
+        ../Juego/Maquinas/FSM.hpp
+        ../Juego/Componentes/IJComponentes.hpp
+        ../Juego/Componentes/IJComponentes.cpp
 )

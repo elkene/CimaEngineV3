@@ -54,8 +54,29 @@ namespace CE
   {
     public:
       explicit ISprite(const sf::Texture& textura, float escala);
-      ~ISprite()override{};
+        ISprite(const sf::Texture& textura, int w, int h,float escala);
+        ~ISprite()override{};
     public:
       sf::Sprite m_sprite;
+        int width;
+        int height;
+        float escala;
+    private:
+        sf::Texture m_textura;
   };
+
+
+    class IControl : public IComponentes
+    {
+        public:
+            explicit IControl();
+            ~IControl() override {};
+        public:
+            bool arr;
+            bool abj;
+            bool izq;
+            bool der;
+            bool acc;
+            bool sacc;
+    };
 }
