@@ -52,4 +52,8 @@ add_executable(CimaEngine3v main.cpp
         ../Juego/Maquinas/FSM.hpp
         ../Juego/Componentes/IJComponentes.hpp
         ../Juego/Componentes/IJComponentes.cpp
+        ../Juego/Maquinas/JugadorFSM/IdleFSM.hpp
+        ../Juego/Maquinas/JugadorFSM/IdleFSM.cpp
+        ../Juego/Maquinas/JugadorFSM/MoverFSM.hpp
+        ../Juego/Maquinas/JugadorFSM/MoverFSM.cpp
 )

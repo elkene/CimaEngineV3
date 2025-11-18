@@ -6,12 +6,12 @@
 #include "../Sistema/Sistema.hpp"
 #include "Motor/Primitivos/GestorAssets.hpp"
 #include "../objetos/TileMap.hpp"
-
+#include "../Maquinas/JugadorFSM/IdleFSM.hpp"
 namespace IVJ {
 
 void EscenaCuadros::onInit() {
     if (!inicializar) return;
-        CE::GestorCamaras::Get().setCamaraActiva(1);
+        //CE::GestorCamaras::Get().setCamaraActiva(1);
 
         // CE::GestorAssets::Get().agregarTextura("pink",
         //     ASSETS "/sprites/sprites_aliens/alienPink.png",
@@ -37,8 +37,8 @@ void EscenaCuadros::onInit() {
                CE::Vector2D{0,0},CE::Vector2D{0,0});
 
         CE::GestorAssets::Get().agregarTextura("PP",
-          ASSETS "/sprites/ElRenacido/ElRenacido1.png",
-              CE::Vector2D{0,0},CE::Vector2D{0,0});
+          ASSETS "/sprites/ElRenacido/CaminarDer-300.png",
+              CE::Vector2D{0,0},CE::Vector2D{384,96});
 
 
 
@@ -60,10 +60,19 @@ void EscenaCuadros::onInit() {
     //Creamos la entidad para probar el sprite
     jugador=std::make_shared<Entidad>();
     jugador->getStats()->hp=100;
-    jugador->setPosicion(-3551.1f,825.7);
+    jugador->setPosicion(-3551.1f,856.8);
     jugador->getNombre()->nombre="jugador";
     jugador->addComponente(std::make_shared<CE::ISprite>(
-        CE::GestorAssets::Get().getTextura("PP"),1.f));
+        CE::GestorAssets::Get().getTextura("PP"),
+        96,96,
+        1.f));
+    jugador->addComponente(std::make_shared<IVJ::IMaquinaEstado>());
+    jugador->addComponente(std::make_shared<CE::IControl>());
+
+    auto &fsm_init=jugador->getComponente<IMaquinaEstado>()->fsm;
+    fsm_init=std::make_shared<IdleFSM>();
+    fsm_init->onEntrar(*jugador);
+
     objetos.agregarPool(jugador);
 
 
@@ -155,6 +164,7 @@ void EscenaCuadros::onFinal() { }
 
 void EscenaCuadros::onUpdate(float dt) {
     SistemaMovimientoEntes(objetos.getPool(), dt);
+    jugador->inputFSM();
     CE::GestorCamaras::Get().getCamaraActiva().lockEnObjeto(jugador);
     // 🔹 ACTUALIZAR POSICIÓN DE CÁMARA PARA FONDO INFINITO HORIZONTAL
     auto camara = CE::GestorCamaras::Get().getCamaraActiva();
@@ -167,26 +177,56 @@ void EscenaCuadros::onUpdate(float dt) {
 }
 
 void EscenaCuadros::onInputs(const CE::Botones& accion) {
-    auto p = objetos[0]->getTransformada();
+    auto p = jugador->getTransformada();
+    auto c= jugador->getComponente<CE::IControl>();
 
     if (accion.getTipo() == CE::Botones::TipoAccion::OnPress) {
         if (accion.getNombre() == "arriba")
+        {
+            c->arr=true;
             p->velocidad.y = -100;
-        else if (accion.getNombre() == "derecha")
+        }
+        else if (accion.getNombre() == "derecha") {
+            c->der=true;
             p->velocidad.x = 100;
+        }
         else if (accion.getNombre() == "abajo")
+        {
+            c->abj=true;
             p->velocidad.y = 100;
+        }
         else if (accion.getNombre() == "izquierda")
+        {
+            c->izq=true;
             p->velocidad.x = -100;
+        }
         else if (accion.getNombre() == "circulos")
+        {
             CE::GestorEscenas::Get().cambiarEscena("Circulos");
+        }
     }
-    else if (accion.getTipo() == CE::Botones::TipoAccion::OnRelease) {
-        if (accion.getNombre() == "arriba" || accion.getNombre() == "abajo")
+    else
+        {
+            c->arr=false;
             p->velocidad.y = 0;
-        else if (accion.getNombre() == "derecha" || accion.getNombre() == "izquierda")
+
+            c->der=false;
             p->velocidad.x = 0;
-    }
+
+            c->abj=false;
+            p->velocidad.y = 0;
+
+            c->izq=false;
+            p->velocidad.x = 0;
+
+
+        }
+    // else if (accion.getTipo() == CE::Botones::TipoAccion::OnRelease) {
+    //     if (accion.getNombre() == "arriba" || accion.getNombre() == "abajo")
+    //         p->velocidad.y = 0;
+    //     else if (accion.getNombre() == "derecha" || accion.getNombre() == "izquierda")
+    //         p->velocidad.x = 0;
+    // }
 }
 
 void EscenaCuadros::onRender() {
