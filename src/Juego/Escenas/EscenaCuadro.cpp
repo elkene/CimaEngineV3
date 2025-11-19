@@ -37,7 +37,7 @@ void EscenaCuadros::onInit() {
                CE::Vector2D{0,0},CE::Vector2D{0,0});
 
         CE::GestorAssets::Get().agregarTextura("PP",
-          ASSETS "/sprites/ElRenacido/Idle.png",
+          ASSETS "/sprites/ElRenacido/El Renacido.png",
               CE::Vector2D{0,0},CE::Vector2D{128,32});
 
 
@@ -65,7 +65,7 @@ void EscenaCuadros::onInit() {
     jugador->addComponente(std::make_shared<CE::ISprite>(
         CE::GestorAssets::Get().getTextura("PP"),
         32,32,
-        2.f));
+        1.f));
     jugador->addComponente(std::make_shared<IVJ::IMaquinaEstado>());
     jugador->addComponente(std::make_shared<CE::IControl>());
 
@@ -176,57 +176,50 @@ void EscenaCuadros::onUpdate(float dt) {
     objetos.borrarPool();
 }
 
-void EscenaCuadros::onInputs(const CE::Botones& accion) {
+    void EscenaCuadros::onInputs(const CE::Botones& accion) {
     auto p = jugador->getTransformada();
-    auto c= jugador->getComponente<CE::IControl>();
+    auto c = jugador->getComponente<CE::IControl>();
 
     if (accion.getTipo() == CE::Botones::TipoAccion::OnPress) {
-        if (accion.getNombre() == "arriba")
-        {
-            c->arr=true;
+        if (accion.getNombre() == "arriba") {
+            c->arr = true;
             p->velocidad.y = -100;
         }
         else if (accion.getNombre() == "derecha") {
-            c->der=true;
+            c->der = true;
             p->velocidad.x = 100;
         }
-        else if (accion.getNombre() == "abajo")
-        {
-            c->abj=true;
+        else if (accion.getNombre() == "abajo") {
+            c->abj = true;
             p->velocidad.y = 100;
         }
-        else if (accion.getNombre() == "izquierda")
-        {
-            c->izq=true;
+        else if (accion.getNombre() == "izquierda") {
+            c->izq = true;
             p->velocidad.x = -100;
         }
-        else if (accion.getNombre() == "circulos")
-        {
+        else if (accion.getNombre() == "circulos") {
             CE::GestorEscenas::Get().cambiarEscena("Circulos");
         }
     }
-    else
-        {
-            c->arr=false;
-            p->velocidad.y = 0;
-
-            c->der=false;
-            p->velocidad.x = 0;
-
-            c->abj=false;
-            p->velocidad.y = 0;
-
-            c->izq=false;
-            p->velocidad.x = 0;
-
-
+    else if (accion.getTipo() == CE::Botones::TipoAccion::OnRelease) {
+        // Solo resetear las direcciones específicas
+        if (accion.getNombre() == "arriba") {
+            c->arr = false;
+            if (!c->abj) p->velocidad.y = 0;
         }
-    // else if (accion.getTipo() == CE::Botones::TipoAccion::OnRelease) {
-    //     if (accion.getNombre() == "arriba" || accion.getNombre() == "abajo")
-    //         p->velocidad.y = 0;
-    //     else if (accion.getNombre() == "derecha" || accion.getNombre() == "izquierda")
-    //         p->velocidad.x = 0;
-    // }
+        else if (accion.getNombre() == "abajo") {
+            c->abj = false;
+            if (!c->arr) p->velocidad.y = 0;
+        }
+        else if (accion.getNombre() == "derecha") {
+            c->der = false;
+            if (!c->izq) p->velocidad.x = 0;
+        }
+        else if (accion.getNombre() == "izquierda") {
+            c->izq = false;
+            if (!c->der) p->velocidad.x = 0;
+        }
+    }
 }
 
 void EscenaCuadros::onRender() {

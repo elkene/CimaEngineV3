@@ -31,6 +31,8 @@ namespace IVJ
 
     void MoverFSM::onEntrar(const Entidad& obj)
     {
+        std::cout << "[MoverFSM] Animación cargada con " << 4 << " frames\n";
+
         // obtener sprite
         auto csprite = obj.getComponente<CE::ISprite>();
         sprite = &csprite->m_sprite;
@@ -43,12 +45,12 @@ namespace IVJ
         json j;
         try
         {
-            std::ifstream file(ASSETS"sprites/ElRenacido/CaminarDer.json");
+            std::ifstream file(ASSETS"sprites/ElRenacido/caminar.json");
             file >> j;
         }
         catch (...)
         {
-            std::cout << "[MoverFSM] ERROR cargando mover.json\n";
+            std::cout << "[MoverFSM] ERROR cargando caminar.json\n";
             return;
         }
 
@@ -62,15 +64,14 @@ namespace IVJ
                 (float)f["y"]
             };
 
-            // actualizar tamaño del frame según JSON
             s_w = (int)f["w"];
             s_h = (int)f["h"];
 
             i++;
-            if (i >= 4) break;
         }
+       auto total_frames = i; // guarda cuántos frames tiene la animación
 
-        max_tiempo = 0.4f; // animación más rápida
+        max_tiempo = 0.1f; // animación más rápida
         tiempo = max_tiempo;
         id_actual = 0;
 
@@ -101,7 +102,9 @@ namespace IVJ
 
         if (tiempo <= 0)
         {
-            auto& f = ani_frames[id_actual % 2];
+  std::cout << "[MoverFSM] Cambiando a frame " << id_actual << " at ("
+              << f.x << ", " << f.y << ")\n";
+            auto& f = ani_frames[id_actual % 4];
 
             sprite->setTextureRect(
                 sf::IntRect(
