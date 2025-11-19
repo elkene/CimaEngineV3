@@ -1,11 +1,6 @@
 #include "MoverFSM.hpp"
 #include "IdleFSM.hpp"
 
-#include <nlohmann/json.hpp>
-#include <fstream>
-
-using json = nlohmann::json;
-
 namespace IVJ
 {
 
@@ -18,65 +13,43 @@ namespace IVJ
 
     FSM* MoverFSM::onInputs(const CE::IControl& control)
     {
+        // si deja de moverse -> volver a Idle
         if (!control.arr && !control.abj && !control.der && !control.izq)
             return new IdleFSM();
 
+        // si presiona derecha → ver derecha
         if (control.der)
-            flip = false;
+        {
+            if (flip != false)   // solo cambia si realmente cambia la dirección
+                flip = false;
+        }
+        // si presiona izquierda → rotar (flip X)
         else if (control.izq)
-            flip = true;
+        {
+            if (flip != true)
+                flip = true;
+        }
 
         return nullptr;
     }
 
     void MoverFSM::onEntrar(const Entidad& obj)
     {
-        std::cout << "[MoverFSM] Animación cargada con " << 4 << " frames\n";
-
-        // obtener sprite
         auto csprite = obj.getComponente<CE::ISprite>();
         sprite = &csprite->m_sprite;
         s_w = csprite->width;
         s_h = csprite->height;
 
-        // ============================
-        // LEER JSON: mover.json
-        // ============================
-        json j;
-        try
-        {
-            std::ifstream file(ASSETS"sprites/ElRenacido/caminar.json");
-            file >> j;
-        }
-        catch (...)
-        {
-            std::cout << "[MoverFSM] ERROR cargando caminar.json\n";
-            return;
-        }
+        ani_frames[0] = {0.f, 6.f};
+        ani_frames[1] = {32.f, 75.f};
+        ani_frames[2] = {64.f, 90.f};
+        ani_frames[3] = {96.f, 105.f};
 
-        int i = 0;
-        for (auto& kv : j["frames"].items())
-        {
-            auto& f = kv.value()["frame"];
-
-            ani_frames[i] = {
-                (float)f["x"],
-                (float)f["y"]
-            };
-
-            s_w = (int)f["w"];
-            s_h = (int)f["h"];
-
-            i++;
-        }
-       auto total_frames = i; // guarda cuántos frames tiene la animación
-
-        max_tiempo = 0.1f; // animación más rápida
+        max_tiempo = 0.6f;
         tiempo = max_tiempo;
         id_actual = 0;
 
-        // aplicar flip
-        flipSprite(obj);
+        flipSprite(obj);   // aplicar flip inicial
     }
 
     void MoverFSM::flipSprite(const Entidad& obj)
@@ -84,33 +57,36 @@ namespace IVJ
         auto csprite = obj.getComponente<CE::ISprite>();
 
         if (flip)
-            sprite->setScale({ -csprite->escala, csprite->escala });
+            sprite->setScale({ -csprite->escala, csprite->escala }); // volteado
         else
-            sprite->setScale({ csprite->escala, csprite->escala });
+            sprite->setScale({ csprite->escala, csprite->escala });  // normal
     }
 
     void MoverFSM::onSalir(const Entidad& obj)
     {
-        // nada
     }
 
     void MoverFSM::onUpdate(const Entidad& obj, float dt)
     {
         tiempo -= dt;
 
+        // solo cambiar flip si la dirección cambió en onInputs()
         flipSprite(obj);
 
         if (tiempo <= 0)
         {
-  std::cout << "[MoverFSM] Cambiando a frame " << id_actual << " at ("
-              << f.x << ", " << f.y << ")\n";
-            auto& f = ani_frames[id_actual % 4];
-
+            // actualizar frame
             sprite->setTextureRect(
-                sf::IntRect(
-                    sf::Vector2i((int)f.x, (int)f.y),
-                    sf::Vector2i(s_w, s_h)
-                )
+                sf::IntRect{
+                    {   // posición
+                        static_cast<int>(ani_frames[id_actual % 4].x),
+                        static_cast<int>(ani_frames[id_actual % 4].y)
+                    },
+                    {   // tamaño
+                        s_w,
+                        s_h
+                    }
+                }
             );
 
             tiempo = max_tiempo;
@@ -118,4 +94,5 @@ namespace IVJ
         }
     }
 
-} // namespace IVJ
+
+}
