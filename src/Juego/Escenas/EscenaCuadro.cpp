@@ -37,8 +37,8 @@ void EscenaCuadros::onInit() {
                CE::Vector2D{0,0},CE::Vector2D{0,0});
 
         CE::GestorAssets::Get().agregarTextura("PP",
-          ASSETS "/sprites/ElRenacido/CaminarDer-300.png",
-              CE::Vector2D{0,0},CE::Vector2D{384,96});
+          ASSETS "/sprites/ElRenacido/Idle.png",
+              CE::Vector2D{0,0},CE::Vector2D{128,32});
 
 
 
@@ -64,8 +64,8 @@ void EscenaCuadros::onInit() {
     jugador->getNombre()->nombre="jugador";
     jugador->addComponente(std::make_shared<CE::ISprite>(
         CE::GestorAssets::Get().getTextura("PP"),
-        96,96,
-        1.f));
+        32,32,
+        2.f));
     jugador->addComponente(std::make_shared<IVJ::IMaquinaEstado>());
     jugador->addComponente(std::make_shared<CE::IControl>());
 

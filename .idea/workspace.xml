@@ -35,13 +35,23 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="84750749-9dc8-4eb0-a5dd-07725fe1d8c2" name="Changes" comment="">
+    <list default="true" id="84750749-9dc8-4eb0-a5dd-07725fe1d8c2" name="Changes" comment="Lab9Sinterminar">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/sprites/ElRenacido/CaminarDer-300.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/sprites/ElRenacido/CaminarIzq-300.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/sprites/ElRenacido/CaminarIzq.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/sprites/ElRenacido/El Renacido.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/sprites/ElRenacido/El Renacido.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/sprites/ElRenacido/ElRenacido1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/sprites/ElRenacido/Idle-200.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/sprites/ElRenacido/Idle-300.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/sprites/ElRenacido/idle.json" beforeDir="false" afterPath="$PROJECT_DIR$/assets/sprites/ElRenacido/idle.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/imgui.ini" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/imgui.ini" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Juego/Escenas/EscenaCuadro.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Juego/Escenas/EscenaCuadro.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Juego/Juego.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Juego/Juego.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Juego/Maquinas/FSM.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Juego/Maquinas/FSM.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Juego/objetos/Entidad.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Juego/objetos/Entidad.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Juego/objetos/Entidad.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Juego/objetos/Entidad.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Juego/Maquinas/JugadorFSM/IdleFSM.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Juego/Maquinas/JugadorFSM/IdleFSM.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Juego/Maquinas/JugadorFSM/IdleFSM.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Juego/Maquinas/JugadorFSM/IdleFSM.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Juego/Maquinas/JugadorFSM/MoverFSM.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Juego/Maquinas/JugadorFSM/MoverFSM.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Juego/Maquinas/JugadorFSM/MoverFSM.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Juego/Maquinas/JugadorFSM/MoverFSM.hpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -140,13 +150,13 @@
       </method>
     </configuration>
     <list>
+      <item itemvalue="CMake Application.CimaEngine3v" />
       <item itemvalue="CMake Application.ImGui-SFML" />
       <item itemvalue="CMake Application.sfml-audio" />
       <item itemvalue="CMake Application.sfml-graphics" />
       <item itemvalue="CMake Application.sfml-network" />
       <item itemvalue="CMake Application.sfml-system" />
       <item itemvalue="CMake Application.sfml-window" />
-      <item itemvalue="CMake Application.CimaEngine3v" />
     </list>
   </component>
   <component name="TaskManager">
@@ -159,6 +169,8 @@
       <workItem from="1763487502967" duration="4885000" />
       <workItem from="1763496535011" duration="2259000" />
       <workItem from="1763498855221" duration="1776000" />
+      <workItem from="1763516319715" duration="4451000" />
+      <workItem from="1763521382513" duration="267000" />
     </task>
     <servers />
   </component>
@@ -169,5 +181,20 @@
     <isAutomaticCheckingOnLaunch value="false" />
     <isAutomaticFoundErrors value="true" />
     <isAutomaticReloadCMake value="true" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Lab9Sinterminar" />
+    <option name="LAST_COMMIT_MESSAGE" value="Lab9Sinterminar" />
   </component>
 </project>

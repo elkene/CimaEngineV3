@@ -1,6 +1,11 @@
 #include "MoverFSM.hpp"
 #include "IdleFSM.hpp"
 
+#include <nlohmann/json.hpp>
+#include <fstream>
+
+using json = nlohmann::json;
+
 namespace IVJ
 {
 
@@ -26,22 +31,50 @@ namespace IVJ
 
     void MoverFSM::onEntrar(const Entidad& obj)
     {
-        // podemos acceder al sprite desde obj
+        // obtener sprite
         auto csprite = obj.getComponente<CE::ISprite>();
         sprite = &csprite->m_sprite;
         s_w = csprite->width;
         s_h = csprite->height;
 
-        // los valores siguientes son el spritesheet del alien pink
-        // frame walk 1 y 2
-        ani_frames[0] = { 69.f, 193.f };
-        ani_frames[1] = {  0.f,   0.f };
+        // ============================
+        // LEER JSON: mover.json
+        // ============================
+        json j;
+        try
+        {
+            std::ifstream file(ASSETS"sprites/ElRenacido/CaminarDer.json");
+            file >> j;
+        }
+        catch (...)
+        {
+            std::cout << "[MoverFSM] ERROR cargando mover.json\n";
+            return;
+        }
 
-        max_tiempo = 0.4f; // en segundos
-        tiempo = max_tiempo; // timer
+        int i = 0;
+        for (auto& kv : j["frames"].items())
+        {
+            auto& f = kv.value()["frame"];
+
+            ani_frames[i] = {
+                (float)f["x"],
+                (float)f["y"]
+            };
+
+            // actualizar tamaño del frame según JSON
+            s_w = (int)f["w"];
+            s_h = (int)f["h"];
+
+            i++;
+            if (i >= 4) break;
+        }
+
+        max_tiempo = 0.4f; // animación más rápida
+        tiempo = max_tiempo;
         id_actual = 0;
 
-        // flip
+        // aplicar flip
         flipSprite(obj);
     }
 
@@ -57,29 +90,24 @@ namespace IVJ
 
     void MoverFSM::onSalir(const Entidad& obj)
     {
+        // nada
     }
 
     void MoverFSM::onUpdate(const Entidad& obj, float dt)
     {
-        // frame rate de la animación
-        tiempo = tiempo - 1 * dt;
+        tiempo -= dt;
 
         flipSprite(obj);
 
         if (tiempo <= 0)
         {
-            // mover el cuadro
+            auto& f = ani_frames[id_actual % 2];
+
             sprite->setTextureRect(
-                sf::IntRect{
-                    {
-                        (int)ani_frames[id_actual % 2].x,
-                        (int)ani_frames[id_actual % 2].y
-                    },
-                    {
-                        s_w,
-                        s_h
-                    }
-                }
+                sf::IntRect(
+                    sf::Vector2i((int)f.x, (int)f.y),
+                    sf::Vector2i(s_w, s_h)
+                )
             );
 
             tiempo = max_tiempo;

@@ -10,7 +10,7 @@ public:
   void onUpdate(const Entidad &obj, float dt) override;
 
 private:
-  CE::Vector2D ani_frames[2]{};
+  CE::Vector2D ani_frames[4]{};
   float tiempo{};
   int id_actual{};
   float max_tiempo{};
