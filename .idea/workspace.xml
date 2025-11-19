@@ -150,13 +150,13 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="CMake Application.CimaEngine3v" />
       <item itemvalue="CMake Application.ImGui-SFML" />
       <item itemvalue="CMake Application.sfml-audio" />
       <item itemvalue="CMake Application.sfml-graphics" />
       <item itemvalue="CMake Application.sfml-network" />
       <item itemvalue="CMake Application.sfml-system" />
       <item itemvalue="CMake Application.sfml-window" />
+      <item itemvalue="CMake Application.CimaEngine3v" />
     </list>
   </component>
   <component name="TaskManager">
