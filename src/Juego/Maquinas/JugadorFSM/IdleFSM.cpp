@@ -15,8 +15,11 @@ namespace IVJ
 
     FSM* IdleFSM::onInputs(const CE::IControl& control)
     {
-        // se va a editar cuando tengamos más estados
-        return nullptr;
+        if (control.der)
+            return new MoverFSM(false);
+        else if (control.izq)
+            return new MoverFSM(true);
+    return nullptr;
     }
 
     void IdleFSM::onEntrar(const Entidad& obj)
@@ -28,8 +31,8 @@ namespace IVJ
         s_h = csprite->height;
 
         // swimn 1 y 2
-        ani_frames[0] = {0.f, 0.f};
-        ani_frames[1] = {32.f, 0.f};
+        ani_frames[0] = {4.f, 2.f};
+        ani_frames[1] = {68.f, 2.f};
 
         max_tiempo = 0.4f;  // frame rate en segundos
         tiempo = max_tiempo;

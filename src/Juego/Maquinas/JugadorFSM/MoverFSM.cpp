@@ -14,21 +14,9 @@ namespace IVJ
     FSM* MoverFSM::onInputs(const CE::IControl& control)
     {
         // si deja de moverse -> volver a Idle
-        if (!control.arr && !control.abj && !control.der && !control.izq)
+        if (!control.der && !control.izq)
             return new IdleFSM();
 
-        // si presiona derecha → ver derecha
-        if (control.der)
-        {
-            if (flip != false)   // solo cambia si realmente cambia la dirección
-                flip = false;
-        }
-        // si presiona izquierda → rotar (flip X)
-        else if (control.izq)
-        {
-            if (flip != true)
-                flip = true;
-        }
 
         return nullptr;
     }
@@ -37,15 +25,15 @@ namespace IVJ
     {
         auto csprite = obj.getComponente<CE::ISprite>();
         sprite = &csprite->m_sprite;
-        s_w = csprite->width;
-        s_h = csprite->height;
+        s_w = 64;
+        s_h = 64;
 
-        ani_frames[0] = {0.f, 6.f};
-        ani_frames[1] = {32.f, 75.f};
-        ani_frames[2] = {64.f, 90.f};
-        ani_frames[3] = {96.f, 105.f};
+        ani_frames[0] = {0.f, 130.f};
+        ani_frames[1] = {64.f, 130.f};
+        ani_frames[2] = {128.f, 130.f};
+        ani_frames[3] = {192.f, 130.f};
 
-        max_tiempo = 0.6f;
+        max_tiempo = 0.3f;
         tiempo = max_tiempo;
         id_actual = 0;
 
@@ -70,8 +58,6 @@ namespace IVJ
     {
         tiempo -= dt;
 
-        // solo cambiar flip si la dirección cambió en onInputs()
-        flipSprite(obj);
 
         if (tiempo <= 0)
         {

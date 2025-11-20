@@ -28,8 +28,8 @@ void EscenaCuadros::onInit()
 
     CE::GestorAssets::Get().agregarTextura(
         "PP",
-        ASSETS "/sprites/ElRenacido/El Renacido.png",
-        CE::Vector2D{0,0}, CE::Vector2D{384,96}
+        ASSETS "/sprites/ElRenacido/El Renacido-export.png",
+        CE::Vector2D{0,0}, CE::Vector2D{0,0}
     );
 
     // Registrar controles
@@ -46,12 +46,12 @@ void EscenaCuadros::onInit()
     // Crear jugador
     jugador = std::make_shared<Entidad>();
     jugador->getStats()->hp = 100;
-    jugador->setPosicion(-3551.1f, 856.8f);
+    jugador->setPosicion(-3261.3f, 970.0f);
     jugador->getNombre()->nombre = "jugador";
 
     jugador->addComponente(std::make_shared<CE::ISprite>(
         CE::GestorAssets::Get().getTextura("PP"),
-        32, 32,
+        64, 64,
         1.f
     ));
 
@@ -70,7 +70,7 @@ void EscenaCuadros::onInit()
     CE::GestorCamaras::Get().agregarCamara(
         std::make_shared<CE::CamaraCuadro>(
             CE::Vector2D{540, 360},
-            CE::Vector2D{570.f, 360.f}
+            CE::Vector2D{920.f, 720.f}
         )
     );
 
@@ -115,19 +115,19 @@ void EscenaCuadros::onInputs(const CE::Botones& accion)
     {
         if (accion.getNombre() == "arriba") {
             c->arr = true;
-            p->velocidad.y = -100;
+            p->velocidad.y = -80;
         }
         else if (accion.getNombre() == "derecha") {
             c->der = true;
-            p->velocidad.x = 100;
+            p->velocidad.x = 80;
         }
         else if (accion.getNombre() == "abajo") {
             c->abj = true;
-            p->velocidad.y = 100;
+            p->velocidad.y = 80;
         }
         else if (accion.getNombre() == "izquierda") {
             c->izq = true;
-            p->velocidad.x = -100;
+            p->velocidad.x = -80;
         }
         else if (accion.getNombre() == "circulos") {
             CE::GestorEscenas::Get().cambiarEscena("Circulos");

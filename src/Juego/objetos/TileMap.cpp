@@ -148,10 +148,10 @@ namespace IVJ
 
                 if (modoInfinitoHorizontal) {
                     // En modo infinito horizontal, crear un fondo que se repita solo en X
-                    layer.vertices.resize(6);
+                    layer.vertices.resize(16);
 
                     // El fondo tiene altura fija pero ancho infinito
-                    float anchoFondo = areaVisible.x * 4; // 4 veces el ancho visible
+                    float anchoFondo = areaVisible.x * 100; // 4 veces el ancho visible
                     float altoFondo = mapHeight; // Altura original del mapa
 
                     sf::Vertex* tri = &layer.vertices[0];
