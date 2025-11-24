@@ -57,6 +57,7 @@ void EscenaCuadros::onInit()
 
     jugador->addComponente(std::make_shared<IVJ::IMaquinaEstado>());
     jugador->addComponente(std::make_shared<CE::IControl>());
+    jugador->addComponente(std::make_shared<CE::IBoundingBox>(CE::Vector2D{56.f,78.f}));
 
     auto& fsm_init = jugador->getComponente<IMaquinaEstado>()->fsm;
     fsm_init = std::make_shared<IdleFSM>();
@@ -81,9 +82,10 @@ void EscenaCuadros::onInit()
     if (!bg[0].loadTileMap(ASSETS "/mapas/docData2.json"))
         exit(EXIT_FAILURE);
 
-    bg[0].setModoInfinitoHorizontal(true, sf::Vector2f(100000, 100000));
+    bg[0].setModoInfinitoHorizontal(true, sf::Vector2f(1000000, 1000000));
 
     inicializar = false;
+
 }
 
 void EscenaCuadros::onFinal()
@@ -115,19 +117,19 @@ void EscenaCuadros::onInputs(const CE::Botones& accion)
     {
         if (accion.getNombre() == "arriba") {
             c->arr = true;
-            p->velocidad.y = -80;
+            p->velocidad.y = -60;
         }
         else if (accion.getNombre() == "derecha") {
             c->der = true;
-            p->velocidad.x = 80;
+            p->velocidad.x = 60;
         }
         else if (accion.getNombre() == "abajo") {
             c->abj = true;
-            p->velocidad.y = 80;
+            p->velocidad.y = 60;
         }
         else if (accion.getNombre() == "izquierda") {
             c->izq = true;
-            p->velocidad.x = -80;
+            p->velocidad.x = -60;
         }
         else if (accion.getNombre() == "circulos") {
             CE::GestorEscenas::Get().cambiarEscena("Circulos");

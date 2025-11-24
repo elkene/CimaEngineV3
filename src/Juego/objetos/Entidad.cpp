@@ -11,11 +11,18 @@
       auto pos = getTransformada()->posicion;
       sprite->m_sprite.setPosition({pos.x, pos.y});
     }
+    if (tieneComponente<CE::ISprite>() && tieneComponente<CE::IBoundingBox>())
+    {
+      auto sprite = getComponente<CE::ISprite>();
+      auto bound = getComponente<CE::IBoundingBox>();
+      sprite->m_sprite.setOrigin({bound->mitad.x,bound->mitad.y});
+    }
     if (tieneComponente<IVJ::IMaquinaEstado>()) {
       auto mq = getComponente<IVJ::IMaquinaEstado>();
       if (mq->fsm)
         mq->fsm->onUpdate(*this, dt);
     }
+    transform->pos_previa=transform->posicion;
   }
   void Entidad::inputFSM() {
     if (!getComponente<IMaquinaEstado>() || !getComponente<CE::IControl>() ||
@@ -40,7 +47,21 @@
     }
 
   void Entidad::draw(sf::RenderTarget &target, sf::RenderStates states) const {
+
     states.transform *= getTransform();
+#if DEBUG
+    if(tieneComponente<CE::IBoundingBox>()) {
+      auto bound = getComponente<CE::IBoundingBox>();
+      sf::RectangleShape box{{bound->tam.x,bound->tam.y}};
+      box.setFillColor(sf::Color::Transparent);
+      box.setOutlineColor(sf::Color::Red);
+      box.setOutlineThickness(2.0f);
+      box.setOrigin({bound->mitad.x,bound->mitad.y});
+      auto pos=transform->posicion;
+      box.setPosition({pos.x, pos.y});
+      target.draw(box);
+    }
+#endif
     // Revisar si tiene ciertos componentes
     // para actualizarlo debidamente
     // o hacer una clase hija y ahi revisarla

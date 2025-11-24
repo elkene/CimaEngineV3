@@ -79,4 +79,12 @@ namespace CE
             bool acc;
             bool sacc;
     };
+
+    class IBoundingBox : public IComponentes
+    {
+        public:
+            explicit IBoundingBox (const Vector2D& dim);
+            Vector2D tam;
+            Vector2D mitad;
+    };
 }

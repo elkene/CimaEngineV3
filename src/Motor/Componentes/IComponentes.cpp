@@ -42,6 +42,9 @@ namespace CE
         acc=false;
         sacc=false;
     };
+    IBoundingBox::IBoundingBox(const Vector2D &dim)
+        :tam{dim.x,dim.y}, mitad{dim.x/2,dim.y/2}{}
+
     }
 
 
