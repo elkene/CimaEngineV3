@@ -16,5 +16,7 @@ namespace IVJ {
     void MoverCirculo(std::shared_ptr<CE::Objeto> e, float dt, float anchoVentana, float altoVentan);
     void MoverJugador(std::shared_ptr<CE::Objeto> e, float dt, float altoVentana);
     void MoverEnemigo(std::shared_ptr<CE::Objeto> e, float dt, float anchoVentana, float altoVentana);
+    void SistemaColisionesEntidades(const std::vector<std::shared_ptr<CE::Objeto>>& entes);
+
 
 } // namespace IVJ

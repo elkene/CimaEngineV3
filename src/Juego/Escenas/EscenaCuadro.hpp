@@ -18,9 +18,14 @@ namespace IVJ {
         bool inicializar { true };
         std::shared_ptr<Entidad> jugador;
         std::shared_ptr<Entidad> enemigo;
+        std::shared_ptr<Entidad> campfire;
+
+
         //Agregamos el mapas
         TileMap bg[2];
-        std::vector<IVJ::TileMap> parallaxLayers; 
+        std::vector<IVJ::TileMap> parallaxLayers;
+        // Función para crear fogatas
+        std::shared_ptr<Entidad> crearCampfire(float x, float y);
     };
 
 }

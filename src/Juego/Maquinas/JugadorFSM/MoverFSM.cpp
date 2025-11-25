@@ -1,4 +1,6 @@
 #include "MoverFSM.hpp"
+
+#include "BrincarFSM.hpp"
 #include "IdleFSM.hpp"
 
 namespace IVJ
@@ -16,6 +18,7 @@ namespace IVJ
         // si deja de moverse -> volver a Idle
         if (!control.der && !control.izq)
             return new IdleFSM();
+
 
 
         return nullptr;

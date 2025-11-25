@@ -78,6 +78,7 @@ namespace CE
             bool der;
             bool acc;
             bool sacc;
+            bool saltar;
     };
 
     class IBoundingBox : public IComponentes
@@ -87,4 +88,5 @@ namespace CE
             Vector2D tam;
             Vector2D mitad;
     };
+
 }

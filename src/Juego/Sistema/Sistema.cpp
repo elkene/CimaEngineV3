@@ -83,25 +83,49 @@ namespace IVJ
        trans->pos_previa = trans->posicion;
    }
 
-    bool SistemaColAABB(CE::Objeto &A, CE::Objeto &B, bool resolucion)
-    {
+    bool SistemaColAABB(CE::Objeto& A, CE::Objeto& B, bool resolucion)
+   {
        if (!A.tieneComponente<CE::IBoundingBox>() || !B.tieneComponente<CE::IBoundingBox>())
            return false;
-       auto bA=A.getComponente<CE::IBoundingBox>()->tam;
-       auto mA= A.getComponente<CE::IBoundingBox>()->mitad;
-       auto *pa=&A.getTransformada()->posicion;
-       auto prevA=A.getTransformada()->pos_previa;
-       auto bB=B.getComponente<CE::IBoundingBox>()->tam;
-       auto mB= B.getComponente<CE::IBoundingBox>()->mitad;
-       auto pb=&B.getTransformada()->posicion;
-       //Calculos
-       bool H=pa->y-mA.y < pb->y+bB.y - mB.y && pb->y-mB.y<pa->y+bA.y - mA.y;
-       bool V=pa->y-mA.x < pb->x+bB.x - mB.x && pb->x-mB.x<pa->x+bA.x - mA.x;
-       bool hay_colision=H&&V;
-       if (hay_colision&&resolucion)
-           *pa=prevA;
-       return hay_colision;
-    }
+
+       auto bA = A.getComponente<CE::IBoundingBox>()->tam;
+       auto mA = A.getComponente<CE::IBoundingBox>()->mitad;
+       auto* pa = &A.getTransformada()->posicion;
+       auto prevA = A.getTransformada()->pos_previa;
+
+       auto bB = B.getComponente<CE::IBoundingBox>()->tam;
+       auto mB = B.getComponente<CE::IBoundingBox>()->mitad;
+       auto* pb = &B.getTransformada()->posicion;
+
+       // Calcular superposición en ambos ejes
+       float overlapX = (mA.x + mB.x) - std::abs(pb->x - pa->x);
+       float overlapY = (mA.y + mB.y) - std::abs(pb->y - pa->y);
+
+       bool haycolision = overlapX > 0 && overlapY > 0;
+
+       if (haycolision && resolucion)
+       {
+           // Determinar dirección de menor penetración
+           if (overlapX < overlapY)
+           {
+               // Resolver en X
+               if (pa->x < pb->x)
+                   pa->x = pb->x - (mA.x + mB.x);
+               else
+                   pa->x = pb->x + (mA.x + mB.x);
+           }
+           else
+           {
+               // Resolver en Y
+               if (pa->y < pb->y)
+                   pa->y = pb->y - (mA.y + mB.y);
+               else
+                   pa->y = pb->y + (mA.y + mB.y);
+           }
+       }
+
+       return haycolision;
+   }
 
     bool SistemaColAABBMid(CE::Objeto& A, CE::Objeto& B, bool resolucion)
    {
@@ -125,12 +149,12 @@ namespace IVJ
        bool V = sumMidX - dX > 0;
        bool H = sumMidY - dY > 0;
 
-       bool hay_colision = V && H;
+       bool haycolision = V && H;
 
-       if (resolucion && hay_colision)
+       if (resolucion && haycolision)
            *pa = prevA;
 
-       return hay_colision;
+       return haycolision;
    }
 
 
@@ -155,7 +179,28 @@ namespace IVJ
 
        }
    }
+    void SistemaColisionesEntidades(const std::vector<std::shared_ptr<CE::Objeto>>& entes)
+   {
+       // Primera pasada: detectar todas las colisiones
+       std::vector<std::pair<CE::Objeto*, CE::Objeto*>> colisiones;
 
+       for (size_t i = 0; i < entes.size(); ++i)
+       {
+           for (size_t j = i + 1; j < entes.size(); ++j)
+           {
+               if (SistemaColAABB(*entes[i], *entes[j], false))
+               {
+                   colisiones.push_back({entes[i].get(), entes[j].get()});
+               }
+           }
+       }
+
+       // Segunda pasada: resolver colisiones
+       for (auto& colision : colisiones)
+       {
+           SistemaColAABB(*colision.first, *colision.second, true);
+       }
+   }
 
 
 

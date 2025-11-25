@@ -32,6 +32,8 @@ void EscenaCuadros::onInit()
         CE::Vector2D{0,0}, CE::Vector2D{0,0}
     );
 
+
+
     // Registrar controles
     registrarBotones(sf::Keyboard::Scan::W, "arriba");
     registrarBotones(sf::Keyboard::Scan::Up, "arriba");
@@ -42,11 +44,14 @@ void EscenaCuadros::onInit()
     registrarBotones(sf::Keyboard::Scan::D, "derecha");
     registrarBotones(sf::Keyboard::Scan::Right, "derecha");
     registrarBotones(sf::Keyboard::Scan::Escape, "circulos");
+    registrarBotones(sf::Keyboard::Scan::Space, "brincar");
+
+
 
     // Crear jugador
     jugador = std::make_shared<Entidad>();
     jugador->getStats()->hp = 100;
-    jugador->setPosicion(-3261.3f, 970.0f);
+    jugador->setPosicion(-3170.5f, 970.0f);
     jugador->getNombre()->nombre = "jugador";
 
     jugador->addComponente(std::make_shared<CE::ISprite>(
@@ -54,16 +59,46 @@ void EscenaCuadros::onInit()
         64, 64,
         1.f
     ));
+    objetos.agregarPool(jugador);
 
     jugador->addComponente(std::make_shared<IVJ::IMaquinaEstado>());
     jugador->addComponente(std::make_shared<CE::IControl>());
     jugador->addComponente(std::make_shared<CE::IBoundingBox>(CE::Vector2D{56.f,78.f}));
 
+    // Fogata - cargar textura completa sin recorte
+    CE::GestorAssets::Get().agregarTextura("fogata", ASSETS "/sprites/Objetos/fogata.png",
+        CE::Vector2D{0, 0}, CE::Vector2D{0, 0}); // Sin recorte
+    // Fogata - cargar textura completa sin recorte
+    CE::GestorAssets::Get().agregarTextura("cajagrande", ASSETS "/sprites/Objetos/caja_grande.png",
+        CE::Vector2D{0, 0}, CE::Vector2D{0, 0}); // Sin recorte
+
+    //CrearCaja
+    auto caja = std::make_shared<Entidad>();
+    caja->getStats()->hp = 100;
+    caja->setPosicion(-3000.3f, 970.0f);
+    caja->addComponente(std::make_shared<CE::ISprite>(
+            CE::GestorAssets::Get().getTextura("cajagrande"),
+            1.f));
+    caja->addComponente(std::make_shared<CE::IBoundingBox>(CE::Vector2D{64.f, 64.f}));
+
+
+    // Crear fogata
+    auto fogata = std::make_shared<Entidad>();
+    fogata->getStats()->hp = 100;
+    fogata->setPosicion(-3261.3f, 963.0f);
+    fogata->addComponente(std::make_shared<CE::ISprite>(
+        CE::GestorAssets::Get().getTextura("fogata"),
+        1.f));
+    fogata->addComponente(std::make_shared<CE::IBoundingBox>(CE::Vector2D{64.f, 64.f}));
+
+    // Configurar FSM del jugador
     auto& fsm_init = jugador->getComponente<IMaquinaEstado>()->fsm;
     fsm_init = std::make_shared<IdleFSM>();
     fsm_init->onEntrar(*jugador);
 
-    objetos.agregarPool(jugador);
+    // Agregar objetos al pool
+    objetos.agregarPool(fogata);
+    objetos.agregarPool(caja);
 
     srand(static_cast<unsigned>(time(nullptr)));
 
@@ -85,29 +120,30 @@ void EscenaCuadros::onInit()
     bg[0].setModoInfinitoHorizontal(true, sf::Vector2f(1000000, 1000000));
 
     inicializar = false;
-
 }
 
 void EscenaCuadros::onFinal()
 {
+
 }
 
-void EscenaCuadros::onUpdate(float dt)
+    void EscenaCuadros::onUpdate(float dt)
 {
     SistemaMovimientoEntes(objetos.getPool(), dt);
     jugador->inputFSM();
 
     CE::GestorCamaras::Get().getCamaraActiva().lockEnObjeto(jugador);
 
-    auto camara = CE::GestorCamaras::Get().getCamaraActiva();
-    auto centroCamara = camara.getView();
+    // Usar el nuevo sistema de colisiones
+    SistemaColisionesEntidades(objetos.getPool());
 
     for (auto& f : objetos.getPool())
+    {
         f->onUpdate(dt);
+    }
 
     objetos.borrarPool();
 }
-
 void EscenaCuadros::onInputs(const CE::Botones& accion)
 {
     auto p = jugador->getTransformada();
@@ -130,6 +166,10 @@ void EscenaCuadros::onInputs(const CE::Botones& accion)
         else if (accion.getNombre() == "izquierda") {
             c->izq = true;
             p->velocidad.x = -60;
+        }
+        else if (accion.getNombre() == "brincar") {
+            c->arr = false;
+            p->velocidad.y = 100;
         }
         else if (accion.getNombre() == "circulos") {
             CE::GestorEscenas::Get().cambiarEscena("Circulos");

@@ -57,4 +57,6 @@ add_executable(CimaEngine3v main.cpp
         ../Juego/Maquinas/JugadorFSM/MoverFSM.hpp
         ../Juego/Maquinas/JugadorFSM/MoverFSM.cpp
         ../Motor/GUI/GPropiedades.cpp
+        ../Juego/Maquinas/JugadorFSM/BrincarFSM.hpp
+        ../Juego/Maquinas/JugadorFSM/BrincarFSM.cpp
 )
