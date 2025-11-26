@@ -63,24 +63,46 @@ void EscenaCuadros::onInit()
 
     jugador->addComponente(std::make_shared<IVJ::IMaquinaEstado>());
     jugador->addComponente(std::make_shared<CE::IControl>());
-    jugador->addComponente(std::make_shared<CE::IBoundingBox>(CE::Vector2D{56.f,78.f}));
-
-    // Fogata - cargar textura completa sin recorte
+    jugador->addComponente(std::make_shared<CE::IBoundingBox>(CE::Vector2D{45.f,63.f}));
+//Carga de texturas de objetos
+    // Fogata
     CE::GestorAssets::Get().agregarTextura("fogata", ASSETS "/sprites/Objetos/fogata.png",
         CE::Vector2D{0, 0}, CE::Vector2D{0, 0}); // Sin recorte
-    // Fogata - cargar textura completa sin recorte
+    // CajaGrande
     CE::GestorAssets::Get().agregarTextura("cajagrande", ASSETS "/sprites/Objetos/caja_grande.png",
+        CE::Vector2D{0, 0}, CE::Vector2D{0, 0}); // Sin recorte
+    // Estatua1
+    CE::GestorAssets::Get().agregarTextura("estatua1", ASSETS "/sprites/Objetos/estatua1.png",
+        CE::Vector2D{0, 0}, CE::Vector2D{0, 0}); // Sin recorte
+    // pozo
+    CE::GestorAssets::Get().agregarTextura("pozo", ASSETS "/sprites/Objetos/pozo.png",
         CE::Vector2D{0, 0}, CE::Vector2D{0, 0}); // Sin recorte
 
     //CrearCaja
     auto caja = std::make_shared<Entidad>();
     caja->getStats()->hp = 100;
-    caja->setPosicion(-3000.3f, 970.0f);
+    caja->setPosicion(-3000.3f, 937.0f);
     caja->addComponente(std::make_shared<CE::ISprite>(
             CE::GestorAssets::Get().getTextura("cajagrande"),
             1.f));
-    caja->addComponente(std::make_shared<CE::IBoundingBox>(CE::Vector2D{64.f, 64.f}));
+    caja->addComponente(std::make_shared<CE::IBoundingBox>(CE::Vector2D{64.f, 0.f}));
 
+    //estatua
+    auto estatua1 = std::make_shared<Entidad>();
+    estatua1->getStats()->hp = 100;
+    estatua1->setPosicion(-3355.1f, 955.0f);
+    estatua1->addComponente(std::make_shared<CE::ISprite>(
+            CE::GestorAssets::Get().getTextura("estatua1"),
+            2.f));
+    estatua1->addComponente(std::make_shared<CE::IBoundingBox>(CE::Vector2D{64.f, 120.f}));
+
+    //pozo
+    auto pozo = std::make_shared<Entidad>();
+    pozo->getStats()->hp = 100;
+    pozo->setPosicion(-2564.1f, 904.0f);
+    pozo->addComponente(std::make_shared<CE::ISprite>(
+            CE::GestorAssets::Get().getTextura("pozo"),
+            .8f));
 
     // Crear fogata
     auto fogata = std::make_shared<Entidad>();
@@ -89,7 +111,7 @@ void EscenaCuadros::onInit()
     fogata->addComponente(std::make_shared<CE::ISprite>(
         CE::GestorAssets::Get().getTextura("fogata"),
         1.f));
-    fogata->addComponente(std::make_shared<CE::IBoundingBox>(CE::Vector2D{64.f, 64.f}));
+   // fogata->addComponente(std::make_shared<CE::IBoundingBox>(CE::Vector2D{64.f, 64.f}));
 
     // Configurar FSM del jugador
     auto& fsm_init = jugador->getComponente<IMaquinaEstado>()->fsm;
@@ -99,13 +121,14 @@ void EscenaCuadros::onInit()
     // Agregar objetos al pool
     objetos.agregarPool(fogata);
     objetos.agregarPool(caja);
-
+    objetos.agregarPool(estatua1);
+    objetos.agregarPool(pozo);
     srand(static_cast<unsigned>(time(nullptr)));
 
     // Cámara cuadro
     CE::GestorCamaras::Get().agregarCamara(
         std::make_shared<CE::CamaraCuadro>(
-            CE::Vector2D{540, 360},
+            CE::Vector2D{1920, 1080},
             CE::Vector2D{920.f, 720.f}
         )
     );
@@ -144,59 +167,54 @@ void EscenaCuadros::onFinal()
 
     objetos.borrarPool();
 }
-void EscenaCuadros::onInputs(const CE::Botones& accion)
+    void EscenaCuadros::onInputs(const CE::Botones& accion)
 {
     auto p = jugador->getTransformada();
     auto c = jugador->getComponente<CE::IControl>();
 
     if (accion.getTipo() == CE::Botones::TipoAccion::OnPress)
     {
-        if (accion.getNombre() == "arriba") {
-            c->arr = true;
-            p->velocidad.y = -60;
+        if (accion.getNombre() == "brincar") {
+            c->saltar = true;  // Activa el flag de saltar
         }
         else if (accion.getNombre() == "derecha") {
             c->der = true;
             p->velocidad.x = 60;
         }
-        else if (accion.getNombre() == "abajo") {
-            c->abj = true;
-            p->velocidad.y = 60;
-        }
         else if (accion.getNombre() == "izquierda") {
             c->izq = true;
             p->velocidad.x = -60;
-        }
-        else if (accion.getNombre() == "brincar") {
-            c->arr = false;
-            p->velocidad.y = 100;
         }
         else if (accion.getNombre() == "circulos") {
             CE::GestorEscenas::Get().cambiarEscena("Circulos");
         }
     }
     else {
-        c->arr = false;
-        p->velocidad.y = 0;
-
         c->der = false;
-        p->velocidad.x = 0;
-
-        c->abj = false;
-        p->velocidad.y = 0;
-
         c->izq = false;
-        p->velocidad.x = 0;
+        c->saltar = false;
+
+        // Solo resetear velocidad X si no está saltando
+        if (!c->saltar)
+            p->velocidad.x = 0;
     }
 }
 
-void EscenaCuadros::onRender()
+    void EscenaCuadros::onRender()
 {
     for (auto& b : bg)
         CE::Render::Get().AddToDraw(b);
 
+    // Primero dibujas objetos
     for (auto& f : objetos.getPool())
-        CE::Render::Get().AddToDraw(*f);
+    {
+        if (f != jugador)
+            CE::Render::Get().AddToDraw(*f);
+    }
+
+    // Luego dibujas el jugador al final
+    CE::Render::Get().AddToDraw(*jugador);
 }
+
 
 } // namespace IVJ

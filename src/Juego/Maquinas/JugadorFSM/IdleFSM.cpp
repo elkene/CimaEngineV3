@@ -1,6 +1,8 @@
 #include "IdleFSM.hpp"
 #include <SFML/Graphics.hpp>
 #include <iostream>
+
+#include "BrincarFSM.hpp"
 #include "MoverFSM.hpp"
 
 namespace IVJ
@@ -12,14 +14,19 @@ namespace IVJ
         nombre = "IdleFSM";
         std::cout << nombre << "\n";
     }
-
     FSM* IdleFSM::onInputs(const CE::IControl& control)
     {
-        if (control.der)
+        if (control.saltar) {
+            // Determinar dirección basada en el último input
+            bool saltarIzquierda = control.izq;
+            return new BrincarFSM(saltarIzquierda);
+        }
+        else if (control.der)
             return new MoverFSM(false);
         else if (control.izq)
             return new MoverFSM(true);
-    return nullptr;
+
+        return nullptr;
     }
 
     void IdleFSM::onEntrar(const Entidad& obj)

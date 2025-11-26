@@ -10,7 +10,7 @@ namespace CE
 
     ITimer::ITimer()
         :frame_actual(0){}
-    
+
     ISprite::ISprite(const sf::Texture& textura, float escala)
       :IComponentes{},m_sprite{textura}, escala {escala}
     {

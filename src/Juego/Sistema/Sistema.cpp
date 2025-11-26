@@ -60,7 +60,7 @@ namespace IVJ
     void MoverJugador(std::shared_ptr<CE::Objeto> e, float dt, float altoVentana)
    {
        auto trans = e->getTransformada();
-       //trans->posicion.y += trans->velocidad.y * dt;
+       trans->posicion.y += trans->velocidad.y * dt;
        trans->posicion.x += trans->velocidad.x * dt;
    }
     void MoverEnemigo(std::shared_ptr<CE::Objeto> e, float dt, float anchoVentana, float altoVentana)

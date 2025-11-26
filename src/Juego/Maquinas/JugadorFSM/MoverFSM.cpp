@@ -15,11 +15,12 @@ namespace IVJ
 
     FSM* MoverFSM::onInputs(const CE::IControl& control)
     {
+        if (control.saltar)
+            return new BrincarFSM(flip);  // Mantiene la dirección actual
+
         // si deja de moverse -> volver a Idle
         if (!control.der && !control.izq)
             return new IdleFSM();
-
-
 
         return nullptr;
     }

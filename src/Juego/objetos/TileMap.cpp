@@ -9,12 +9,14 @@ namespace IVJ
 
     bool TileMap::loadTileMap(const std::string& jsonPath)
     {
+
         std::ifstream archivo(jsonPath);
         if (!archivo.is_open())
         {
             std::cerr << "[TileMap] No se pudo abrir el archivo JSON: " << jsonPath << "\n";
             return false;
         }
+
 
         json j;
         archivo >> j;
