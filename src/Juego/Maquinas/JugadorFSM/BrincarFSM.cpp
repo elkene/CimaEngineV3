@@ -55,7 +55,7 @@ namespace IVJ
         id_actual = 0;
 
         // Inicializar física del salto
-        velocidad_salto = -970.f;  // velocidad inicial hacia arriba (negativa)
+        velocidad_salto = -400.f;  // velocidad inicial hacia arriba (negativa)
         en_aire = true;
 
         flipSprite(obj);  // aplicar dirección
@@ -95,7 +95,7 @@ namespace IVJ
             obj.setPosicion(pos.x,970.f);
 
             en_aire = false;
-            velocidad_salto = 0.f;
+            velocidad_salto = 2.f;
         }
 
         // Actualizar animación
