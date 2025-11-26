@@ -11,7 +11,7 @@ namespace IVJ
         FSM* onInputs(const CE::IControl &control) override;
         void onEntrar(const Entidad &obj) override;
         void onSalir(const Entidad &obj) override;
-        void onUpdate(const Entidad &obj, float dt) override;
+        void onUpdate(Entidad &obj, float dt) override;
     private:
         void flipSprite(const Entidad& obj);
     private:

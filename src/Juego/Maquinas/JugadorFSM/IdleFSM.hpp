@@ -7,7 +7,7 @@ public:
   FSM* onInputs(const CE::IControl &control) override;
   void onEntrar(const Entidad &obj) override;
   void onSalir(const Entidad &obj) override;
-  void onUpdate(const Entidad &obj, float dt) override;
+  void onUpdate(Entidad &obj, float dt) override;
 
 private:
   CE::Vector2D ani_frames[4]{};

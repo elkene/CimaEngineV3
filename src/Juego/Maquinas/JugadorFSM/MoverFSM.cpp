@@ -58,7 +58,7 @@ namespace IVJ
     {
     }
 
-    void MoverFSM::onUpdate(const Entidad& obj, float dt)
+    void MoverFSM::onUpdate(Entidad& obj, float dt)
     {
         tiempo -= dt;
 

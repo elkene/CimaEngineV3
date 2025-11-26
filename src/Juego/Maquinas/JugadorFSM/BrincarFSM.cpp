@@ -12,7 +12,7 @@ namespace IVJ
         std::cout << nombre << "\n";
 
         velocidad_salto = 0.5f;
-        gravedad = 4000.f;  // gravedad en píxeles/s²
+        gravedad = 400.f;  // gravedad en píxeles/s²
     }
 
     FSM* BrincarFSM::onInputs(const CE::IControl& control)
@@ -55,7 +55,7 @@ namespace IVJ
         id_actual = 0;
 
         // Inicializar física del salto
-        velocidad_salto = -3000.f;  // velocidad inicial hacia arriba (negativa)
+        velocidad_salto = -970.f;  // velocidad inicial hacia arriba (negativa)
         en_aire = true;
 
         flipSprite(obj);  // aplicar dirección
@@ -77,21 +77,23 @@ namespace IVJ
         en_aire = false;
     }
 
-    void BrincarFSM::onUpdate(const Entidad& obj, float dt)
+    void BrincarFSM::onUpdate(Entidad& obj, float dt)
     {
         // Actualizar física del salto
         velocidad_salto += gravedad * dt;
 
         // Mover el sprite verticalmente
-        sf::Vector2f offset(0.2f, velocidad_salto * dt);
-        sprite->move(offset);
+        auto pos = obj.getTransformada()->posicion;
+        float nueva_y = pos.y + velocidad_salto * dt;
+        obj.setPosicion(pos.x, nueva_y);  // Mantener X, solo cambiar Y
 
         // Verificar si llegó al suelo (ajusta según tu juego)
         // Aquí asumimos que y = 400 es el suelo
-        if (sprite->getPosition().y >= 970.f)
+        if (obj.getTransformada()->posicion.y >= 970.f)
         {
-            auto pos = sprite->getPosition();
-            sprite->setPosition(sf::Vector2f(pos.x, 970.f));
+            auto pos = obj.getTransformada()->posicion;
+            obj.setPosicion(pos.x,970.f);
+
             en_aire = false;
             velocidad_salto = 0.f;
         }

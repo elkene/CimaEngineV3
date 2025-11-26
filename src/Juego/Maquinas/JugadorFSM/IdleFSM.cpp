@@ -50,7 +50,7 @@ namespace IVJ
     {
     }
 
-    void IdleFSM::onUpdate(const Entidad& obj, float dt)
+    void IdleFSM::onUpdate(Entidad& obj, float dt)
     {
         // frame rate de la animación
         tiempo -= 1 * dt;
