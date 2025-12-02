@@ -2,7 +2,7 @@
 
 #include "BrincarFSM.hpp"
 #include "IdleFSM.hpp"
-
+#include "AgacharseFSM.hpp"
 namespace IVJ
 {
 
@@ -16,7 +16,10 @@ namespace IVJ
     FSM* MoverFSM::onInputs(const CE::IControl& control)
     {
         if (control.saltar)
-            return new BrincarFSM(flip);  // Mantiene la dirección actual
+            return new BrincarFSM(flip);
+
+        if (control.abj)  // <-- AGREGAR ESTO
+            return new AgacharseFSM(flip);
 
         // si deja de moverse -> volver a Idle
         if (!control.der && !control.izq)
@@ -60,19 +63,34 @@ namespace IVJ
 
     void MoverFSM::onUpdate(Entidad& obj, float dt)
     {
-        tiempo -= dt;
+        // ------------------------------------
+        // 1. Mover al OBJETO, NO al sprite
+        // ------------------------------------
+        float velocidad = 60.f;  // píxeles por segundo (ajusta a tu juego)
 
+        auto pos = obj.getTransformada()->posicion;
+
+        if (flip)
+            pos.x -= velocidad * dt;   // mover hacia la izquierda
+        else
+            pos.x += velocidad * dt;   // mover hacia la derecha
+
+        obj.setPosicion(pos.x, pos.y);
+
+        // ------------------------------------
+        // 2. Animación (igual que antes)
+        // ------------------------------------
+        tiempo -= dt;
 
         if (tiempo <= 0)
         {
-            // actualizar frame
             sprite->setTextureRect(
                 sf::IntRect{
-                    {   // posición
+                    {
                         static_cast<int>(ani_frames[id_actual % 4].x),
                         static_cast<int>(ani_frames[id_actual % 4].y)
                     },
-                    {   // tamaño
+                    {
                         s_w,
                         s_h
                     }
@@ -83,6 +101,7 @@ namespace IVJ
             id_actual++;
         }
     }
+
 
 
 }

@@ -7,6 +7,7 @@
 #include "Motor/Primitivos/GestorAssets.hpp"
 #include "../objetos/TileMap.hpp"
 #include "../Maquinas/JugadorFSM/IdleFSM.hpp"
+#include "Juego/Maquinas/Enemigos/EnemigoSeguirFSM.hpp"
 
 namespace IVJ {
 
@@ -32,7 +33,10 @@ void EscenaCuadros::onInit()
         CE::Vector2D{0,0}, CE::Vector2D{0,0}
     );
 
-
+    CE::GestorAssets::Get().agregarSonido("xyz", ASSETS "/sonido/AudioFondo.ogg");
+    CE::GestorAssets::Get().getSonido("xyz").setLooping(true);
+    CE::GestorAssets::Get().getSonido("xyz").setVolume(25);
+    CE::GestorAssets::Get().getSonido("xyz").play();
 
     // Registrar controles
     registrarBotones(sf::Keyboard::Scan::W, "arriba");
@@ -45,8 +49,7 @@ void EscenaCuadros::onInit()
     registrarBotones(sf::Keyboard::Scan::Right, "derecha");
     registrarBotones(sf::Keyboard::Scan::Escape, "circulos");
     registrarBotones(sf::Keyboard::Scan::Space, "brincar");
-
-
+    registrarBotones(sf::Keyboard::Scan::LShift, "correr");
 
     // Crear jugador
     jugador = std::make_shared<Entidad>();
@@ -59,26 +62,58 @@ void EscenaCuadros::onInit()
         64, 64,
         1.f
     ));
+
+    // Agregar componentes esenciales al jugador
+    jugador->addComponente(std::make_shared<CE::IBoundingBox>(CE::Vector2D{45.f, 63.f}));
+    jugador->addComponente(std::make_shared<CE::IControl>()); // Componente de control
+    jugador->addComponente(std::make_shared<IMaquinaEstado>()); // Componente de FSM
+
     objetos.agregarPool(jugador);
 
-    jugador->addComponente(std::make_shared<IVJ::IMaquinaEstado>());
-    jugador->addComponente(std::make_shared<CE::IControl>());
-    jugador->addComponente(std::make_shared<CE::IBoundingBox>(CE::Vector2D{45.f,63.f}));
-//Carga de texturas de objetos
+    // Crear vigilante (ENEMIGO)
+    vigilante = std::make_shared<Entidad>();
+    vigilante->getStats()->hp = 100;
+    vigilante->setPosicion(-3553.6f, 936.0f);
+    vigilante->getNombre()->nombre = "Vigilante";
+
+    // Sprite del vigilante
+    vigilante->addComponente(std::make_shared<CE::ISprite>(
+        CE::GestorAssets::Get().getTextura("Vigilante"),
+        96, 96,
+        1.f
+    ));
+
+    // Componentes esenciales para el vigilante
+    //vigilante->addComponente(std::make_shared<CE::IBoundingBox>(CE::Vector2D{150.f, 150.f}));
+    vigilante->addComponente(std::make_shared<IMaquinaEstado>()); // ¡IMPORTANTE! Agregar FSM
+
+    // ------------------- AÑADIR ESTO -------------------
+    // Configurar FSM del vigilante para que siga al jugador
+    auto& fsm_vigilante = vigilante->getComponente<IMaquinaEstado>()->fsm;
+    fsm_vigilante = std::make_shared<EnemigoSeguirFSM>(false, jugador, 0.2f);
+    fsm_vigilante->onEntrar(*vigilante);
+    // ------------------- FIN AÑADIDO -------------------
+
+    objetos.agregarPool(vigilante);
+
+    // Carga de texturas de objetos
     // Fogata
     CE::GestorAssets::Get().agregarTextura("fogata", ASSETS "/sprites/Objetos/fogata.png",
-        CE::Vector2D{0, 0}, CE::Vector2D{0, 0}); // Sin recorte
+        CE::Vector2D{0, 0}, CE::Vector2D{0, 0});
+
     // CajaGrande
     CE::GestorAssets::Get().agregarTextura("cajagrande", ASSETS "/sprites/Objetos/caja_grande.png",
-        CE::Vector2D{0, 0}, CE::Vector2D{0, 0}); // Sin recorte
+        CE::Vector2D{0, 0}, CE::Vector2D{0, 0});
+
     // Estatua1
     CE::GestorAssets::Get().agregarTextura("estatua1", ASSETS "/sprites/Objetos/estatua1.png",
-        CE::Vector2D{0, 0}, CE::Vector2D{0, 0}); // Sin recorte
-    // pozo
-    CE::GestorAssets::Get().agregarTextura("pozo", ASSETS "/sprites/Objetos/pozo.png",
-        CE::Vector2D{0, 0}, CE::Vector2D{0, 0}); // Sin recorte
+        CE::Vector2D{0, 0}, CE::Vector2D{0, 0});
 
-    //CrearCaja
+    // Pozo
+    CE::GestorAssets::Get().agregarTextura("pozo", ASSETS "/sprites/Objetos/pozo.png",
+        CE::Vector2D{0, 0}, CE::Vector2D{0, 0});
+
+    // Crear Caja
     auto caja = std::make_shared<Entidad>();
     caja->getStats()->hp = 100;
     caja->setPosicion(-3000.3f, 937.0f);
@@ -87,7 +122,7 @@ void EscenaCuadros::onInit()
             1.f));
     caja->addComponente(std::make_shared<CE::IBoundingBox>(CE::Vector2D{64.f, 0.f}));
 
-    //estatua
+    // Estatua
     auto estatua1 = std::make_shared<Entidad>();
     estatua1->getStats()->hp = 100;
     estatua1->setPosicion(-3355.1f, 955.0f);
@@ -96,13 +131,13 @@ void EscenaCuadros::onInit()
             2.f));
     estatua1->addComponente(std::make_shared<CE::IBoundingBox>(CE::Vector2D{64.f, 120.f}));
 
-    //pozo
+    // Pozo
     auto pozo = std::make_shared<Entidad>();
     pozo->getStats()->hp = 100;
     pozo->setPosicion(-2564.1f, 904.0f);
     pozo->addComponente(std::make_shared<CE::ISprite>(
             CE::GestorAssets::Get().getTextura("pozo"),
-            .8f));
+            0.8f));
 
     // Crear fogata
     auto fogata = std::make_shared<Entidad>();
@@ -111,7 +146,6 @@ void EscenaCuadros::onInit()
     fogata->addComponente(std::make_shared<CE::ISprite>(
         CE::GestorAssets::Get().getTextura("fogata"),
         1.f));
-   // fogata->addComponente(std::make_shared<CE::IBoundingBox>(CE::Vector2D{64.f, 64.f}));
 
     // Configurar FSM del jugador
     auto& fsm_init = jugador->getComponente<IMaquinaEstado>()->fsm;
@@ -123,6 +157,7 @@ void EscenaCuadros::onInit()
     objetos.agregarPool(caja);
     objetos.agregarPool(estatua1);
     objetos.agregarPool(pozo);
+
     srand(static_cast<unsigned>(time(nullptr)));
 
     // Cámara cuadro
@@ -147,19 +182,29 @@ void EscenaCuadros::onInit()
 
 void EscenaCuadros::onFinal()
 {
-
+    // Limpieza si es necesaria
 }
 
-    void EscenaCuadros::onUpdate(float dt)
+void EscenaCuadros::onUpdate(float dt)
 {
+    // Actualizar movimiento de entidades
     SistemaMovimientoEntes(objetos.getPool(), dt);
+
+    // Actualizar FSM del jugador
     jugador->inputFSM();
 
+    // Actualizar FSM del vigilante (importante para que el enemigo se mueva)
+    if (vigilante) {
+        vigilante->inputFSM(); // Asegúrate de que Entidad tenga este método
+    }
+
+    // Centrar cámara en el jugador
     CE::GestorCamaras::Get().getCamaraActiva().lockEnObjeto(jugador);
 
-    // Usar el nuevo sistema de colisiones
+    // Sistema de colisiones
     SistemaColisionesEntidades(objetos.getPool());
 
+    // Actualizar todas las entidades
     for (auto& f : objetos.getPool())
     {
         f->onUpdate(dt);
@@ -167,7 +212,8 @@ void EscenaCuadros::onFinal()
 
     objetos.borrarPool();
 }
-    void EscenaCuadros::onInputs(const CE::Botones& accion)
+
+void EscenaCuadros::onInputs(const CE::Botones& accion)
 {
     auto p = jugador->getTransformada();
     auto c = jugador->getComponente<CE::IControl>();
@@ -175,7 +221,13 @@ void EscenaCuadros::onFinal()
     if (accion.getTipo() == CE::Botones::TipoAccion::OnPress)
     {
         if (accion.getNombre() == "brincar") {
-            c->saltar = true;  // Activa el flag de saltar
+            c->saltar = true;
+        }
+        else if (accion.getNombre() == "abajo") {
+            c->abj = true;
+        }
+        else if (accion.getNombre() == "correr") {
+            c->correr = true;
         }
         else if (accion.getNombre() == "derecha") {
             c->der = true;
@@ -193,28 +245,33 @@ void EscenaCuadros::onFinal()
         c->der = false;
         c->izq = false;
         c->saltar = false;
+        c->abj = false;
+        c->correr = false;
 
-        // Solo resetear velocidad X si no está saltando
         if (!c->saltar)
             p->velocidad.x = 0;
     }
 }
 
-    void EscenaCuadros::onRender()
+void EscenaCuadros::onRender()
 {
+    // Dibujar fondo
     for (auto& b : bg)
         CE::Render::Get().AddToDraw(b);
 
-    // Primero dibujas objetos
+    // Dibujar objetos primero
     for (auto& f : objetos.getPool())
     {
-        if (f != jugador)
+        if (f != jugador && f != vigilante)
             CE::Render::Get().AddToDraw(*f);
     }
 
-    // Luego dibujas el jugador al final
+    // Dibujar vigilante
+    if (vigilante)
+        CE::Render::Get().AddToDraw(*vigilante);
+
+    // Dibujar jugador al final (para que esté sobre otros elementos)
     CE::Render::Get().AddToDraw(*jugador);
 }
-
 
 } // namespace IVJ

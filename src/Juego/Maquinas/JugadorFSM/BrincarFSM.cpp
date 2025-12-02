@@ -58,7 +58,7 @@ namespace IVJ
         velocidad_salto = -400.f;  // velocidad inicial hacia arriba (negativa)
         en_aire = true;
 
-        flipSprite(obj);  // aplicar dirección
+        //flipSprite(obj);  // aplicar dirección
     }
 
     void BrincarFSM::flipSprite(const Entidad& obj)

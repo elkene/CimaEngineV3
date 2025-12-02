@@ -2,7 +2,7 @@
 #include "../../Motor/Primitivos/Escena.hpp"
 #include "../objetos/Entidad.hpp"
 #include "../objetos/TileMap.hpp"
-
+#include "../../Motor/Primitivos/GestorAssets.hpp"
 namespace IVJ {
 
     class EscenaCuadros : public CE::Escena {
@@ -17,8 +17,9 @@ namespace IVJ {
     private:
         bool inicializar { true };
         std::shared_ptr<Entidad> jugador;
-        std::shared_ptr<Entidad> enemigo;
+        std::shared_ptr<Entidad> vigilante;
         std::shared_ptr<Entidad> campfire;
+        sf::Music musicaFondo;
 
 
         //Agregamos el mapas

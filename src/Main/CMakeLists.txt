@@ -59,4 +59,10 @@ add_executable(CimaEngine3v main.cpp
         ../Motor/GUI/GPropiedades.cpp
         ../Juego/Maquinas/JugadorFSM/BrincarFSM.hpp
         ../Juego/Maquinas/JugadorFSM/BrincarFSM.cpp
+        ../Juego/Maquinas/JugadorFSM/AgacharseFSM.hpp
+        ../Juego/Maquinas/JugadorFSM/AgacharseFSM.cpp
+        ../Juego/Maquinas/JugadorFSM/CorrerFSM.hpp
+        ../Juego/Maquinas/JugadorFSM/CorrerFSM.cpp
+        ../Juego/Maquinas/Enemigos/EnemigoSeguirFSM.cpp
+        ../Juego/Maquinas/Enemigos/EnemigoSeguirFSM.hpp
 )

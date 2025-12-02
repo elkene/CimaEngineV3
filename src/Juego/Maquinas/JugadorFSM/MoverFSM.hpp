@@ -9,8 +9,8 @@ namespace IVJ
         explicit MoverFSM(bool flip_sprite);
         ~MoverFSM()override {};
         FSM* onInputs(const CE::IControl &control) override;
-        void onEntrar(const Entidad &obj) override;
-        void onSalir(const Entidad &obj) override;
+        void onEntrar(const Entidad &obj);
+        void onSalir(const Entidad &obj);
         void onUpdate(Entidad &obj, float dt) override;
     private:
         void flipSprite(const Entidad& obj);

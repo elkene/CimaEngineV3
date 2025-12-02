@@ -4,7 +4,7 @@
 
 #include "BrincarFSM.hpp"
 #include "MoverFSM.hpp"
-
+#include "AgacharseFSM.hpp"
 namespace IVJ
 {
 
@@ -16,11 +16,10 @@ namespace IVJ
     }
     FSM* IdleFSM::onInputs(const CE::IControl& control)
     {
-        if (control.saltar) {
-            // Determinar dirección basada en el último input
-            bool saltarIzquierda = control.izq;
-            return new BrincarFSM(saltarIzquierda);
-        }
+        if (control.saltar)
+            return new BrincarFSM(false);
+        else if (control.abj)  // <-- AGREGAR ESTO
+            return new AgacharseFSM(false);
         else if (control.der)
             return new MoverFSM(false);
         else if (control.izq)

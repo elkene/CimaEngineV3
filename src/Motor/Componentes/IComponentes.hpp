@@ -79,6 +79,7 @@ namespace CE
             bool acc;
             bool sacc;
             bool saltar;
+            bool correr;
     };
 
     class IBoundingBox : public IComponentes
