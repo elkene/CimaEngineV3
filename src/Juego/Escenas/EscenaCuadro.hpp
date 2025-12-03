@@ -8,6 +8,9 @@ namespace IVJ {
     class EscenaCuadros : public CE::Escena {
     public:
         EscenaCuadros() : CE::Escena() { }
+
+        std::vector<std::shared_ptr<CE::Objeto>> * obtenerObjetosDelMundo();
+
         void onInit();
         void onFinal();
         void onUpdate(float dt);

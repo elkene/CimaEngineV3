@@ -94,7 +94,7 @@ namespace IVJ
             obj.setPosicion(pos.x, 963.f);
 
             en_aire = false;  // Solo aquí se marca como terminado
-            velocidad_salto = 2.f;
+            velocidad_salto = 4.f;
         }
 
         // Actualizar animación

@@ -90,11 +90,11 @@ void EscenaCuadros::onInit()
         1.f
     ));
 
-    vigilante->addComponente(std::make_shared<CE::IBoundingBox>(CE::Vector2D{96.f, 96.f}));
+  //  vigilante->addComponente(std::make_shared<CE::IBoundingBox>(CE::Vector2D{96.f, 96.f}));
     vigilante->addComponente(std::make_shared<IMaquinaEstado>());
 
     auto& fsm_vigilante = vigilante->getComponente<IMaquinaEstado>()->fsm;
-    fsm_vigilante = std::make_shared<EnemigoSeguirFSM>(false, jugador, 0.2f);
+    fsm_vigilante = std::make_shared<EnemigoSeguirFSM>(false, jugador, 0.3f);
     fsm_vigilante->onEntrar(*vigilante);
 
     objetos.agregarPool(vigilante);
@@ -216,6 +216,8 @@ void EscenaCuadros::onInit()
         barril->setPosicion(-2166.3f + (i * 250.0f), 961.0f);
         barril->addComponente(std::make_shared<CE::ISprite>(
             CE::GestorAssets::Get().getTextura("barril"), 1.f));
+         barril->addComponente(std::make_shared<CE::IBoundingBox>(
+               CE::Vector2D{54.f, 70.f}));
         objetos.agregarPool(barril);
     }
 
