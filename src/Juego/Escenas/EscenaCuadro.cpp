@@ -24,15 +24,15 @@ void EscenaCuadros::onInit()
     zonaSalidaX = 3300.0f;
     // ===============================================
 
-    CE::GestorAssets::Get().agregarTextura(
-        "Sombras",
-        ASSETS "/sprites/SombrasRastreras/Las Sombras Rastreras1.png",
-        CE::Vector2D{0,0}, CE::Vector2D{0,0}
-    );
+    // CE::GestorAssets::Get().agregarTextura(
+    //     "Sombras",
+    //     ASSETS "/sprites/SombrasRastreras/Las Sombras Rastreras1.png",
+    //     CE::Vector2D{0,0}, CE::Vector2D{0,0}
+    // );
 
     CE::GestorAssets::Get().agregarTextura(
         "Vigilante",
-        ASSETS "/sprites/El Vigilante/El Vigilante1.png",
+        ASSETS "/sprites/El Vigilante/ElvigilanteV2.png",
         CE::Vector2D{0,0}, CE::Vector2D{0,0}
     );
 
@@ -88,7 +88,7 @@ void EscenaCuadros::onInit()
     vigilante->addComponente(std::make_shared<CE::ISprite>(
         CE::GestorAssets::Get().getTextura("Vigilante"),
         96, 96,
-        1.f
+        1 .f
     ));
 
   //  vigilante->addComponente(std::make_shared<CE::IBoundingBox>(CE::Vector2D{96.f, 96.f}));

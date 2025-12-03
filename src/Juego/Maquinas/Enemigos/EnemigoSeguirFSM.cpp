@@ -70,9 +70,9 @@ namespace IVJ
 
         // Actualizar dirección visual
         if (trans_objetivo->posicion.x > trans_enemigo->posicion.x)
-            flip = false; // Mirar derecha
+            flip = true; // Mirar derecha
         else
-            flip = true;  // Mirar izquierda
+            flip = false;  // Mirar izquierda
 
         // Aplicar flip al sprite
         if (obj.tieneComponente<CE::ISprite>())
@@ -111,9 +111,9 @@ namespace IVJ
 
         // Actualizar dirección
         if (dx > 5.0f)
-            flip = false;
-        else if (dx < -5.0f)
             flip = true;
+        else if (dx < -5.0f)
+            flip = false;
 
         // Aplicar dirección al sprite
         if (obj.tieneComponente<CE::ISprite>())
