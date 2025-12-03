@@ -11,13 +11,13 @@ namespace IVJ
         nombre = "BrincarFSM";
         std::cout << nombre << "\n";
 
-        velocidad_salto = 0.5f;
-        gravedad = 400.f;  // gravedad en píxeles/s²
+        velocidad_salto = 0.8f;
+        gravedad = 600.f;  // gravedad en píxeles/s²
     }
 
     FSM* BrincarFSM::onInputs(const CE::IControl& control)
     {
-        // Si ya no está en el aire (terminó el salto)
+        // Solo cambiar de estado cuando el salto haya terminado completamente
         if (!en_aire)
         {
             // Verificar si debe moverse o estar idle
@@ -29,6 +29,7 @@ namespace IVJ
                 return new IdleFSM();
         }
 
+        // Mientras está en el aire, ignorar los inputs y continuar con el salto
         return nullptr;
     }
 
@@ -49,8 +50,7 @@ namespace IVJ
         ani_frames[6] = {384.f, 320.f}; // cayendo
         ani_frames[7] = {448.f, 320.f}; // cayendo
 
-
-        max_tiempo = 0.3f;  // velocidad de animación
+        max_tiempo = 0.001f;  // velocidad de animación
         tiempo = max_tiempo;
         id_actual = 0;
 
@@ -88,13 +88,12 @@ namespace IVJ
         obj.setPosicion(pos.x, nueva_y);  // Mantener X, solo cambiar Y
 
         // Verificar si llegó al suelo (ajusta según tu juego)
-        // Aquí asumimos que y = 400 es el suelo
-        if (obj.getTransformada()->posicion.y >= 970.f)
+        if (obj.getTransformada()->posicion.y >= 963.f)
         {
             auto pos = obj.getTransformada()->posicion;
-            obj.setPosicion(pos.x,970.f);
+            obj.setPosicion(pos.x, 963.f);
 
-            en_aire = false;
+            en_aire = false;  // Solo aquí se marca como terminado
             velocidad_salto = 2.f;
         }
 

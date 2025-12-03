@@ -83,9 +83,9 @@ namespace IVJ
         auto trans = obj.getTransformada();
 
         if (flip)
-            trans->velocidad.x = -200;  // correr a la izquierda (doble de velocidad)
+            trans->velocidad.x = -120;  // correr a la izquierda (doble de velocidad)
         else
-            trans->velocidad.x = 200;   // correr a la derecha (doble de velocidad)
+            trans->velocidad.x = 120;   // correr a la derecha (doble de velocidad)
 
         // Actualizar animación
         tiempo -= dt;

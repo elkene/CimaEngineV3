@@ -2,6 +2,7 @@
 #include <fstream>
 #include <iostream>
 #include <cmath>
+#include <algorithm>
 
 namespace IVJ
 {
@@ -9,14 +10,12 @@ namespace IVJ
 
     bool TileMap::loadTileMap(const std::string& jsonPath)
     {
-
         std::ifstream archivo(jsonPath);
         if (!archivo.is_open())
         {
             std::cerr << "[TileMap] No se pudo abrir el archivo JSON: " << jsonPath << "\n";
             return false;
         }
-
 
         json j;
         archivo >> j;
@@ -46,10 +45,28 @@ namespace IVJ
             layer.name = layerName;
             layer.hidden = hidden;
 
+            // Leer la profundidad (depth) si existe, sino usar 0.0f por defecto
+            if (layerData.contains("depth")) {
+                layer.depth = layerData["depth"].get<float>();
+            } else {
+                layer.depth = 0.0f;
+            }
+
+            // Leer el parallax factor si existe, sino calcularlo automáticamente desde depth
+            if (layerData.contains("parallaxFactor")) {
+                layer.parallaxFactor = layerData["parallaxFactor"].get<float>();
+            } else {
+                // Calcular parallax automáticamente: mayor depth = más cerca = más rápido
+                layer.parallaxFactor = 0.1f + (layer.depth / 12.0f) * 0.9f;
+            }
+
+            std::cout << "[TileMap] Capa " << layerName
+                      << " - Depth: " << layer.depth
+                      << " - Parallax: " << layer.parallaxFactor << "\n";
+
             // Construir ruta de la textura usando el NOMBRE DEL LAYER
             std::string texturePath;
             if (separateFiles) {
-                // Usar el nombre exacto del layer (Layer0, Layer1, etc.)
                 texturePath = atlasDir + "/" + layerName + ".png";
             } else {
                 texturePath = atlasDir + "/" + fileNamePrefix + ".png";
@@ -64,23 +81,17 @@ namespace IVJ
                 std::cerr << "[TileMap] No se pudo cargar la textura para la capa " << layerName
                           << ": " << texturePath << "\n";
 
-                // Intentar con formato alternativo (usando el índice)
                 std::string fallbackPath = atlasDir + "/" + fileNamePrefix + std::to_string(i) + ".png";
                 std::cout << "[TileMap] Intentando ruta alternativa: " << fallbackPath << "\n";
 
                 if (!layer.texture.loadFromFile(fallbackPath))
                 {
                     std::cerr << "[TileMap] También falló la ruta alternativa: " << fallbackPath << "\n";
-                    continue; // Saltar esta capa
+                    continue;
                 }
             }
 
-            // Para modo infinito horizontal, activar repeated solo en X
-            if (modoInfinitoHorizontal) {
-                layer.texture.setRepeated(true);
-            } else {
-                layer.texture.setRepeated(false);
-            }
+            layer.texture.setRepeated(true);
             layer.texture.setSmooth(true);
 
             // Cargar tileRefs si existen
@@ -105,7 +116,6 @@ namespace IVJ
                 int vertexIndex = 0;
                 for (const auto& [position, tileRef] : layer.tileRefs)
                 {
-                    // Calcular posición en el mapa
                     int tilesPerRow = mapWidth / tileWidth;
                     int tileX = position % tilesPerRow;
                     int tileY = position / tilesPerRow;
@@ -113,20 +123,17 @@ namespace IVJ
                     float posX = tileX * tileWidth;
                     float posY = tileY * tileHeight;
 
-                    // Calcular coordenadas de textura en el atlas
                     float texLeft = static_cast<float>(tileRef.x);
                     float texTop = static_cast<float>(tileRef.y);
                     float texRight = texLeft + tileWidth;
                     float texBottom = texTop + tileHeight;
 
-                    // Definir los 6 vértices para 2 triángulos
                     sf::Vertex* triangles = &layer.vertices[vertexIndex * 6];
 
                     // Triángulo 1
                     triangles[0].position = sf::Vector2f(posX, posY);
                     triangles[1].position = sf::Vector2f(posX + tileWidth, posY);
                     triangles[2].position = sf::Vector2f(posX, posY + tileHeight);
-
                     triangles[0].texCoords = sf::Vector2f(texLeft, texTop);
                     triangles[1].texCoords = sf::Vector2f(texRight, texTop);
                     triangles[2].texCoords = sf::Vector2f(texLeft, texBottom);
@@ -135,7 +142,6 @@ namespace IVJ
                     triangles[3].position = sf::Vector2f(posX, posY + tileHeight);
                     triangles[4].position = sf::Vector2f(posX + tileWidth, posY);
                     triangles[5].position = sf::Vector2f(posX + tileWidth, posY + tileHeight);
-
                     triangles[3].texCoords = sf::Vector2f(texLeft, texBottom);
                     triangles[4].texCoords = sf::Vector2f(texRight, texTop);
                     triangles[5].texCoords = sf::Vector2f(texRight, texBottom);
@@ -145,65 +151,38 @@ namespace IVJ
             }
             else
             {
-                // Si no hay tileRefs, crear un fondo plano
+                // Si no hay tileRefs, crear un fondo plano con parallax
                 layer.vertices.setPrimitiveType(sf::PrimitiveType::Triangles);
+                layer.vertices.resize(6);
 
-                if (modoInfinitoHorizontal) {
-                    // En modo infinito horizontal, crear un fondo que se repita solo en X
-                    layer.vertices.resize(16);
+                // Ancho extendido para cubrir toda el área
+                float anchoFondo = areaVisible.x * 6.0f; // Más ancho para evitar bordes
+                float altoFondo = mapHeight;
 
-                    // El fondo tiene altura fija pero ancho infinito
-                    float anchoFondo = areaVisible.x * 100; // 4 veces el ancho visible
-                    float altoFondo = mapHeight; // Altura original del mapa
+                sf::Vertex* tri = &layer.vertices[0];
 
-                    sf::Vertex* tri = &layer.vertices[0];
+                // Centrar verticalmente
+                float posY = (areaVisible.y - altoFondo) / 2.0f;
 
-                    // Centrar verticalmente, pero extender horizontalmente
-                    float posY = (areaVisible.y - altoFondo) / 2.0f; // Centrar verticalmente
+                // IMPORTANTE: Posiciones iniciales sin offset
+                // El offset se aplicará dinámicamente en draw()
+                tri[0].position = {-anchoFondo/2, posY};
+                tri[1].position = {anchoFondo/2, posY};
+                tri[2].position = {-anchoFondo/2, posY + altoFondo};
+                tri[3].position = {-anchoFondo/2, posY + altoFondo};
+                tri[4].position = {anchoFondo/2, posY};
+                tri[5].position = {anchoFondo/2, posY + altoFondo};
 
-                    tri[0].position = {-anchoFondo/2, posY};
-                    tri[1].position = {anchoFondo/2, posY};
-                    tri[2].position = {-anchoFondo/2, posY + altoFondo};
-                    tri[3].position = {-anchoFondo/2, posY + altoFondo};
-                    tri[4].position = {anchoFondo/2, posY};
-                    tri[5].position = {anchoFondo/2, posY + altoFondo};
+                // Textura repetida
+                sf::Vector2u textureSize = layer.texture.getSize();
+                float repeatX = anchoFondo / textureSize.x;
 
-                    // Textura repetida solo horizontalmente
-                    sf::Vector2u textureSize = layer.texture.getSize();
-                    float repeatX = anchoFondo / textureSize.x;
-
-                    tri[0].texCoords = {0, 0};
-                    tri[1].texCoords = {textureSize.x * repeatX, 0};
-                    tri[2].texCoords = {0, static_cast<float>(textureSize.y)};
-                    tri[3].texCoords = {0, static_cast<float>(textureSize.y)};
-                    tri[4].texCoords = {textureSize.x * repeatX, 0};
-                    tri[5].texCoords = {textureSize.x * repeatX, static_cast<float>(textureSize.y)};
-                } else {
-                    // Comportamiento normal (no infinito)
-                    layer.vertices.resize(6);
-
-                    const float scaleFactor = 1.0f;
-                    float scaledWidth = mapWidth * scaleFactor;
-                    float scaledHeight = mapHeight * scaleFactor;
-
-                    sf::Vertex* tri = &layer.vertices[0];
-
-                    tri[0].position = {0, 0};
-                    tri[1].position = {scaledWidth, 0};
-                    tri[2].position = {0, scaledHeight};
-                    tri[3].position = {0, scaledHeight};
-                    tri[4].position = {scaledWidth, 0};
-                    tri[5].position = {scaledWidth, scaledHeight};
-
-                    // Usar toda la textura para el fondo plano
-                    sf::Vector2u textureSize = layer.texture.getSize();
-                    tri[0].texCoords = {0, 0};
-                    tri[1].texCoords = {static_cast<float>(textureSize.x), 0};
-                    tri[2].texCoords = {0, static_cast<float>(textureSize.y)};
-                    tri[3].texCoords = {0, static_cast<float>(textureSize.y)};
-                    tri[4].texCoords = {static_cast<float>(textureSize.x), 0};
-                    tri[5].texCoords = {static_cast<float>(textureSize.x), static_cast<float>(textureSize.y)};
-                }
+                tri[0].texCoords = {0, 0};
+                tri[1].texCoords = {textureSize.x * repeatX, 0};
+                tri[2].texCoords = {0, static_cast<float>(textureSize.y)};
+                tri[3].texCoords = {0, static_cast<float>(textureSize.y)};
+                tri[4].texCoords = {textureSize.x * repeatX, 0};
+                tri[5].texCoords = {textureSize.x * repeatX, static_cast<float>(textureSize.y)};
             }
 
             layers.push_back(std::move(layer));
@@ -214,8 +193,15 @@ namespace IVJ
             return false;
         }
 
+        // Ordenar las capas por profundidad
+        std::sort(layers.begin(), layers.end(),
+            [](const Layer& a, const Layer& b) {
+                return a.depth < b.depth;
+            });
+
         std::cout << "[TileMap] Mapa cargado desde JSON: " << jsonPath
                   << " con " << layers.size() << " capas cargadas exitosamente.\n";
+
         return true;
     }
 
@@ -224,42 +210,19 @@ namespace IVJ
         this->modoInfinitoHorizontal = infinito;
         this->areaVisible = areaVisible;
 
-        // Actualizar configuración de texturas
         for (auto& layer : layers) {
             layer.texture.setRepeated(infinito);
-        }
-
-        if (infinito) {
-            actualizarVerticesInfinitosHorizontales();
         }
     }
 
     void TileMap::setPosicionCamara(const sf::Vector2f& posicionCamara)
     {
-        if (!modoInfinitoHorizontal) return;
-
         this->posicionCamara = posicionCamara;
-        actualizarVerticesInfinitosHorizontales();
     }
 
     void TileMap::actualizarVerticesInfinitosHorizontales()
     {
-        if (!modoInfinitoHorizontal) return;
-
-        // for (auto& layer : layers) {
-        //     if (!layer.hasTiles) { // Solo para fondos planos
-        //         // Efecto parallax horizontal (más lento que el movimiento del jugador)
-        //         float parallaxFactor = 0.3f; // Ajusta este valor (0.0 a 1.0)
-        //         float offsetX = -posicionCamara.x * parallaxFactor;
-        //
-        //         // Mantener la posición vertical centrada
-        //         float offsetY = (areaVisible.y - mapHeight) / 2.0f;
-        //
-        //         // Aplicar transformación
-        //         setPosition(offsetX, offsetY);
-        //         break;
-        //     }
-        // }
+        // Ya no necesitamos este método, el parallax se maneja en draw()
     }
 
     void TileMap::draw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -269,8 +232,88 @@ namespace IVJ
         for (const auto& layer : layers)
         {
             if (layer.hidden) continue;
-            states.texture = &layer.texture;
-            target.draw(layer.vertices, states);
+
+            // Crear transformación específica para esta capa
+            sf::RenderStates layerStates = states;
+
+            if (!layer.hasTiles) {
+                // Aplicar offset parallax basado en el factor de la capa
+                // Cada capa se mueve a diferente velocidad creando el efecto de profundidad
+                float offsetX = -posicionCamara.x * layer.parallaxFactor;
+
+                // Wrapping suave para bucle infinito
+                sf::Vector2u texSize = layer.texture.getSize();
+                float wrappedOffset = std::fmod(offsetX, static_cast<float>(texSize.x));
+                if (wrappedOffset > 0) wrappedOffset -= texSize.x;
+
+                sf::Transform layerTransform;
+                layerTransform.translate(sf::Vector2f(wrappedOffset, 0.f));
+
+                layerStates.transform *= layerTransform;
+            }
+
+            layerStates.texture = &layer.texture;
+            target.draw(layer.vertices, layerStates);
+        }
+    }
+
+    void TileMap::drawBackground(sf::RenderTarget& target, sf::RenderStates states) const
+    {
+        states.transform *= getTransform();
+
+        // Solo dibujar Layer0 (fondo)
+        for (const auto& layer : layers)
+        {
+            if (layer.hidden) continue;
+            if (layer.name != "Layer0") continue;
+
+            sf::RenderStates layerStates = states;
+
+            if (!layer.hasTiles) {
+                float offsetX = -posicionCamara.x * layer.parallaxFactor;
+
+                sf::Vector2u texSize = layer.texture.getSize();
+                float wrappedOffset = std::fmod(offsetX, static_cast<float>(texSize.x));
+                if (wrappedOffset > 0) wrappedOffset -= texSize.x;
+
+                sf::Transform layerTransform;
+                layerTransform.translate(sf::Vector2f(wrappedOffset, 0.f));
+
+                layerStates.transform *= layerTransform;
+            }
+
+            layerStates.texture = &layer.texture;
+            target.draw(layer.vertices, layerStates);
+        }
+    }
+
+    void TileMap::drawForeground(sf::RenderTarget& target, sf::RenderStates states) const
+    {
+        states.transform *= getTransform();
+
+        // Dibujar todas las capas EXCEPTO Layer0
+        for (const auto& layer : layers)
+        {
+            if (layer.hidden) continue;
+            if (layer.name == "Layer0") continue;
+
+            sf::RenderStates layerStates = states;
+
+            if (!layer.hasTiles) {
+                float offsetX = -posicionCamara.x * layer.parallaxFactor;
+
+                sf::Vector2u texSize = layer.texture.getSize();
+                float wrappedOffset = std::fmod(offsetX, static_cast<float>(texSize.x));
+                if (wrappedOffset > 0) wrappedOffset -= texSize.x;
+
+                sf::Transform layerTransform;
+                layerTransform.translate(sf::Vector2f(wrappedOffset, 0.f));
+
+                layerStates.transform *= layerTransform;
+            }
+
+            layerStates.texture = &layer.texture;
+            target.draw(layer.vertices, layerStates);
         }
     }
 }

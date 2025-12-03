@@ -21,6 +21,10 @@ namespace IVJ
         // Método para actualizar la posición de la cámara
         void setPosicionCamara(const sf::Vector2f& posicionCamara);
 
+        // Nuevos métodos para dibujar en capas separadas
+        void drawBackground(sf::RenderTarget& target, sf::RenderStates states) const;
+        void drawForeground(sf::RenderTarget& target, sf::RenderStates states) const;
+
     private:
         struct TileRef {
             int index;
@@ -35,7 +39,8 @@ namespace IVJ
             bool hidden = false;
             std::map<int, TileRef> tileRefs;
             bool hasTiles = false;
-
+            float depth = 0.0f; // Profundidad del layer para ordenamiento
+            float parallaxFactor = 1.0f; // Factor de velocidad parallax (0.0 = estático, 1.0 = velocidad normal)
         };
 
         std::vector<Layer> layers;

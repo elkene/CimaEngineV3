@@ -20,6 +20,7 @@ namespace IVJ {
         std::shared_ptr<Entidad> vigilante;
         std::shared_ptr<Entidad> campfire;
         sf::Music musicaFondo;
+        std::shared_ptr<Entidad> carpa;
 
 
         //Agregamos el mapas

@@ -13,7 +13,9 @@
         "name": "Layer11",
         "muted": false,
         "tileRefs": {},
-        "soloed": false
+        "soloed": false,
+        "depth": 0.0,
+        "parallaxFactor": 0.95
       },
       "1": {
         "blendMode": "normal",
@@ -22,7 +24,9 @@
         "name": "Layer10",
         "muted": false,
         "tileRefs": {},
-        "soloed": false
+        "soloed": false,
+        "depth": 0.0,
+        "parallaxFactor": 0.88
       },
       "2": {
         "blendMode": "normal",
@@ -31,7 +35,9 @@
         "name": "Layer9",
         "muted": false,
         "tileRefs": {},
-        "soloed": false
+        "soloed": false,
+        "depth": 0.0,
+        "parallaxFactor": 0.80
       },
       "3": {
         "blendMode": "normal",
@@ -40,7 +46,9 @@
         "name": "Layer8",
         "muted": false,
         "tileRefs": {},
-        "soloed": false
+        "soloed": false,
+        "depth": 0.0,
+        "parallaxFactor": 0.72
       },
       "4": {
         "blendMode": "normal",
@@ -49,7 +57,9 @@
         "name": "Layer7",
         "muted": false,
         "tileRefs": {},
-        "soloed": false
+        "soloed": false,
+        "depth": 0.0,
+        "parallaxFactor": 0.64
       },
       "5": {
         "blendMode": "normal",
@@ -58,7 +68,9 @@
         "name": "Layer6",
         "muted": false,
         "tileRefs": {},
-        "soloed": false
+        "soloed": false,
+        "depth": 0.0,
+        "parallaxFactor": 0.56
       },
       "6": {
         "blendMode": "normal",
@@ -67,7 +79,9 @@
         "name": "Layer5",
         "muted": false,
         "tileRefs": {},
-        "soloed": false
+        "soloed": false,
+        "depth": 0.0,
+        "parallaxFactor": 0.48
       },
       "7": {
         "blendMode": "normal",
@@ -76,7 +90,9 @@
         "name": "Layer4",
         "muted": false,
         "tileRefs": {},
-        "soloed": false
+        "soloed": false,
+        "depth": 0.0,
+        "parallaxFactor": 0.40
       },
       "8": {
         "blendMode": "normal",
@@ -85,7 +101,9 @@
         "name": "Layer3",
         "muted": false,
         "tileRefs": {},
-        "soloed": false
+        "soloed": false,
+        "depth": 0.0,
+        "parallaxFactor": 2.5
       },
       "9": {
         "blendMode": "normal",
@@ -94,7 +112,9 @@
         "name": "Layer2",
         "muted": false,
         "tileRefs": {},
-        "soloed": false
+        "soloed": false,
+        "depth": 0.0,
+        "parallaxFactor": 0.24
       },
       "10": {
         "blendMode": "normal",
@@ -103,7 +123,9 @@
         "name": "Layer1",
         "muted": false,
         "tileRefs": {},
-        "soloed": false
+        "soloed": false,
+        "depth": 0.0,
+        "parallaxFactor": 0.16
       },
       "11": {
         "blendMode": "normal",
@@ -112,7 +134,9 @@
         "name": "Layer0",
         "muted": false,
         "tileRefs": {},
-        "soloed": false
+        "soloed": false,
+        "depth": 5.0,
+        "parallaxFactor": 0.08
       }
     },
     "tileHeight": 272

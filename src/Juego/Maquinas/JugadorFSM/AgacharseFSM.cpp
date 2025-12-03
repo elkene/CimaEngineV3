@@ -67,7 +67,7 @@ namespace IVJ
         ajustarBoundingBox(obj, true);
 
         auto trans = const_cast<Entidad&>(obj).getTransformada();
-        trans->posicion.y = 970.f;
+        trans->posicion.y = 963.f;
     }
 
 
