@@ -82,7 +82,7 @@ void EscenaCuadros::onInit()
     // Crear vigilante
     vigilante = std::make_shared<Entidad>();
     vigilante->getStats()->hp = 100;
-    vigilante->setPosicion(-3817.6f, 963.0f);
+    vigilante->setPosicion(-3817.6f, 948.0f);
     vigilante->getNombre()->nombre = "Vigilante";
 
     vigilante->addComponente(std::make_shared<CE::ISprite>(
