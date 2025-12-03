@@ -52,6 +52,7 @@ void EscenaCuadros::onInit()
     registrarBotones(sf::Keyboard::Scan::Up, "arriba");
     registrarBotones(sf::Keyboard::Scan::S, "abajo");
     registrarBotones(sf::Keyboard::Scan::Down, "abajo");
+    registrarBotones(sf::Keyboard::Scan::LControl, "abajo");
     registrarBotones(sf::Keyboard::Scan::A, "izquierda");
     registrarBotones(sf::Keyboard::Scan::Left, "izquierda");
     registrarBotones(sf::Keyboard::Scan::D, "derecha");
@@ -59,7 +60,7 @@ void EscenaCuadros::onInit()
     registrarBotones(sf::Keyboard::Scan::Escape, "circulos");
     registrarBotones(sf::Keyboard::Scan::Space, "brincar");
     registrarBotones(sf::Keyboard::Scan::LShift, "correr");
-    registrarBotones(sf::Keyboard::Scan::C, "camara");  // ← NUEVA TECLA PARA CÁMARA
+    registrarBotones(sf::Keyboard::Scan::C, "camara");
 
     // Crear jugador
     jugador = std::make_shared<Entidad>();
