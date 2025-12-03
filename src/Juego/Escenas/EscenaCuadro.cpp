@@ -88,7 +88,7 @@ void EscenaCuadros::onInit()
     vigilante->addComponente(std::make_shared<CE::ISprite>(
         CE::GestorAssets::Get().getTextura("Vigilante"),
         96, 96,
-        1 .f
+        1.f
     ));
 
   //  vigilante->addComponente(std::make_shared<CE::IBoundingBox>(CE::Vector2D{96.f, 96.f}));
