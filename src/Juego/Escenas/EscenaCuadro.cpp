@@ -42,9 +42,10 @@ void EscenaCuadros::onInit()
         CE::Vector2D{0,0}, CE::Vector2D{0,0}
     );
 
-    CE::GestorAssets::Get().agregarSonido("xyz", ASSETS "/sonido/AudioFondo.ogg");
+    CE::GestorAssets::Get().agregarSonido("xyz", ASSETS "/sonido/audiofondo2.ogg");
     CE::GestorAssets::Get().getSonido("xyz").setLooping(true);
     CE::GestorAssets::Get().getSonido("xyz").setVolume(25);
+    CE::GestorAssets::Get().getSonido("xyz").play();
 
     // Registrar controles
     registrarBotones(sf::Keyboard::Scan::W, "arriba");
@@ -140,6 +141,10 @@ void EscenaCuadros::onInit()
         CE::Vector2D{0, 0}, CE::Vector2D{0, 0});
     CE::GestorAssets::Get().agregarTextura("posteizq", ASSETS "/sprites/Objetos/posteizq.png",
         CE::Vector2D{0, 0}, CE::Vector2D{0, 0});
+    CE::GestorAssets::Get().agregarTextura("espejo", ASSETS "/sprites/Objetos/espejo.png",
+        CE::Vector2D{0, 0}, CE::Vector2D{0, 0});
+    CE::GestorAssets::Get().agregarTextura("fragmento", ASSETS "/sprites/Objetos/fragmento.png",
+       CE::Vector2D{0, 0}, CE::Vector2D{0, 0});
 
     // [Creación de objetos]
     auto estatua1 = std::make_shared<Entidad>();
@@ -302,9 +307,21 @@ void EscenaCuadros::onInit()
     }
     auto posteizq = std::make_shared<Entidad>();
     posteizq->getStats()->hp = 100;
-    posteizq->setPosicion(2633.0, 860.0f);
+    posteizq->setPosicion(2633.0f, 860.0f);
     posteizq->addComponente(std::make_shared<CE::ISprite>(
             CE::GestorAssets::Get().getTextura("posteizq"), 1.2f));
+
+    auto espejo = std::make_shared<Entidad>();
+    espejo->getStats()->hp = 100;
+    espejo->setPosicion(-2434.0f, 974.0f);
+    espejo->addComponente(std::make_shared<CE::ISprite>(
+            CE::GestorAssets::Get().getTextura("espejo"), 0.5f));
+
+    auto fragmento = std::make_shared<Entidad>();
+    fragmento->getStats()->hp = 100;
+    fragmento->setPosicion(2593.0f, 963.0f);
+    fragmento->addComponente(std::make_shared<CE::ISprite>(
+            CE::GestorAssets::Get().getTextura("fragmento"), 1.f));
 
     auto& fsm_init = jugador->getComponente<IMaquinaEstado>()->fsm;
     fsm_init = std::make_shared<IdleFSM>();
@@ -317,7 +334,8 @@ void EscenaCuadros::onInit()
     objetos.agregarPool(pozo);
     objetos.agregarPool(mural);
     objetos.agregarPool(posteizq);
-
+    objetos.agregarPool(espejo);
+    objetos.agregarPool(fragmento);
     srand(static_cast<unsigned>(time(nullptr)));
 
     CE::GestorCamaras::Get().agregarCamara(
