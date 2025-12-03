@@ -21,6 +21,11 @@ namespace IVJ {
         std::shared_ptr<Entidad> campfire;
         sf::Music musicaFondo;
         std::shared_ptr<Entidad> carpa;
+        std::shared_ptr<Entidad> pilademuertos;
+        std::vector<std::shared_ptr<Entidad>> rocas;
+
+
+
 
 
         //Agregamos el mapas

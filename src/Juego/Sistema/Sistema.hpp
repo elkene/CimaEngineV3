@@ -17,6 +17,6 @@ namespace IVJ {
     void MoverJugador(std::shared_ptr<CE::Objeto> e, float dt, float altoVentana);
     void MoverEnemigo(std::shared_ptr<CE::Objeto> e, float dt, float anchoVentana, float altoVentana);
     void SistemaColisionesEntidades(const std::vector<std::shared_ptr<CE::Objeto>>& entes);
-
+    bool ResolverColisionVertical(CE::Objeto& jugador, const std::vector<std::shared_ptr<CE::Objeto>>& objetos);
 
 } // namespace IVJ

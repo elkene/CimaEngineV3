@@ -66,7 +66,7 @@ namespace IVJ
         // ------------------------------------
         // 1. Mover al OBJETO, NO al sprite
         // ------------------------------------
-        float velocidad = 60.f;  // píxeles por segundo (ajusta a tu juego)
+        float velocidad = 200.f;  // píxeles por segundo (ajusta a tu juego)
 
         auto pos = obj.getTransformada()->posicion;
 

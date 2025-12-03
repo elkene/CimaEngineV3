@@ -38,7 +38,7 @@ void EscenaCuadros::onInit()
     CE::GestorAssets::Get().agregarSonido("xyz", ASSETS "/sonido/AudioFondo.ogg");
     CE::GestorAssets::Get().getSonido("xyz").setLooping(true);
     CE::GestorAssets::Get().getSonido("xyz").setVolume(25);
-    CE::GestorAssets::Get().getSonido("xyz").play();
+   // CE::GestorAssets::Get().getSonido("xyz").play();
 
     // Registrar controles
     registrarBotones(sf::Keyboard::Scan::W, "arriba");
@@ -56,7 +56,7 @@ void EscenaCuadros::onInit()
     // Crear jugador
     jugador = std::make_shared<Entidad>();
     jugador->getStats()->hp = 100;
-    jugador->setPosicion(-3170.5f, 963.0f);
+    jugador->setPosicion(-3567.5f, 963.0f);
     jugador->getNombre()->nombre = "jugador";
 
     jugador->addComponente(std::make_shared<CE::ISprite>(
@@ -75,7 +75,7 @@ void EscenaCuadros::onInit()
     // Crear vigilante (ENEMIGO)
     vigilante = std::make_shared<Entidad>();
     vigilante->getStats()->hp = 100;
-    vigilante->setPosicion(-3553.6f, 936.0f);
+    vigilante->setPosicion(-3817.6f, 963.0f);
     vigilante->getNombre()->nombre = "Vigilante";
 
     // Sprite del vigilante
@@ -86,7 +86,7 @@ void EscenaCuadros::onInit()
     ));
 
     // Componentes esenciales para el vigilante
-    //vigilante->addComponente(std::make_shared<CE::IBoundingBox>(CE::Vector2D{150.f, 150.f}));
+    vigilante->addComponente(std::make_shared<CE::IBoundingBox>(CE::Vector2D{96.f, 96.f}));
     vigilante->addComponente(std::make_shared<IMaquinaEstado>()); // ¡IMPORTANTE! Agregar FSM
 
     // ------------------- AÑADIR ESTO -------------------
@@ -141,8 +141,24 @@ void EscenaCuadros::onInit()
     // lapida3
     CE::GestorAssets::Get().agregarTextura("lapida3", ASSETS "/sprites/Objetos/lapida3.png",
         CE::Vector2D{0, 0}, CE::Vector2D{0, 0});
-
-
+    // cuerpo1
+    CE::GestorAssets::Get().agregarTextura("cuerpo1", ASSETS "/sprites/Objetos/cuerpo1.png",
+        CE::Vector2D{0, 0}, CE::Vector2D{0, 0});
+    // cuerpo2
+    CE::GestorAssets::Get().agregarTextura("cuerpo2", ASSETS "/sprites/Objetos/cuerpo2.png",
+        CE::Vector2D{0, 0}, CE::Vector2D{0, 0});
+    // cuerpo3
+    CE::GestorAssets::Get().agregarTextura("cuerpo3", ASSETS "/sprites/Objetos/cuerpo3.png",
+        CE::Vector2D{0, 0}, CE::Vector2D{0, 0});
+    // cuerpo4
+    CE::GestorAssets::Get().agregarTextura("cuerpo4", ASSETS "/sprites/Objetos/cuerpo4.png",
+        CE::Vector2D{0, 0}, CE::Vector2D{0, 0});
+    // pilademuertos
+    CE::GestorAssets::Get().agregarTextura("pilademuertos", ASSETS "/sprites/Objetos/pilademuertos.png",
+        CE::Vector2D{0, 0}, CE::Vector2D{0, 0});
+    // roca
+    CE::GestorAssets::Get().agregarTextura("roca", ASSETS "/sprites/Objetos/roca.png",
+        CE::Vector2D{0, 0}, CE::Vector2D{0, 0});
 
 
 
@@ -156,10 +172,12 @@ void EscenaCuadros::onInit()
     //         1.f));
     // caja->addComponente(std::make_shared<CE::IBoundingBox>(CE::Vector2D{64.f, 0.f}));
 
+
+//Inicio
     // Estatua
     auto estatua1 = std::make_shared<Entidad>();
     estatua1->getStats()->hp = 100;
-    estatua1->setPosicion(-3781, 1001.0f);
+    estatua1->setPosicion(-3844, 1001.0f);
     estatua1->addComponente(std::make_shared<CE::ISprite>(
             CE::GestorAssets::Get().getTextura("estatua1"),
             2.f));
@@ -189,7 +207,6 @@ void EscenaCuadros::onInit()
             CE::GestorAssets::Get().getTextura("mural"),
             1.f));
     //mural->addComponente(std::make_shared<CE::IBoundingBox>(CE::Vector2D{64.f, 0.f}));
-
     // Crear carpa
     carpa = std::make_shared<Entidad>();
     carpa->getStats()->hp = 100;
@@ -198,6 +215,19 @@ void EscenaCuadros::onInit()
             CE::GestorAssets::Get().getTextura("carpa"),
             1.f));
     objetos.agregarPool(carpa);
+
+    // Crear pilademuertos
+    pilademuertos = std::make_shared<Entidad>();
+    pilademuertos->getStats()->hp = 100;
+    pilademuertos->setPosicion(-3567.3f, 972.0f);
+    pilademuertos->addComponente(std::make_shared<CE::ISprite>(
+            CE::GestorAssets::Get().getTextura("pilademuertos"),
+            1.2f));
+    objetos.agregarPool(pilademuertos);
+
+
+
+    //area de muertos
     // ---------------------- CREAR ANTENAS ----------------------
     for (int i = 0; i < 16; i++)
     {
@@ -259,7 +289,7 @@ void EscenaCuadros::onInit()
     // ---------------------- CREAR Barril (uno sí, uno no) ----------------------
     for (int i = 0; i < 15; i++)
     {
-        // Solo crear si el índice es par (0,2,4,6...)
+        // Solo crear si el índice es par
         if (i % 2 != 0)
             continue;
 
@@ -333,6 +363,119 @@ void EscenaCuadros::onInit()
         objetos.agregarPool(lapida3);
     }
 
+    // ---------------------- CREAR cuerpo1 (uno sí, uno no) ----------------------
+    for (int i = 0; i < 15; i++)
+    {
+        // Solo crear si el índice es par (0,2,4,6...)
+        if (i % 4 != 0)
+            continue;
+
+        auto cuerpo1 = std::make_shared<Entidad>();
+        cuerpo1->getStats()->hp = 100;
+
+        float y = 981.0f;
+        float x = -2095.3f + (i * 250.0f);
+
+        cuerpo1->setPosicion(x, y);
+
+        cuerpo1->addComponente(std::make_shared<CE::ISprite>(
+            CE::GestorAssets::Get().getTextura("cuerpo1"),
+            1.f
+        ));
+
+        objetos.agregarPool(cuerpo1);
+    }
+
+    // ---------------------- CREAR cuerpo2 (uno sí, uno no) ----------------------
+    for (int i = 0; i < 15; i++)
+    {
+        // Solo crear si el índice es par (0,2,4,6...)
+        if (i % 4 != 0)
+            continue;
+
+        auto cuerpo2 = std::make_shared<Entidad>();
+        cuerpo2->getStats()->hp = 100;
+
+        float y = 912.0f;
+        float x = -2166.3f + (i * 250.0f);
+
+        cuerpo2->setPosicion(x, y);
+
+        cuerpo2->addComponente(std::make_shared<CE::ISprite>(
+            CE::GestorAssets::Get().getTextura("cuerpo2"),
+            1.f
+        ));
+
+        objetos.agregarPool(cuerpo2);
+    }
+    // ---------------------- CREAR cuerpo3 (uno sí, uno no) ----------------------
+    for (int i = 0; i < 15; i++)
+    {
+        // Solo crear si el índice es par (0,2,4,6...)
+        if (i % 4 != 0)
+            continue;
+
+        auto cuerpo3 = std::make_shared<Entidad>();
+        cuerpo3->getStats()->hp = 100;
+
+        float y = 970.0f;
+        float x = -1661.3f + (i * 250.0f);
+
+        cuerpo3->setPosicion(x, y);
+
+        cuerpo3->addComponente(std::make_shared<CE::ISprite>(
+            CE::GestorAssets::Get().getTextura("cuerpo3"),
+            1.f
+        ));
+
+        objetos.agregarPool(cuerpo3);
+    }
+    // ---------------------- CREAR cuerpo4 (uno sí, uno no) ----------------------
+    for (int i = 0; i < 15; i++)
+    {
+        // Solo crear si el índice es par (0,2,4,6...)
+        if (i % 4 != 0)
+            continue;
+
+        auto cuerpo4 = std::make_shared<Entidad>();
+        cuerpo4->getStats()->hp = 100;
+
+        float y = 981.0f;
+        float x = -2166.3f + (i * 250.0f);
+
+        cuerpo4->setPosicion(x, y);
+
+        cuerpo4->addComponente(std::make_shared<CE::ISprite>(
+            CE::GestorAssets::Get().getTextura("cuerpo4"),
+            1.f
+        ));
+
+        objetos.agregarPool(cuerpo4);
+    }
+
+    // ---------------------- CREAR roca ----------------------
+    // Crear múltiples rocas
+    for (int i = 0; i < 15; i++)
+    {
+        if (i % 4 != 0) continue;
+
+        auto roca = std::make_shared<Entidad>();
+        roca->getStats()->hp = 100;
+        roca->setPosicion(-1852.3f + (i * 250.0f), 956.0f);
+
+        roca->addComponente(std::make_shared<CE::ISprite>(
+            CE::GestorAssets::Get().getTextura("roca"),
+            1.f
+        ));
+        roca->addComponente(std::make_shared<CE::IBoundingBox>(
+              CE::Vector2D{192.f, 86.f}  // mitad del tamaño del sprite
+          ));
+        rocas.push_back(roca);  // Guardar en el vector
+        objetos.agregarPool(roca);
+
+    }
+
+
     // Configurar FSM del jugador
     auto& fsm_init = jugador->getComponente<IMaquinaEstado>()->fsm;
     fsm_init = std::make_shared<IdleFSM>();
@@ -372,23 +515,37 @@ void EscenaCuadros::onFinal()
     // Limpieza si es necesaria
 }
 
-void EscenaCuadros::onUpdate(float dt)
+
+    void EscenaCuadros::onUpdate(float dt)
 {
     // Actualizar movimiento de entidades
     SistemaMovimientoEntes(objetos.getPool(), dt);
+
+    // ========== COLISIONES CON PLATAFORMAS ==========
+    // Verificar si el jugador está cayendo y debe aterrizar en algo
+    if (jugador->getTransformada()->velocidad.y > 0)  // Si está cayendo
+    {
+        bool aterrizo = ResolverColisionVertical(*jugador, objetos.getPool());
+
+        // Si aterrizó, detener la velocidad vertical
+        if (aterrizo)
+        {
+            jugador->getTransformada()->velocidad.y = 0.f;
+        }
+    }
 
     // Actualizar FSM del jugador
     jugador->inputFSM();
 
     // Actualizar FSM del vigilante (importante para que el enemigo se mueva)
     if (vigilante) {
-        vigilante->inputFSM(); // Asegúrate de que Entidad tenga este método
+        vigilante->inputFSM();
     }
 
     // Centrar cámara en el jugador
     CE::GestorCamaras::Get().getCamaraActiva().lockEnObjeto(jugador);
 
-    // Sistema de colisiones
+    // Sistema de colisiones horizontales (para chocar con objetos)
     SistemaColisionesEntidades(objetos.getPool());
 
     // Actualizar todas las entidades
@@ -477,10 +634,19 @@ void EscenaCuadros::onUpdate(float dt)
     // Dibujar jugador (debajo de la carpa)
     CE::Render::Get().AddToDraw(*jugador);
 
-    // 🔥 Dibujar carpa AL FINAL para que tape al jugador
+    // Dibujar carpa AL FINAL para que tape al jugador
     if (carpa)
         CE::Render::Get().AddToDraw(*carpa);
+    if (pilademuertos)
+        CE::Render::Get().AddToDraw(*pilademuertos);
+    // Dibujar todas las rocas AL FINAL
+    for (auto& r : rocas)
+    {
+        if (r)
+            CE::Render::Get().AddToDraw(*r);
+
+    }
 }
 
-
 } // namespace IVJ
+
