@@ -23,7 +23,9 @@ namespace IVJ {
         std::shared_ptr<Entidad> carpa;
         std::shared_ptr<Entidad> pilademuertos;
         std::vector<std::shared_ptr<Entidad>> rocas;
-
+        float camaraDesbloqueadaX;  // Coordenada X donde se desbloquea la cámara
+        float zonaSalidaX;           // Coordenada X donde se cierra el juego
+        bool camaraBloqueada;
 
 
 

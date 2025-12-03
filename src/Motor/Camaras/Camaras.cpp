@@ -29,6 +29,13 @@ namespace CE {
     void Camara::lockEnObjeto(const std::shared_ptr<Objeto> &obj) {
         m_lockObj=obj;
     }
+
+    // ========== NUEVA FUNCIÓN ==========
+    void Camara::unlockObjeto() {
+        m_lockObj.reset();  // Libera el weak_ptr, dejándolo vacío
+    }
+    // ===================================
+
     void Camara::onUpdate(float dt) {
         m_view->setCenter({m_transform->posicion.x,m_transform->posicion.y});
     }

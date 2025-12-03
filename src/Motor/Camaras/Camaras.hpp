@@ -3,20 +3,24 @@
 #include "Motor/Primitivos/Objetos.hpp"
 #include <SFML/Graphics.hpp>
 #include "Motor/Utils/Vector2D.hpp"
+
 namespace CE {
-    class Camara{
+    class Camara {
     public:
         Camara(float x, float y, float w, float h);
         Camara(const Vector2D& pos, const Vector2D& dim);
-        virtual ~Camara(){};
-        [[nodiscard]]ITransform& getTransform()
-        {
+        virtual ~Camara() {};
+
+        [[nodiscard]] ITransform& getTransform() {
             return *m_transform;
         }
+
         [[nodiscard]] sf::View& getView() const {
             return *m_view;
         }
+
         void lockEnObjeto(const std::shared_ptr<Objeto>& obj);
+        void unlockObjeto();  // ← NUEVA FUNCIÓN AGREGADA
         void setViewSize(float x, float y);
         virtual void onUpdate(float dt);
 
@@ -26,42 +30,42 @@ namespace CE {
         static int num_camaras;
         std::string nombre;
         bool esta_activo;
+
     protected:
         std::shared_ptr<sf::View> m_view;
         std::weak_ptr<Objeto> m_lockObj;
         std::shared_ptr<ITransform> m_transform;
     };
 
-    class CamaraCuadro : public Camara
-    {
+    class CamaraCuadro : public Camara {
     public:
         CamaraCuadro(const Vector2D& pos, const Vector2D& dim);
-        ~CamaraCuadro() override { }
+        ~CamaraCuadro() override {}
 
         void onUpdate(float dt) override;
+
     private:
         float limitex;
         float limitey;
     };
 
-    class CamaraAreaBox : public Camara
-    {
+    class CamaraAreaBox : public Camara {
     public:
         CamaraAreaBox(const Vector2D& pos, const Vector2D& dim);
-        ~CamaraAreaBox()override { }
+        ~CamaraAreaBox() override {}
 
         void onUpdate(float dt) override;
+
     private:
         float dimensionx;
         float dimensiony;
     };
 
-    class CamaraLerpCubica : public Camara
-    {
+    class CamaraLerpCubica : public Camara {
     public:
         CamaraLerpCubica(const Vector2D& pos, const Vector2D& dim, float suavidad);
 
-        virtual void onUpdate(float dt) override;
+        void onUpdate(float dt) override;
 
     private:
         float suavidad;
@@ -69,4 +73,3 @@ namespace CE {
         Vector2D p0, p1, p2, p3;
     };
 }
-

@@ -38,4 +38,5 @@ namespace CE
         if (auto cam = m_camaraActiva.lock())
             tex.setView(cam->getView());
     }
+
 }

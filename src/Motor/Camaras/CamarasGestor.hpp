@@ -16,6 +16,7 @@ namespace CE
         void onUpdateCamaras(float dt);
         void onRenderCamara(sf::RenderTexture& tex);
 
+
         [[nodiscard]] Camara& getCamaraActiva()
         {
             return *m_camaraActiva.lock();
